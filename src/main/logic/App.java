@@ -1,5 +1,8 @@
+package main.logic;
+
 public class App {
     public static void main(String[] args) {
-        System.out.println("notarial-blockchain");
+
+        System.out.println("notarial-blockchain-hello!");
     }
 }
