@@ -1,5 +1,5 @@
 package main.logic;
-import logic.Transactions.ConcreteTransactionBuilderFactory;
+import main.logic.Transactions.ConcreteTransactionBuilderFactory;
 import main.logic.Transactions.Builders.SharesLiquidationBuilder;
 import main.logic.Transactions.ConcreteTransactions.SharesLiquidation;
 import main.logic.Transactions.TransactionsDirector;

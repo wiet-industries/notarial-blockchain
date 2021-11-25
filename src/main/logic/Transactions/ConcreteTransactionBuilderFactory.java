@@ -1,4 +1,4 @@
-package logic.Transactions;
+package main.logic.Transactions;
 
 import main.logic.Transactions.Builders.SharesLiquidationBuilder;
 
