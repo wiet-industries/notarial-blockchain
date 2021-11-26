@@ -7,6 +7,5 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 #Generated
-../target/
-../.idea/
-
+/target
+/.idea
