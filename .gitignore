@@ -8,4 +8,5 @@
 /httpRequests/
 #Generated
 /target
+/lib
 /.idea
