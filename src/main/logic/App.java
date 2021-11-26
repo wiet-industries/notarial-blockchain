@@ -1,4 +1,4 @@
-package main.logic;
+package logic;
 
 public class App {
     public static void main(String[] args) {
