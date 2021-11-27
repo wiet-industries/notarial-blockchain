@@ -3,7 +3,7 @@
 rendezvous server which manage nodes connection
 
 
-Core is a VPS serwer with public IP, is listening on both TCP and UDP ports.
+Core is a virtual private server with public IP, is listening on both TCP and UDP ports.
 
 Comuincation protocol schema:
 - `ID~[node_id]` - server sending to node its ID
