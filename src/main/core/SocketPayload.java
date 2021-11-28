@@ -1,20 +1,25 @@
 package main.core;
 
 import java.net.InetAddress;
+import java.net.Socket;
 
 public class SocketPayload {
-    private final String message;
+    private final PayloadMessage payloadMessage;
     private final int port;
     private final InetAddress address;
+    private final PacketType packetType;
+    private final Socket socket;
 
-    public SocketPayload(String message, int port, InetAddress address) {
-        this.message = message;
+    public SocketPayload(String message, int port, InetAddress address, PacketType packetType, Socket socket) {
+        this.payloadMessage = new PayloadMessage(message);
         this.port = port;
         this.address = address;
+        this.packetType = packetType;
+        this.socket = socket;
     }
 
-    public String getMessage() {
-        return this.message;
+    public PayloadMessage getPayloadMessage() {
+        return this.payloadMessage;
     }
 
     public int getPort() {
@@ -23,5 +28,13 @@ public class SocketPayload {
 
     public InetAddress getAddress() {
         return this.address;
+    }
+
+    public PacketType getPacketType() {
+        return this.packetType;
+    }
+
+    public Socket getSocket () {
+        return this.socket;
     }
 }
