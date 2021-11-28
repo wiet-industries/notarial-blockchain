@@ -1,11 +1,12 @@
 package main.logic.Transactions.Utilities;
 
 public enum TransactionType {
-    IncreasingCompanyCapital,
+    CompanyAccountUpdate,
     NewSharesEmission,
     SharesBuySell,
     SharesLiquidation,
     DividendsPayment,
     VotingResults,
-    AddCompany
+    AddCompany,
+    CompanyValueUpdate
 }

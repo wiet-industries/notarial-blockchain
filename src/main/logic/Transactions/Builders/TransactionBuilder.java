@@ -1,6 +1,6 @@
 package main.logic.Transactions.Builders;
 
-import main.logic.Transactions.ConcreteTransactions.SharesLiquidation;
+import main.logic.Transactions.Transaction;
 import main.logic.Transactions.Utilities.Priority;
 import main.logic.Transactions.Utilities.TransactionType;
 
@@ -13,5 +13,5 @@ public interface TransactionBuilder {
     TransactionBuilder setTransactionAuthor(String author);
     TransactionBuilder setTransactionType(TransactionType transactionType);
     TransactionBuilder setPriority(Priority priority);
-    SharesLiquidation getTransaction();
+    Transaction getTransaction();
 }

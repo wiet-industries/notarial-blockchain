@@ -20,15 +20,15 @@ public class TransactionsTest {
     @DisplayName("should create SharesLiquidation")
     void createSharesLiquidationTest () {
         // given
-        TransactionsDirector director = new TransactionsDirector();
-        main.logic.Transactions.Builders.SharesLiquidationBuilder builder = ConcreteTransactionBuilderFactory.getSharesLiquidationBuilder();
-        SharesLiquidation transaction1 = new SharesLiquidation();
+//        TransactionsDirector director = new TransactionsDirector();
+//        SharesLiquidationBuilder builder = ConcreteTransactionBuilderFactory.getSharesLiquidationBuilder();
+//        SharesLiquidation transaction1 = new SharesLiquidation();
 
         // when
-        director.createSharesLiquidationTransaction(builder,
-                1337, new Date(), 2, "Masty Ben", main.logic.Transactions.Utilities.TransactionType.SharesLiquidation,
-                main.logic.Transactions.Utilities.Priority.HIGH, 10, "owner1");
-        SharesLiquidation transaction2 = builder.getTransaction();
+//        director.createSharesLiquidationTransaction(builder,
+//                1337, new Date(), 2, "Masty Ben", main.logic.Transactions.Utilities.TransactionType.SharesLiquidation,
+//                main.logic.Transactions.Utilities.Priority.HIGH, 10, "owner1");
+//        SharesLiquidation transaction2 = builder.getTransaction();
 
         // then
         assert true;

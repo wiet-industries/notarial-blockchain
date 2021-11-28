@@ -6,7 +6,6 @@ import main.logic.Transactions.Utilities.TransactionType;
 import java.util.Date;
 
 public class SharesLiquidationBuilder implements TransactionBuilder {
-    // Why cant I put simple Transaction here :(
     private final SharesLiquidation sharesLiquidation = new SharesLiquidation();
 
     @Override

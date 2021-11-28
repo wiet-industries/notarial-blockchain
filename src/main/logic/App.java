@@ -11,11 +11,10 @@ import java.util.Date;
 public class App {
     public static void main(String[] args) {
         TransactionsDirector director = new main.logic.Transactions.TransactionsDirector();
-        SharesLiquidationBuilder builder = ConcreteTransactionBuilderFactory.getSharesLiquidationBuilder();
-        director.createSharesLiquidationTransaction(builder,
+        SharesLiquidation transaction = director.createSharesLiquidationTransaction(
                 1337, new Date(), 2, "Masty Ben", TransactionType.SharesLiquidation,
                 Priority.HIGH, 10, "owner1");
-        SharesLiquidation transaction = builder.getTransaction();
+
         System.out.println(transaction.toString());
     }
 }
