@@ -45,13 +45,20 @@ public class Node implements EventListener {
         serverSessionHandler.registerNode(ID);
     }
 
+    void requestBroadcast() {
+        serverSessionHandler.requestSession(ID);
+    }
+
     @Override
     public void update(Event event) {
         Message message = new Message().fromBytes(event.getData());
         switch (message.getType()) {
             case ID:
+                //TODO add validation
                 this.ID = Integer.parseInt(message.getContent());
+                this.registerNode();
                 break;
+                //TODO add validation everywhere
             case NODE_LIST:
                 this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList());
                 break;

@@ -22,10 +22,10 @@ public class UdpListener extends EventManager {
 
 
     private void listen() throws IOException {
+        DatagramPacket datagram = new DatagramPacket(new byte[1024], 1024);
         while (true) {
-            DatagramPacket datagram = new DatagramPacket(new byte[1024], 1024);
             socket.receive(datagram);
-            System.out.println("Received upd packet from: " + datagram.getAddress() + ":" + datagram.getPort() + " with data: \n" + datagram.getData());
+            System.out.println("Received upd packet from: " + datagram.getAddress() + ":" + datagram.getPort() + " with data: " + datagram.getData());
             Event event = new Event(datagram.getData());
             this.notify(event);
         }

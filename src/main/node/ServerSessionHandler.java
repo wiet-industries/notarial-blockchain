@@ -25,10 +25,11 @@ public class ServerSessionHandler {
     }
 
     void registerNode(int id) {
-        Message message = new Message(MessageType.REGISTER, Integer.toString(id));
+        Message message = new Message(MessageType.REGISTER, Integer.toString(id), id);
         byte[] data = message.getData();
         DatagramPacket datagramPacket = new DatagramPacket(data, data.length, serverAddress, udpPort);
         try {
+            // maybe more udp packets
             udpSocket.send(datagramPacket);
         } catch (IOException e) {
             System.out.println("Couldn't register node: " + e.getMessage());
@@ -37,7 +38,8 @@ public class ServerSessionHandler {
     }
 
     void requestSession(int id) {
-        Message message = new Message(MessageType.BROADCAST, Integer.toString(id));
+        Message message = new Message(MessageType.BROADCAST, Integer.toString(id), id);
+        // BROADCAST~12~
         try {
             BufferedOutputStream tcpOutput = new BufferedOutputStream(tcpSocket.getOutputStream());
             tcpOutput.write(message.getData());

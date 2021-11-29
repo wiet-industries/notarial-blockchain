@@ -2,6 +2,7 @@ package main.node;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class Main {
 
@@ -9,7 +10,12 @@ public class Main {
         try {
             Node node = new Node(Config.TCP_PORT, Config.UDP_PORT, InetAddress.getByName(Config.IP));
             node.startNode();
-            node.registerNode();
+            //node.registerNode();
+            Scanner scanner = new Scanner(System.in);
+            while(scanner.nextLine() != null) {
+                System.out.println("Sending broadcast request");
+                node.requestBroadcast();
+            }
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

@@ -24,11 +24,10 @@ public class TcpListener extends EventManager {
     }
 
     private void listen() throws IOException {
+        BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         while (true) {
-            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String data = input.readLine();
-            System.out.println("Got data from: " + socket.getInetAddress());
-            System.out.println(socket);
+            System.out.println("Message: " + data + " from: IP: " + socket.getInetAddress() + ", PORT: " + socket.getPort());
             Event event = new Event(data.getBytes());
             this.notify(event);
         }

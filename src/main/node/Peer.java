@@ -4,8 +4,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class Peer {
-    InetAddress ipAddress;
-    int port;
+    private InetAddress ipAddress;
+    private int port;
 
 
     Peer(InetAddress ipAddress, int port) {

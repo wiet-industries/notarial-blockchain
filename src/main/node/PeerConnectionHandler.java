@@ -16,12 +16,16 @@ public class PeerConnectionHandler {
     void broadcastDataToPeers(List<Peer> peers) {
         byte[] data = "TEST-DATA".getBytes();
         peers.forEach(peer -> {
-            DatagramPacket datagramPacket = new DatagramPacket(data, data.length, peer.ipAddress, peer.port);
+            DatagramPacket datagramPacket = new DatagramPacket(data, data.length, peer.getIpAddress(), peer.getPort());
+            System.out.println("Sending data to Peer IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
             try {
-                udpSocket.send(datagramPacket);
+                //TODO
+                for(int i = 0; i < 10; i++) {
+                    udpSocket.send(datagramPacket);
+                }
             } catch (IOException e) {
                 System.out.println("Error sending datagram\n" +
-                        "address: " + peer.ipAddress + ':' + peer.port + "\n" +
+                        "address: " + peer.getIpAddress() + ':' + peer.getPort() + "\n" +
                         "data: " + Arrays.toString(data));
                 e.printStackTrace();
             }
@@ -32,12 +36,13 @@ public class PeerConnectionHandler {
         byte[] data = "TRASH-DATA".getBytes();
         DatagramPacket datagramPacket = new DatagramPacket(data, data.length, peer.getIpAddress(), peer.getPort());
         int TRASH_DATAGRAM_COUNT = 10;
+        System.out.println("Making hole with IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
         for (int i = 0; i < TRASH_DATAGRAM_COUNT; i++) {
             try {
                 udpSocket.send(datagramPacket);
             } catch (IOException e) {
                 System.out.println("Error sending datagram\n" +
-                        "address: " + peer.ipAddress + ':' + peer.port + "\n" +
+                        "address: " + peer.getIpAddress() + ':' + peer.getPort() + "\n" +
                         "data: " + Arrays.toString(data));
                 e.printStackTrace();
             }
