@@ -1,3 +1,0 @@
-# blockchain
-
-Blocks and transactions

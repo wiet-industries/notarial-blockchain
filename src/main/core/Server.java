@@ -40,39 +40,11 @@ public class Server implements EventListener {
     @Override
     public void update(Event event) {
         SocketPayload data = event.getPayload();
-        Socket clientSocket = data.getSocket();
         PayloadMessage payloadMessage = data.getPayloadMessage();
-        //this.handleClientSocket(clientSocket);
         this.setProperStrategy(payloadMessage.getMessageType());
         this.serverStrategyContext.execute(data, this.clientList);
     }
 
-//    public void handleClientSocket(Socket clientSocket) {
-//        if (clientSocket == null) {
-//            return;
-//        }
-//        if (!this.checkIfClientExists(clientSocket)){
-//            try{
-//                System.out.println("Adding new client with the ID: " + (clientList.size() + 1));
-//                Client client = new Client(clientSocket, clientList.size() + 1, this.clientList);
-//                client.start();
-//                this.clientList.add(client);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                System.err.println("Cannot create new client with the given socket");
-//            }
-//        }
-//
-//    }
-
-    private boolean checkIfClientExists(Socket socket) {
-        for(Client client : this.clientList) {
-            if (socket.equals(client.getSocket())) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private void setProperStrategy(MessageType messageType) {
         switch (messageType) {
@@ -81,7 +53,7 @@ public class Server implements EventListener {
                 break;
             case REGISTER:
                 this.serverStrategyContext.setStrategy(new RegisterStrategy());
-                this.clientList.get(clientList.size() - 1).subscribe(this);
+                this.clientList.get(clientList.size() - 1).subscribe(this); //TODO change this without destroying design pattern
                 break;
             case BROADCAST:
                 this.serverStrategyContext.setStrategy(new BroadcastStrategy());

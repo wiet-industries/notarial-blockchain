@@ -7,14 +7,12 @@ public class SocketPayload {
     private final PayloadMessage payloadMessage;
     private final int port;
     private final InetAddress address;
-    private final PacketType packetType;
     private final Socket socket;
 
-    public SocketPayload(String message, int port, InetAddress address, PacketType packetType, Socket socket) {
+    public SocketPayload(String message, int port, InetAddress address, Socket socket) {
         this.payloadMessage = new PayloadMessage(message);
         this.port = port;
         this.address = address;
-        this.packetType = packetType;
         this.socket = socket;
     }
 
@@ -28,10 +26,6 @@ public class SocketPayload {
 
     public InetAddress getAddress() {
         return this.address;
-    }
-
-    public PacketType getPacketType() {
-        return this.packetType;
     }
 
     public Socket getSocket () {

@@ -9,7 +9,7 @@ import java.util.List;
 
 
 // TODO: handle data reciveving
-public class NewClientEventManager extends EventManager{
+public class NewClientEventManager extends EventManager {
     ServerSocket serverSocket;
 
     public NewClientEventManager(int port) throws IOException {
@@ -27,19 +27,12 @@ public class NewClientEventManager extends EventManager{
         }
     }
 
-    private void listenForTcpPackets () throws IOException {
+    private void listenForTcpPackets() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
         System.out.println("New client with IP: " + clientSocket.getInetAddress() + ", PORT: " + clientSocket.getPort());
-        SocketPayload payload = new SocketPayload("CONNECT~5656", clientSocket.getPort(), clientSocket.getInetAddress(), PacketType.TCP, clientSocket);
+        SocketPayload payload = new SocketPayload("CONNECT~5656", clientSocket.getPort(), clientSocket.getInetAddress(), clientSocket);
         Event event = new Event(payload);
         this.notify(event);
-//        BufferedReader inputBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-//        String responseData = inputBuffer.readLine();
-//        System.out.println("Got data from: " + clientSocket.getInetAddress());
-//        System.out.println(responseData);
-//        SocketPayload payload = this.createPayload(clientSocket, responseData);
-//        Event event = this.createEvent(payload);
-//        this.notify(event);
     }
 
 }

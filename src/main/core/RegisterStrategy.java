@@ -8,13 +8,12 @@ public class RegisterStrategy implements ServerStrategy {
     public Client processAuthor(SocketPayload socketPayload, List<Client> clientList) {
         PayloadMessage payloadMessage = socketPayload.getPayloadMessage();
         String payloadData = payloadMessage.getMessageData();
-        //String[] chunks = payloadData.split(PayloadMessage.SEPARATOR);
-        //System.out.println("Payload data in Register: " + payloadData);
+        int ID = Integer.parseInt(payloadData);
         for (Client client : clientList) {
-            if (client.getID() == Integer.parseInt(payloadData)) {
+            if (client.getID() == ID) {
                 client.setIP(socketPayload.getAddress());
                 client.setUpdPort(socketPayload.getPort());
-                System.out.println("Registert client ID: " + payloadData + ", IP:" + socketPayload.getAddress().toString() + ", PORT: " + socketPayload.getPort());
+                System.out.println("Register client ID: " + ID + ", IP:" + socketPayload.getAddress().toString() + ", PORT: " + socketPayload.getPort());
                 return client;
             }
         }

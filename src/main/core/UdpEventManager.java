@@ -26,14 +26,14 @@ public class UdpEventManager extends EventManager {
     private void listenForUdpPackets () throws IOException {
         DatagramPacket receivedDatagram = new DatagramPacket(new byte[1024], 1024);
         datagramSocket.receive(receivedDatagram);
-        System.out.println("Received upd packet from: " + receivedDatagram.getAddress() + ":" + receivedDatagram.getPort() + " with data: \n" + new String(receivedDatagram.getData()));
+        //System.out.println("Received upd packet from: " + receivedDatagram.getAddress() + ":" + receivedDatagram.getPort() + " with data: \n" + new String(receivedDatagram.getData()));
         SocketPayload payload = this.createPayload(receivedDatagram);
         Event event = this.createEvent(payload);
         this.notify(event);
     }
 
     private SocketPayload createPayload(DatagramPacket receivedDatagram) {
-        return new SocketPayload(new String(receivedDatagram.getData()), receivedDatagram.getPort(), receivedDatagram.getAddress(), PacketType.UDP, null);
+        return new SocketPayload(new String(receivedDatagram.getData()), receivedDatagram.getPort(), receivedDatagram.getAddress(), null);
     }
 
     private Event createEvent(SocketPayload payload) {

@@ -56,70 +56,16 @@ public class Client extends EventManager {
 
     @Override
     public void run() {
-      //  System.out.println("Client connected. IP: " + socket.getInetAddress() + ", PORT_TCP: " + socket.getPort());
-//        try {
-////            output.write(String.valueOf(ID).getBytes());
-////            output.write('\n');
-////            output.flush();
-//        } catch (IOException e) {
-//            System.out.println(e);
-//            e.printStackTrace();
-//        }
         while (true) {
-            String response = null;
             try {
-                response = input.readLine();
-                System.out.println(response);
+                String response = input.readLine();
+                System.out.println("Message: " + response + "from node: " + ID);
+                SocketPayload payload = new SocketPayload(response, socket.getPort(), socket.getInetAddress(), socket);
+                Event event = new Event(payload);
+                this.notify(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("TCP Message from node: " + response);
-
-            SocketPayload payload = new SocketPayload(response, socket.getPort(), socket.getInetAddress(), PacketType.TCP, socket);
-            Event event = new Event(payload);
-            this.notify(event);
-
-//            System.out.println("Message: " + response + ", From IP: " + socket.getInetAddress().toString() + ", PORT: " + socket.getPort());
-//            String[] chunks = response.trim().split("~");
-//            if(chunks.length > 0 && chunks[0].equals("BROADCAST")) {
-//                String toBroadcaster = "NODE_LIST";//TODO not count clients without UDP PORT
-//
-//                //TODO rewrite to stream
-//                Client broadcaster = null;
-//                for (Client client : clients) {
-//                    if (client.getID() == Integer.parseInt(chunks[1])) {
-//                        broadcaster = client;
-//                    }
-//                }
-//                String toNodes = "MAKE_HOLE~" + broadcaster.getIP().toString().substring(1) + "-" + broadcaster.getUpdPort();
-//                BufferedOutputStream bout = broadcaster.getOutput();
-//                for (Client client : clients) {
-//                    if (client == null || client.getID() == Integer.parseInt(chunks[1])) {
-//                        continue;
-//                    }
-//                    BufferedOutputStream out = client.getOutput();
-//                    try {
-//                        out.write(toNodes.getBytes(StandardCharsets.UTF_8)); // the same socket for each client
-//                        out.write('\n');
-//                        out.flush();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    toBroadcaster = toBroadcaster + "~" + client.getIP().toString().substring(1) + "-" + client.getUpdPort();
-//                }
-//
-//                try {
-//                    bout.write(toBroadcaster.getBytes(StandardCharsets.UTF_8)); // the same socket for each client
-//                    bout.write('\n');
-//                    bout.flush();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//                break;
-//            }
         }
     }
 }

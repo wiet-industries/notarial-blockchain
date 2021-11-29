@@ -1,3 +1,0 @@
-# node
-
-single blockchain node
