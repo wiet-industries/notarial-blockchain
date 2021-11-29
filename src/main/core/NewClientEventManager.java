@@ -30,8 +30,8 @@ public class NewClientEventManager extends EventManager{
     private void listenForTcpPackets () throws IOException {
         Socket clientSocket = this.serverSocket.accept();
         System.out.println("New client with IP: " + clientSocket.getInetAddress() + ", PORT: " + clientSocket.getPort());
-        SocketPayload payload = this.createPayload(clientSocket, "new-client");
-        Event event = this.createEvent(payload);
+        SocketPayload payload = new SocketPayload("CONNECT~5656", clientSocket.getPort(), clientSocket.getInetAddress(), PacketType.TCP, clientSocket);
+        Event event = new Event(payload);
         this.notify(event);
 //        BufferedReader inputBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 //        String responseData = inputBuffer.readLine();
@@ -42,11 +42,4 @@ public class NewClientEventManager extends EventManager{
 //        this.notify(event);
     }
 
-    private SocketPayload createPayload(Socket clientSocket, String responseData) {
-        return new SocketPayload(responseData, clientSocket.getPort(), clientSocket.getInetAddress(), PacketType.TCP, clientSocket);
-    }
-
-    private Event createEvent(SocketPayload payload) {
-        return new Event(payload);
-    }
 }

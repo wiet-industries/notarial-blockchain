@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ServerStrategy {
     Client processAuthor(SocketPayload socketPayload, List<Client> clientList);
-    boolean respondToAuthor(Client client);
+    boolean respondToAuthor(Client client, List<Client> clientList);
     boolean respondToOthers(Client client, List<Client> clientList);
     boolean updateClients(Client client, List<Client> clientList);
 }

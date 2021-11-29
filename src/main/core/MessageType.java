@@ -1,5 +1,5 @@
 package main.core;
 
 public enum MessageType {
-    BROADCAST, REGISTER
+    BROADCAST, REGISTER, CONNECT
 }
