@@ -36,17 +36,19 @@ public class Message {
         System.out.println("Bug: "+split[0]);
         type = MessageType.valueOf(split[0]);
         ID = Integer.parseInt(split[1]);
-        content = split[2];
-        return new Message(type, content, ID);
+        if(split.length == 3) content = split[2];
+        return this;
     }
 
     List<Peer> parsePeerList() {
-        String[] endpoints = content.split(ENDPOINT_SEPARATOR);
         List<Peer> peers = new LinkedList<>();
-        Arrays.stream(endpoints).forEach(endpoint -> {
-            String[] split = endpoint.split(ADDRESS_SEPARATOR);
-            peers.add(new Peer(split[0], Integer.parseInt(split[1])));
-        });
+        if(content != null) {
+            String[] endpoints = content.split(ENDPOINT_SEPARATOR);
+            Arrays.stream(endpoints).forEach(endpoint -> {
+                String[] split = endpoint.split(ADDRESS_SEPARATOR);
+                peers.add(new Peer(split[0], Integer.parseInt(split[1])));
+            });
+        }
         return peers;
     }
 

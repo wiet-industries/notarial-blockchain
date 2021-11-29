@@ -60,11 +60,13 @@ public class Node implements EventListener {
                 break;
                 //TODO add validation everywhere
             case NODE_LIST:
-                this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList());
+                this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList(), this.ID);
                 break;
             case OPEN_REQUEST:
                 this.peerConnectionHandler.openPort(message.parsePeerInfo());
                 break;
+            case DATA:
+                System.out.println("RECEIVED DATA:" + new String(message.getData()));
         }
     }
 }
