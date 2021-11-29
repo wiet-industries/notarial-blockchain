@@ -9,10 +9,10 @@ import java.util.List;
 
 
 // TODO: handle data reciveving
-public class TcpEventManager extends EventManager{
+public class NewClientEventManager extends EventManager{
     ServerSocket serverSocket;
 
-    public TcpEventManager(int port) throws IOException {
+    public NewClientEventManager(int port) throws IOException {
         this.serverSocket = new ServerSocket(port);
     }
 
@@ -29,14 +29,17 @@ public class TcpEventManager extends EventManager{
 
     private void listenForTcpPackets () throws IOException {
         Socket clientSocket = this.serverSocket.accept();
-        System.out.println("Tcp packet accepted from: " + clientSocket.getInetAddress());
-        BufferedReader inputBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        String responseData = inputBuffer.readLine();
-        System.out.println("Got data from: " + clientSocket.getInetAddress());
-        System.out.println(responseData);
-        SocketPayload payload = this.createPayload(clientSocket, responseData);
+        System.out.println("New client with IP: " + clientSocket.getInetAddress() + ", PORT: " + clientSocket.getPort());
+        SocketPayload payload = this.createPayload(clientSocket, "new-client");
         Event event = this.createEvent(payload);
         this.notify(event);
+//        BufferedReader inputBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//        String responseData = inputBuffer.readLine();
+//        System.out.println("Got data from: " + clientSocket.getInetAddress());
+//        System.out.println(responseData);
+//        SocketPayload payload = this.createPayload(clientSocket, responseData);
+//        Event event = this.createEvent(payload);
+//        this.notify(event);
     }
 
     private SocketPayload createPayload(Socket clientSocket, String responseData) {

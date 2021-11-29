@@ -1,9 +1,8 @@
 package main.core;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -12,14 +11,14 @@ import java.util.List;
 public class Server implements EventListener{
     private final int tcpPort;
     private final int udpPort;
-    private TcpEventManager tcpListener;
+    private NewClientEventManager tcpListener;
     private UdpEventManager udpEventManager;
     private ServerStrategyContext serverStrategyContext;
-    private List<Client> clientList = new LinkedList<>();
+    private List<Client> clientList = Collections.synchronizedList(new ArrayList<>());
 
     public Server(int tcpPort, int udpPort) throws IOException {
         this.udpEventManager = new UdpEventManager(udpPort);
-        this.tcpListener = new TcpEventManager(tcpPort);
+        this.tcpListener = new NewClientEventManager(tcpPort);
         this.tcpPort = tcpPort;
         this.udpPort = udpPort;
         this.udpEventManager.subscribe(this);
@@ -56,6 +55,7 @@ public class Server implements EventListener{
             try{
                 System.out.println("Adding new client with the ID: " + clientList.size() + 1);
                 Client client = new Client(clientSocket, clientList.size() + 1, this.clientList);
+                client.start();
                 this.clientList.add(client);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -79,9 +79,9 @@ public class Server implements EventListener{
             case REGISTER:
                 this.serverStrategyContext.setStrategy(new RegisterStrategy());
                 break;
-            case BROADCAST:
-                this.serverStrategyContext.setStrategy(new BroadcastStrategy());
-                break;
+//            case BROADCAST:
+//                this.serverStrategyContext.setStrategy(new BroadcastStrategy());
+//                break;
             default:
                 System.out.println("Message Type not supported");
         }
