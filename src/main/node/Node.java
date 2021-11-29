@@ -55,7 +55,7 @@ public class Node implements EventListener {
         switch (message.getType()) {
             case ID:
                 //TODO add validation
-                this.ID = Integer.parseInt(message.getContent());
+                this.ID = message.getID();
                 this.registerNode();
                 break;
                 //TODO add validation everywhere
