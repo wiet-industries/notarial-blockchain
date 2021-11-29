@@ -33,8 +33,9 @@ public class PeerConnectionHandler {
         });
     }
 
-    void openPort(Peer peer) {
-        byte[] data = "TRASH-DATA".getBytes();
+    void openPort(Peer peer, int id) {
+        Message message = new Message(MessageType.DATA, "TRASH-DATA", id);
+        byte[] data = message.getData();
         DatagramPacket datagramPacket = new DatagramPacket(data, data.length, peer.getIpAddress(), peer.getPort());
         int TRASH_DATAGRAM_COUNT = 10;
         System.out.println("Making hole with IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());

@@ -63,7 +63,7 @@ public class Node implements EventListener {
                 this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList(), this.ID);
                 break;
             case OPEN_REQUEST:
-                this.peerConnectionHandler.openPort(message.parsePeerInfo());
+                this.peerConnectionHandler.openPort(message.parsePeerInfo(), this.ID);
                 break;
             case DATA:
                 System.out.println("RECEIVED DATA:" + new String(message.getData()));
