@@ -11,8 +11,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 public class ServerSessionHandler {
-
-
     Socket tcpSocket;
 
     DatagramSocket udpSocket;

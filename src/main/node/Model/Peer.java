@@ -13,7 +13,7 @@ public class Peer {
         this.port = port;
     }
 
-    Peer(String ipAddress, int port) {
+    public Peer(String ipAddress, int port) {
         try {
             this.ipAddress = InetAddress.getByName(ipAddress);
         } catch (UnknownHostException e) {

@@ -7,7 +7,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 public class UdpListener extends EventManager {
-    DatagramSocket socket;
+    private final DatagramSocket socket;
 
     public UdpListener(DatagramSocket socket) {
         this.socket = socket;
