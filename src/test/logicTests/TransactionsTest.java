@@ -1,12 +1,7 @@
 package logicTests;
-import main.logic.Transactions.ConcreteTransactionBuilderFactory;
-import main.logic.Transactions.ConcreteTransactions.SharesLiquidation;
-import main.logic.Transactions.TransactionsDirector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Date;
 
 
 public class TransactionsTest {

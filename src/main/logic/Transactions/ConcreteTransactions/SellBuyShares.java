@@ -1,11 +1,22 @@
 package main.logic.Transactions.ConcreteTransactions;
 
-import main.logic.Transactions.AbstractTransaction;
+import main.logic.Transactions.Utilities.Priority;
+import main.logic.Transactions.Utilities.TransactionType;
+
+import java.util.Date;
 
 public class SellBuyShares extends AbstractTransaction {
     private String Seller;
     private String Buyer;
     private int numberOfShares;
+
+    public SellBuyShares(long transactionHash, Date transactionDate, int companyID, String transactionAuthor,
+                         TransactionType transactionType, String status, Priority priority, String seller, String buyer, int numberOfShares) {
+        super(transactionHash, transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+        this.Seller = seller;
+        this.Buyer = buyer;
+        this.numberOfShares = numberOfShares;
+    }
 
     public String getSeller() {
         return Seller;

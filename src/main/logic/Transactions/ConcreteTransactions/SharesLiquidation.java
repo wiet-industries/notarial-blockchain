@@ -1,7 +1,10 @@
 package main.logic.Transactions.ConcreteTransactions;
 
 
-import main.logic.Transactions.AbstractTransaction;
+import main.logic.Transactions.Utilities.Priority;
+import main.logic.Transactions.Utilities.TransactionType;
+
+import java.util.Date;
 
 public class SharesLiquidation extends AbstractTransaction {
 
@@ -15,6 +18,12 @@ public class SharesLiquidation extends AbstractTransaction {
 
     public void setNumberOfSharesToLiquidate(int numberOfSharesToLiquidate) {
         this.numberOfSharesToLiquidate = numberOfSharesToLiquidate;
+    }
+
+    public SharesLiquidation(long transactionHash, Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String status, Priority priority, int numberOfSharesToLiquidate, String owner) {
+        super(transactionHash, transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+        this.numberOfSharesToLiquidate = numberOfSharesToLiquidate;
+        this.owner = owner;
     }
 
     public String getOwner() {

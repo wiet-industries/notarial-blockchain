@@ -1,9 +1,11 @@
 package main.logic.Transactions.ConcreteTransactions;
 
-import main.logic.Transactions.AbstractTransaction;
 import main.logic.Transactions.Utilities.DistributedShares;
+import main.logic.Transactions.Utilities.Priority;
+import main.logic.Transactions.Utilities.TransactionType;
 import main.logic.Transactions.Utilities.Voting;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,8 +15,22 @@ public class AddCompany extends AbstractTransaction {
     private int companyValue;
     private int companyAccount = 0;
     private int shareValue;
-    private List<DistributedShares> distributedShares = new LinkedList<>();
-    private List<Voting> votings = new LinkedList<>();
+    private List<DistributedShares> distributedShares;
+    private List<Voting> votings;
+
+    public AddCompany(long transactionHash, Date transactionDate, int companyID, String transactionAuthor,
+                      TransactionType transactionType, String status, Priority priority, String companyName,
+                      int newCompanyID, int companyValue, int companyAccount, int shareValue, List<DistributedShares> distributedShares,
+                      List<Voting> votings) {
+        super(transactionHash, transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+        this.companyName = companyName;
+        this.newCompanyID = newCompanyID;
+        this.companyValue = companyValue;
+        this.companyAccount = companyAccount;
+        this.shareValue = shareValue;
+        this.distributedShares = distributedShares;
+        this.votings = votings;
+    }
 
     public String getCompanyName() {
         return companyName;

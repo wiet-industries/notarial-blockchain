@@ -1,10 +1,20 @@
 package main.logic.Transactions.ConcreteTransactions;
 
-import main.logic.Transactions.AbstractTransaction;
+import main.logic.Transactions.Utilities.Priority;
+import main.logic.Transactions.Utilities.TransactionType;
+
+import java.util.Date;
 
 public class NewSharesEmission extends AbstractTransaction {
     private String owner;
-    private int numberOfEmitedShares;
+    private int numberOfEmittedShares;
+
+    public NewSharesEmission(long transactionHash, Date transactionDate, int companyID, String transactionAuthor,
+                             TransactionType transactionType, String status, Priority priority, String owner, int numberOfEmittedShares) {
+        super(transactionHash, transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+        this.owner = owner;
+        this.numberOfEmittedShares = numberOfEmittedShares;
+    }
 
     public String getOwner() {
         return owner;
@@ -14,19 +24,19 @@ public class NewSharesEmission extends AbstractTransaction {
         this.owner = owner;
     }
 
-    public int getNumberOfEmitedShares() {
-        return numberOfEmitedShares;
+    public int getNumberOfEmittedShares() {
+        return numberOfEmittedShares;
     }
 
-    public void setNumberOfEmitedShares(int numberOfEmitedShares) {
-        this.numberOfEmitedShares = numberOfEmitedShares;
+    public void setNumberOfEmittedShares(int numberOfEmittedShares) {
+        this.numberOfEmittedShares = numberOfEmittedShares;
     }
 
     @Override
     public String toString() {
         return "NewSharesEmission{" +
                 "owner='" + owner + '\'' +
-                ", numberOfEmitedShares=" + numberOfEmitedShares +
+                ", numberOfEmitedShares=" + numberOfEmittedShares +
                 '}';
     }
 }
