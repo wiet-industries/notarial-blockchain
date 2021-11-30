@@ -1,5 +1,7 @@
 package main.core;
 
+import org.json.JSONObject;
+
 public class PayloadMessage {
     static public String SEPARATOR = "~";
     private final MessageType messageType;
@@ -7,9 +9,9 @@ public class PayloadMessage {
 
 
     public PayloadMessage(String message) {
-        String[] chunks = message.trim().split(SEPARATOR);
-        this.messageType = MessageType.valueOf(chunks[0]);
-        this.messageData = chunks[1];
+        JSONObject jo = new JSONObject(message);
+        this.messageType = MessageType.valueOf((String) jo.opt("type"));
+        this.messageData = message;
     }
 
     public MessageType getMessageType() {

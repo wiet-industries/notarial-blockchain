@@ -1,5 +1,7 @@
 package main.core;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,8 +31,12 @@ public class NewClientEventManager extends EventManager {
 
     private void listenForTcpPackets() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
+        JSONObject jo = new JSONObject();
+        jo.put("id", "0");
+        jo.put("type", "CONNECT");
+        jo.put("content","0");
         System.out.println("New client with IP: " + clientSocket.getInetAddress() + ", PORT: " + clientSocket.getPort());
-        SocketPayload payload = new SocketPayload("CONNECT~5656", clientSocket.getPort(), clientSocket.getInetAddress(), clientSocket);
+        SocketPayload payload = new SocketPayload(jo.toString(), clientSocket.getPort(), clientSocket.getInetAddress(), clientSocket);
         Event event = new Event(payload);
         this.notify(event);
     }

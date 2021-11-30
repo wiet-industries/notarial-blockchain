@@ -1,5 +1,7 @@
 package main.core;
 
+import org.json.JSONObject;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -22,8 +24,13 @@ public class ConnectStrategy implements ServerStrategy {
     @Override
     public boolean respondToAuthor(Client client, List<Client> clientList) {
         try {
+            JSONObject jo = new JSONObject();
+            jo.put("id", client.getID());
+            jo.put("type", "ID");
+            jo.put("content", client.getID());
             BufferedOutputStream output = client.getOutput();
-            output.write(("ID~" + client.getID() + "~padding\n").getBytes(StandardCharsets.UTF_8));
+            output.write(jo.toString().getBytes(StandardCharsets.UTF_8));
+            output.write('\n');
             output.flush();
             return true;
         } catch (IOException e) {

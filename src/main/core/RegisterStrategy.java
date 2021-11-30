@@ -1,14 +1,17 @@
 package main.core;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class RegisterStrategy implements ServerStrategy {
 
     @Override
     public Client processAuthor(SocketPayload socketPayload, List<Client> clientList) {
-        PayloadMessage payloadMessage = socketPayload.getPayloadMessage();
-        String payloadData = payloadMessage.getMessageData();
-        int ID = Integer.parseInt(payloadData);
+        //PayloadMessage payloadMessage = socketPayload.getPayloadMessage();
+        String payloadData = socketPayload.getPayloadMessage().getMessageData();
+        JSONObject jo = new JSONObject(payloadData);
+        int ID = Integer.parseInt((String) jo.opt("id"));
         for (Client client : clientList) {
             if (client.getID() == ID) {
                 client.setIP(socketPayload.getAddress());
