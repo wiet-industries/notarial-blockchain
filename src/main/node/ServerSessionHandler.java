@@ -1,5 +1,8 @@
 package main.node;
 
+import main.node.Model.Message;
+import main.node.Model.MessageType;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;

@@ -1,5 +1,9 @@
 package main.node;
 
+import main.node.Model.Message;
+import main.node.Model.MessageType;
+import main.node.Model.Peer;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

@@ -1,4 +1,7 @@
-package main.node;
+package main.node.Listeners;
+
+import main.node.Model.Event;
+import main.node.EventListener;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,7 +9,7 @@ import java.util.List;
 public abstract class EventManager extends Thread {
     List<EventListener> listeners = new LinkedList<>();
 
-    void subscribe(EventListener eventListener) {
+    public void subscribe(EventListener eventListener) {
         this.listeners.add(eventListener);
     }
 

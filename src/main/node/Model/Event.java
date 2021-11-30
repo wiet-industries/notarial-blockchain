@@ -1,13 +1,13 @@
-package main.node;
+package main.node.Model;
 
 public class Event {
     private byte[] data;
 
-    Event(byte[] data) {
+    public Event(byte[] data) {
         this.data = data;
     }
 
-    byte[] getData() {
+    public byte[] getData() {
         return this.data;
     }
 }

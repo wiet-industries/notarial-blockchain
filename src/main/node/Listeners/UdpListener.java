@@ -1,4 +1,6 @@
-package main.node;
+package main.node.Listeners;
+
+import main.node.Model.Event;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

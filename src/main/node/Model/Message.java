@@ -1,4 +1,4 @@
-package main.node;
+package main.node.Model;
 
 
 import java.util.Arrays;
@@ -17,20 +17,20 @@ public class Message {
         return ID;
     }
 
-    Message() {}
+    public Message() {}
 
-    Message(MessageType type, String content, int ID) {
+    public Message(MessageType type, String content, int ID) {
         this.type = type;
         this.content = content;
         this.ID = ID;
     }
 
-    byte[] getData() {
+    public byte[] getData() {
         return (type + MESSAGE_TYPE_SEPARATOR + ID + MESSAGE_TYPE_SEPARATOR + content + '\n').getBytes();
     }
 
 
-    Message fromBytes(byte[] data) {
+    public Message fromBytes(byte[] data) {
         System.out.println(new String(data));
         String[] split = new String(data).split(MESSAGE_TYPE_SEPARATOR);
         type = MessageType.valueOf(split[0]);
@@ -39,7 +39,7 @@ public class Message {
         return this;
     }
 
-    List<Peer> parsePeerList() {
+    public List<Peer> parsePeerList() {
         List<Peer> peers = new LinkedList<>();
         if(content != null) {
             String[] endpoints = content.split(ENDPOINT_SEPARATOR);
@@ -51,13 +51,13 @@ public class Message {
         return peers;
     }
 
-    Peer parsePeerInfo() {
+    public Peer parsePeerInfo() {
         String[] split = content.split(ADDRESS_SEPARATOR);
         //TODO Add validation
         return new Peer(split[0], Integer.parseInt(split[1]));
     }
 
-    MessageType getType() {
+    public MessageType getType() {
         return this.type;
     }
 
