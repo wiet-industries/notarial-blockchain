@@ -86,6 +86,7 @@ cash comes from Company Account(earnings) not from Company Value
     -ValueToAdd
 
 <h4> Implementation </h4>
+
 ![image](https://user-images.githubusercontent.com/72470330/144077593-6e342cfc-b60d-4b1a-991e-b0b8af81177f.png)
 
 
