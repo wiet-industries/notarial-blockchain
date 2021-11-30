@@ -1,6 +1,9 @@
 package main.node.Model;
 
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,27 +29,39 @@ public class Message {
     }
 
     public byte[] getData() {
-        return (type + MESSAGE_TYPE_SEPARATOR + ID + MESSAGE_TYPE_SEPARATOR + content + '\n').getBytes();
+        JSONObject jo = new JSONObject();
+        jo.put("id", ID);
+        jo.put("type", type);
+        jo.put("content", content);
+        System.out.println(jo);
+        return (jo.toString() + '\n').getBytes();
     }
 
 
     public Message fromBytes(byte[] data) {
         System.out.println(new String(data));
-        String[] split = new String(data).split(MESSAGE_TYPE_SEPARATOR);
-        type = MessageType.valueOf(split[0]);
-        ID = Integer.parseInt(split[1]);
-        if(split.length == 3) content = split[2];
+        JSONObject jo = new JSONObject(new String(data));
+        //String[] split = new String(data).split(MESSAGE_TYPE_SEPARATOR);
+        type = MessageType.valueOf((String) jo.opt("type"));
+        ID = Integer.parseInt((String) jo.opt("id"));
+        content = (String) jo.opt("content");
+        //if(split.length == 3) content = split[2];
         return this;
     }
 
     public List<Peer> parsePeerList() {
         List<Peer> peers = new LinkedList<>();
         if(content != null) {
-            String[] endpoints = content.split(ENDPOINT_SEPARATOR);
-            Arrays.stream(endpoints).forEach(endpoint -> {
-                String[] split = endpoint.split(ADDRESS_SEPARATOR);
+            //String[] endpoints = content.split(ENDPOINT_SEPARATOR);
+//            Arrays.stream(endpoints).forEach(endpoint -> {
+//                String[] split = endpoint.split(ADDRESS_SEPARATOR);
+//                peers.add(new Peer(split[0], Integer.parseInt(split[1])));
+//            });
+            JSONArray ja = new JSONArray(content);
+            for(Object jo:ja) {
+                String[] split = ((String)jo).split(ADDRESS_SEPARATOR);
                 peers.add(new Peer(split[0], Integer.parseInt(split[1])));
-            });
+            }
         }
         return peers;
     }
