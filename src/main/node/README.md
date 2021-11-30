@@ -5,10 +5,6 @@ single blockchain node
 
 Node is listening on both TCP and UDP ports.
 
-Comuincation protocol schema:
-- `ID~[node_id]` - server sending to node its ID
-- `REGISTER~[node_id]` - node sending to server UPD datagrams to register its UDP port
-- //TODO 
 
 
 Comunication with Server:
