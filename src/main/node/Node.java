@@ -1,5 +1,10 @@
 package main.node;
 
+import main.node.Listeners.TcpListener;
+import main.node.Listeners.UdpListener;
+import main.node.Model.Event;
+import main.node.Model.Message;
+
 import java.io.IOException;
 import java.net.*;
 
@@ -55,16 +60,18 @@ public class Node implements EventListener {
         switch (message.getType()) {
             case ID:
                 //TODO add validation
-                this.ID = Integer.parseInt(message.getContent());
+                this.ID = message.getID();
                 this.registerNode();
                 break;
                 //TODO add validation everywhere
             case NODE_LIST:
-                this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList());
+                this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList(), this.ID);
                 break;
             case OPEN_REQUEST:
-                this.peerConnectionHandler.openPort(message.parsePeerInfo());
+                this.peerConnectionHandler.openPort(message.parsePeerInfo(), this.ID);
                 break;
+            case DATA:
+                System.out.println("RECEIVED DATA:" + new String(message.getData()));
         }
     }
 }

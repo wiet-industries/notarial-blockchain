@@ -1,4 +1,6 @@
-package main.node;
+package main.node.Listeners;
+
+import main.node.Model.Event;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package main.node;
+package main.node.Model;
 
 public class Config {
     static final String IP = "77.55.216.56";

@@ -1,5 +1,9 @@
 package main.node;
 
+import main.node.Model.Message;
+import main.node.Model.MessageType;
+import main.node.Model.Peer;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -13,8 +17,9 @@ public class PeerConnectionHandler {
     PeerConnectionHandler(DatagramSocket udpSocket) {
         this.udpSocket = udpSocket;
     }
-    void broadcastDataToPeers(List<Peer> peers) {
-        byte[] data = "TEST-DATA".getBytes();
+    void broadcastDataToPeers(List<Peer> peers, int id) {
+        Message message = new Message(MessageType.DATA, "TEST-DATA", id);
+        byte[] data = message.getData();
         peers.forEach(peer -> {
             DatagramPacket datagramPacket = new DatagramPacket(data, data.length, peer.getIpAddress(), peer.getPort());
             System.out.println("Sending data to Peer IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
@@ -32,8 +37,9 @@ public class PeerConnectionHandler {
         });
     }
 
-    void openPort(Peer peer) {
-        byte[] data = "TRASH-DATA".getBytes();
+    void openPort(Peer peer, int id) {
+        Message message = new Message(MessageType.DATA, "TRASH-DATA", id);
+        byte[] data = message.getData();
         DatagramPacket datagramPacket = new DatagramPacket(data, data.length, peer.getIpAddress(), peer.getPort());
         int TRASH_DATAGRAM_COUNT = 10;
         System.out.println("Making hole with IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
