@@ -40,6 +40,8 @@ public class Node implements EventListener {
         udpListener.subscribe(this);
         this.serverSessionHandler = new ServerSessionHandler(tcpSocket, udpSocket, serverAddress, udpPort);
         this.peerConnectionHandler = new PeerConnectionHandler(udpSocket);
+        //TODO start miner and create memPool
+        //TODO handle adding transaction to memPool
     }
 
     void startNode() {

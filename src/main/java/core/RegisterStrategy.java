@@ -10,6 +10,7 @@ public class RegisterStrategy implements ServerStrategy {
     public Client processAuthor(SocketPayload socketPayload, List<Client> clientList) {
         //PayloadMessage payloadMessage = socketPayload.getPayloadMessage();
         String payloadData = socketPayload.getPayloadMessage().getMessageData();
+        // TODO change to GSON
         JSONObject jo = new JSONObject(payloadData);
         int ID = Integer.parseInt((String) jo.opt("id"));
         for (Client client : clientList) {
