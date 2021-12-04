@@ -18,6 +18,7 @@ public class PeerConnectionHandler {
     PeerConnectionHandler(DatagramSocket udpSocket) {
         this.udpSocket = udpSocket;
     }
+
     void broadcastDataToPeers(List<Peer> peers, int id) {
         Message message = new Message(MessageType.DATA, "TEST-DATA", id);
         byte[] data = message.getData();

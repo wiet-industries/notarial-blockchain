@@ -1,5 +1,8 @@
-package core;
+package core.models;
 
+import core.models.PayloadMessage;
+
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -9,7 +12,7 @@ public class SocketPayload {
     private final InetAddress address;
     private final Socket socket;
 
-    public SocketPayload(String message, int port, InetAddress address, Socket socket) {
+    public SocketPayload(String message, int port, InetAddress address, Socket socket) throws IOException {
         this.payloadMessage = new PayloadMessage(message);
         this.port = port;
         this.address = address;

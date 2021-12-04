@@ -1,6 +1,9 @@
 package node.Model;
 
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,61 +17,53 @@ public class Message {
     private MessageType type;
     private String content;
     private int ID;
+    private final JsonObject messageData;
 
     public int getID() {
         return ID;
     }
 
-    public Message() {}
-
     public Message(MessageType type, String content, int ID) {
-        this.type = type;
-        this.content = content;
-        this.ID = ID;
+        this.messageData = new JsonObject();
+        this.messageData.addProperty("type", type.toString());
+        this.messageData.addProperty("content", content);
+        this.messageData.addProperty("id", ID);
     }
 
     public byte[] getData() {
-        JSONObject jo = new JSONObject();
-        jo.put("id", ID);
-        jo.put("type", type);
-        jo.put("content", content);
-        System.out.println(jo);
-        return (jo.toString() + '\n').getBytes();
+        return (this.messageData.toString() + '\n').getBytes();
     }
 
-
-    public Message fromBytes(byte[] data) {
-        System.out.println(new String(data));
-        JSONObject jo = new JSONObject(new String(data));
-        //String[] split = new String(data).split(MESSAGE_TYPE_SEPARATOR);
-        type = MessageType.valueOf((String) jo.opt("type"));
-        ID = Integer.parseInt((String) jo.opt("id"));
-        content = (String) jo.opt("content");
-        //if(split.length == 3) content = split[2];
-        return this;
+    public Message(String data) {
+        JsonParser parser = new JsonParser();
+        this.messageData = parser.parse(data).getAsJsonObject();
     }
 
     public List<Peer> parsePeerList() {
         List<Peer> peers = new LinkedList<>();
+        JsonArray clientList = this.messageData.get("content").getAsJsonArray();
         if(content != null) {
-            //String[] endpoints = content.split(ENDPOINT_SEPARATOR);
-//            Arrays.stream(endpoints).forEach(endpoint -> {
-//                String[] split = endpoint.split(ADDRESS_SEPARATOR);
-//                peers.add(new Peer(split[0], Integer.parseInt(split[1])));
-//            });
-            JSONArray ja = new JSONArray(content);
-            for(Object jo:ja) {
-                String[] split = ((String)jo).split(ADDRESS_SEPARATOR);
-                peers.add(new Peer(split[0], Integer.parseInt(split[1])));
+            for(int i = 0; i < clientList.size(); i++) {
+                JsonObject client = clientList.get(i).getAsJsonObject();
+                String ip = client.get("ip").getAsString();
+                int port = client.get("port").getAsInt();
+                peers.add(new Peer(ip, port));
             }
         }
         return peers;
     }
 
     public Peer parsePeerInfo() {
-        String[] split = content.split(ADDRESS_SEPARATOR);
         //TODO Add validation
-        return new Peer(split[0], Integer.parseInt(split[1]));
+        return new Peer(this.getIPFromMessage(), this.getPortFromMessage());
+    }
+
+    private String getIPFromMessage() {
+        return this.messageData.get("content").getAsJsonObject().get("ip").getAsString();
+    }
+
+    private int getPortFromMessage() {
+        return this.messageData.get("content").getAsJsonObject().get("ip").getAsInt();
     }
 
     public MessageType getType() {

@@ -59,7 +59,7 @@ public class Node implements EventListener {
 
     @Override
     public void update(Event event) {
-        Message message = new Message().fromBytes(event.getData());
+        Message message = new Message(new String(event.getData()));
         switch (message.getType()) {
             case ID:
                 //TODO add validation

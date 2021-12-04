@@ -1,4 +1,4 @@
-package core;
+package core.models;
 
 public class Event {
     private final SocketPayload payload;

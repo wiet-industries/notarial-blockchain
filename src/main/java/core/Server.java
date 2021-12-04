@@ -1,5 +1,17 @@
 package core;
 
+import core.connection.NewClientEventManager;
+import core.connection.UdpEventManager;
+import core.utils.EventListener;
+import core.models.Event;
+import core.models.MessageType;
+import core.models.PayloadMessage;
+import core.models.SocketPayload;
+import core.stategies.BroadcastStrategy;
+import core.stategies.ConnectStrategy;
+import core.stategies.RegisterStrategy;
+import core.stategies.ServerStrategyContext;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +23,7 @@ public class Server implements EventListener {
     private NewClientEventManager tcpListener;
     private UdpEventManager udpEventManager;
     private ServerStrategyContext serverStrategyContext;
-    private List<Client> clientList = Collections.synchronizedList(new ArrayList<>());
+    private List<ClientHandler> clientList = Collections.synchronizedList(new ArrayList<>());
 
     public Server(int tcpPort, int udpPort) throws IOException {
         this.udpEventManager = new UdpEventManager(udpPort);

@@ -1,4 +1,7 @@
-package core;
+package core.stategies;
+
+import core.ClientHandler;
+import core.models.SocketPayload;
 
 import java.util.List;
 
@@ -11,8 +14,8 @@ public class ServerStrategyContext {
         this.strategy = strategy;
     }
 
-    public void execute(SocketPayload socketPayload, List<Client> clientList) {
-        Client client = this.strategy.processAuthor(socketPayload, clientList);
+    public void execute(SocketPayload socketPayload, List<ClientHandler> clientList) {
+        ClientHandler client = this.strategy.processAuthor(socketPayload, clientList);
         //TODO make chain of calls
         if(client == null) {
             System.err.println("Author not found");

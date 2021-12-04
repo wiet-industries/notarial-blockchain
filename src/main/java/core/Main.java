@@ -1,5 +1,7 @@
 package core;
 
+import core.utils.Config;
+
 import java.io.IOException;
 
 public class Main {
