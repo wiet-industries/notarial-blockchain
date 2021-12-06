@@ -1,6 +1,7 @@
 package node;
 
 
+import com.google.gson.Gson;
 import node.Listeners.TcpListener;
 import node.Listeners.UdpListener;
 import node.Model.Event;
@@ -59,7 +60,7 @@ public class Node implements EventListener {
 
     @Override
     public void update(Event event) {
-        Message message = new Message(new String(event.getData()));
+        Message message = new Gson().fromJson(new String(event.getData()), Message.class);
         switch (message.getType()) {
             case ID:
                 //TODO add validation
