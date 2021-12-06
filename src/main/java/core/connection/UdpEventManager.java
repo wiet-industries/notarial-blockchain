@@ -36,7 +36,7 @@ public class UdpEventManager extends EventManager {
     }
 
     private SocketPayload createPayload(DatagramPacket receivedDatagram) throws IOException {
-        return new SocketPayload(new String(receivedDatagram.getData()), receivedDatagram.getPort(), receivedDatagram.getAddress(), null);
+        return new SocketPayload(new String(receivedDatagram.getData(), receivedDatagram.getOffset(), receivedDatagram.getLength()), receivedDatagram.getPort(), receivedDatagram.getAddress(), null);
     }
 
     private Event createEvent(SocketPayload payload) {

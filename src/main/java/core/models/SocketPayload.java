@@ -1,5 +1,6 @@
 package core.models;
 
+import com.google.gson.Gson;
 import core.models.PayloadMessage;
 
 import java.io.IOException;
@@ -13,7 +14,8 @@ public class SocketPayload {
     private final Socket socket;
 
     public SocketPayload(String message, int port, InetAddress address, Socket socket) throws IOException {
-        this.payloadMessage = new PayloadMessage(message);
+        System.out.println(message);
+        this.payloadMessage = new Gson().fromJson(message, PayloadMessage.class);
         this.port = port;
         this.address = address;
         this.socket = socket;

@@ -1,8 +1,10 @@
 package core.stategies;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import core.ClientHandler;
 import core.models.MessageType;
+import core.models.PayloadMessage;
 import core.models.SocketPayload;
 
 import java.io.BufferedOutputStream;
@@ -27,10 +29,7 @@ public class ConnectStrategy implements ServerStrategy {
     @Override
     public boolean respondToAuthor(ClientHandler client, List<ClientHandler> clientList) {
         try {
-            JsonObject response = new JsonObject();
-            response.addProperty("id", client.getID());
-            response.addProperty("type", MessageType.ID.toString());
-            response.addProperty("content", client.getID());
+            PayloadMessage response = new PayloadMessage(MessageType.ID, new Gson().toJsonTree(Integer.toString(client.getID())), client.getID());
             BufferedOutputStream output = client.getOutput();
             output.write(response.toString().getBytes(StandardCharsets.UTF_8));
             output.write('\n');

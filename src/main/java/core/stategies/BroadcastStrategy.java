@@ -30,9 +30,6 @@ public class BroadcastStrategy implements ServerStrategy {
     @Override
     public boolean respondToAuthor(ClientHandler client, List<ClientHandler> clientList) {
         //TODO not count clients without UDP PORT
-        JsonObject message = new JsonObject();
-        message.addProperty("id", client.getID());
-        message.addProperty("type", MessageType.NODE_LIST.toString());
         JsonArray addresses = new JsonArray();
 
         for (ClientHandler c : clientList) {
@@ -40,7 +37,7 @@ public class BroadcastStrategy implements ServerStrategy {
                 addresses.add(c.getClientDataAsJson());
             }
         }
-        message.add("content", addresses);
+        PayloadMessage message = new PayloadMessage(MessageType.NODE_LIST, addresses, client.getID());
         BufferedOutputStream output = client.getOutput();
         try {
             output.write(message.toString().getBytes(StandardCharsets.UTF_8));
@@ -56,10 +53,7 @@ public class BroadcastStrategy implements ServerStrategy {
     public boolean respondToOthers(ClientHandler client, List<ClientHandler> clientList) {
         for (ClientHandler c : clientList) {
             if (c != null && !c.equals(client)) {
-                JsonObject response = new JsonObject();
-                response.addProperty("id", c.getID());
-                response.addProperty("type", MessageType.OPEN_REQUEST.toString());
-                response.add("content", c.getClientDataAsJson());
+                PayloadMessage response = new PayloadMessage(MessageType.OPEN_REQUEST, c.getClientDataAsJson(), c.getID());
                 BufferedOutputStream output = c.getOutput();
                   try {
                     output.write(response.toString().getBytes(StandardCharsets.UTF_8));
