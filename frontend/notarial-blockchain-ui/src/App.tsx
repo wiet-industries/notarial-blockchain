@@ -1,25 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+import Button from '@mui/material/Button';
 
-function App() {
+const  App = ({}) => {
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          notarial-blockchain
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Button variant="contained">Connect to server</Button>
+        <Button variant="contained">Send broadcast to server</Button>
+        <Button variant="contained">Disconnect from server</Button>
+
       </header>
     </div>
   );
 }
+
 
 export default App;
