@@ -1,7 +1,7 @@
 import './App.css';
 import Button from '@mui/material/Button';
 
-const  App = ({}) => {
+const  App = () => {
 
   return (
     <div className="App">
@@ -9,9 +9,15 @@ const  App = ({}) => {
         <p>
           notarial-blockchain
         </p>
-        <Button variant="contained">Connect to server</Button>
-        <Button variant="contained">Send broadcast to server</Button>
-        <Button variant="contained">Disconnect from server</Button>
+        <div className="d-flex justify-content-around w-50">
+          <Button variant="contained">Connect to server</Button>
+          <Button variant="contained">Send broadcast to server</Button>
+          <Button variant="contained">Disconnect from server</Button>
+        </div>
+
+        <div className="my-5">
+          <p>TU JEST MESSAGE</p>
+        </div>
 
       </header>
     </div>
