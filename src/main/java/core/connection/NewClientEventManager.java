@@ -39,8 +39,7 @@ public class NewClientEventManager extends EventManager {
     }
 
     private MessageContent createConnectionMessage() {
-        MessageContent messageContent = new MessageContent(MessageType.CONNECT, new JsonObject());
-        return messageContent;
+         return new MessageContent(MessageType.CONNECT, new JsonObject());
     }
 
 }

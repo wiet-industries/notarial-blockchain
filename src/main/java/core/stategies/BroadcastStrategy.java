@@ -13,9 +13,9 @@ import java.util.List;
 
 public class BroadcastStrategy implements ServerStrategy {
     @Override
-    public ClientHandler processAuthor(Message socketPayload, List<ClientHandler> clientList) {
-        MessageContent message = socketPayload.getMessageContent();
-        int ID = message.getID();
+    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList) {
+        MessageContent messageContent = message.getMessageContent();
+        int ID = messageContent.getID();
 
         System.out.println("Broadcast from: " + ID);
         for (ClientHandler client : clientList) {

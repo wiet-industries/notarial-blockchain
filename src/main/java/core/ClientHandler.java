@@ -4,6 +4,9 @@ import com.google.gson.JsonObject;
 import core.connection.EventManager;
 import core.models.Event;
 import core.models.Message;
+import core.models.MessageContent;
+import core.models.MessageType;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,9 +27,10 @@ public class ClientHandler extends EventManager {
     public ClientHandler(Socket socket, int ID, List<ClientHandler> clients) throws IOException {
         this.socket = socket;
         this.ID = ID;
-        input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        output = new BufferedOutputStream(socket.getOutputStream());
+        this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        this.output = new BufferedOutputStream(socket.getOutputStream());
         this.clients = clients;
+
     }
 
     private List<ClientHandler> clients;
@@ -63,10 +67,19 @@ public class ClientHandler extends EventManager {
     public void run() {
         while (true) {
             try {
+                this.listenForClientDisconnect();
                 this.listenForTcpPackets();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void listenForClientDisconnect() throws IOException{
+        if (!this.isClientConnected()) {
+            Message message = new Message(this.createDisconnectMessage().toJson(), this.socket);
+            Event event = new Event(message);
+            this.notify(event);
         }
     }
 
@@ -83,6 +96,14 @@ public class ClientHandler extends EventManager {
         clientRecord.addProperty("ipAddress", this.IP.toString().substring(1));
         clientRecord.addProperty("port", this.updPort);
         return clientRecord;
+    }
+
+    private boolean isClientConnected() throws IOException {
+        return this.input.read() != -1;
+    }
+
+    private MessageContent createDisconnectMessage() {
+        return new MessageContent(MessageType.DISCONNECT, new JsonObject(), this.ID);
     }
 
     @Override

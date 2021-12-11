@@ -2,15 +2,12 @@ package core;
 
 import core.connection.NewClientEventManager;
 import core.connection.UdpEventManager;
+import core.stategies.*;
 import core.utils.EventListener;
 import core.models.Event;
 import core.models.MessageType;
 import core.models.MessageContent;
 import core.models.Message;
-import core.stategies.BroadcastStrategy;
-import core.stategies.ConnectStrategy;
-import core.stategies.RegisterStrategy;
-import core.stategies.ServerStrategyContext;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,6 +56,9 @@ public class Server implements EventListener {
         switch (messageType) {
             case CONNECT:
                 this.serverStrategyContext.setStrategy(new ConnectStrategy());
+                break;
+            case DISCONNECT:
+                this.serverStrategyContext.setStrategy(new DisconnectStrategy());
                 break;
             case REGISTER:
                 this.serverStrategyContext.setStrategy(new RegisterStrategy());
