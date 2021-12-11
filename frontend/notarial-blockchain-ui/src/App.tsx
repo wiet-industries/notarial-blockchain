@@ -11,6 +11,12 @@ type User = {
   ip?: string;
 };
 
+const BASE_URL = "http://localhost:8080";
+const NODE = "/node";
+const CONNECT = "/connect";
+const BROADCAST = "/broadcast";
+const DISCONNECT = "/disconnect";
+
 const App = () => {
   const [connected, setConnected] = useState<ConnectionType>("NOT_CONNECTED");
   const [loading, setLoading] = useState(false);
@@ -21,8 +27,7 @@ const App = () => {
     setLoading(true);
     setMessage((prevState) => ["Connecting", ...prevState.slice(0, 6)]);
     axios
-    //TODO implement url builder
-      .post("http://localhost:8080/node/connect")
+      .post(BASE_URL + NODE + CONNECT)
       .then((response) => {
         if (response.status === 200 && response.data.message === "OK") {
           setMessage((prevState) => [
@@ -51,7 +56,7 @@ const App = () => {
 
   const broadcast = () => {
     axios
-      .post("http://localhost:8080/node/broadcast")
+      .post(BASE_URL + NODE + BROADCAST)
       .then((response) => {
         if (response.status === 200 && response.data.message === "OK") {
           setMessage((prevState) => ["Broadcasting", ...prevState.slice(0, 6)]);
@@ -79,7 +84,7 @@ const App = () => {
   const disconnect = () => {
     setMessage((prevState) => ["Disconnecting", ...prevState.slice(0, 6)]);
     axios
-      .delete("http://localhost:8080/node/disconnect")
+      .delete(BASE_URL + NODE + DISCONNECT)
       .then((response) => {
         if (response.status === 200 && response.data.message === "OK") {
           setMessage((prevState) => [
