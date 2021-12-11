@@ -7,8 +7,7 @@ import React, { useCallback, useState } from "react";
 
 type ConnectionType = "NOT_CONNECTED" | "CONNECTING_ERROR" | "CONNECTED";
 type User = {
-  port?: string;
-  ip?: string;
+  ID?: string;
 };
 
 const BASE_URL = "http://localhost:8080";
@@ -16,6 +15,7 @@ const NODE = "/node";
 const CONNECT = "/connect";
 const BROADCAST = "/broadcast";
 const DISCONNECT = "/disconnect";
+const REGISTER = "/register";
 
 const App = () => {
   const [connected, setConnected] = useState<ConnectionType>("NOT_CONNECTED");
@@ -35,7 +35,6 @@ const App = () => {
             ...prevState.slice(0, 6),
           ]);
           setConnected("CONNECTED");
-          setUserData({ port: response.data.port, ip: response.data.ip });
         } else {
           setMessage((prevState) => [
             "Error while connecting",
@@ -52,6 +51,31 @@ const App = () => {
         setConnected("CONNECTING_ERROR");
       })
       .finally(() => setLoading(false));
+  };
+
+  const register = () => {
+    axios
+      .post(BASE_URL + NODE + REGISTER)
+      .then((response) => {
+        if (response.status === 200 && response.data.message === "OK") {
+          setMessage((prevState) => ["Registered", ...prevState.slice(0, 6)]);
+          setUserData({ ID: response.data.ID });
+        } else {
+          setMessage((prevState) => [
+            "Error while registering",
+            ...prevState.slice(0, 6),
+          ]);
+        }
+      })
+      .catch(() =>
+        setMessage((prevState) => [
+          "Error while registering",
+          ...prevState.slice(0, 6),
+        ])
+      )
+      .finally(() =>
+        setMessage((prevState) => ["End of registry", ...prevState.slice(0, 6)])
+      );
   };
 
   const broadcast = () => {
@@ -122,18 +146,17 @@ const App = () => {
         <p>notarial-blockchain</p>
         <div className="my-5">
           <p>
-            Port:
-            {user.port}
-          </p>
-          <p>
-            IP:
-            {user.ip}
+            ID:&nbsp;
+            {user.ID}
           </p>
         </div>
 
         <div className="d-flex justify-content-around w-50">
           <Button variant="contained" onClick={connect}>
             Connect to server
+          </Button>
+          <Button variant="contained" onClick={register}>
+            Register to server
           </Button>
           <Button variant="contained" onClick={broadcast}>
             Send broadcast to server

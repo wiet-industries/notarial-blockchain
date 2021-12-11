@@ -9,53 +9,69 @@ import node.Model.Event;
 import node.Model.Message;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
 
 public class Node implements EventListener {
-
-    private int tcpPort;
-    private int udpPort;
-    private Socket tcpSocket;
-    private DatagramSocket udpSocket;
+    private final int tcpPort;
+    private final int udpPort;
+    private final InetAddress serverAddress;
     private UdpListener udpListener;
     private TcpListener tcpListener;
-    private int ID;
-    private InetAddress serverAddress;
     private ServerSessionHandler serverSessionHandler;
     private PeerConnectionHandler peerConnectionHandler;
+    private Socket tcpSocket;
+    private DatagramSocket udpSocket;
+    private int ID;
 
-
-    Node(int tcpPort, int udpPort, InetAddress serverAddress) {
+    public Node(int tcpPort, int udpPort, InetAddress serverAddress) {
         this.tcpPort = tcpPort;
         this.udpPort = udpPort;
         this.serverAddress = serverAddress;
+    }
+
+    public int getTcpPort() {
+        return tcpPort;
+    }
+
+    public int getUdpPort() {
+        return udpPort;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void connectToServer() {
         try {
             this.tcpSocket = new Socket(serverAddress, tcpPort);
             this.udpSocket = new DatagramSocket();
+            this.tcpListener = new TcpListener(tcpSocket);
+            this.udpListener = new UdpListener(udpSocket);
+            tcpListener.subscribe(this);
+            udpListener.subscribe(this);
+            this.serverSessionHandler = new ServerSessionHandler(tcpSocket, udpSocket, serverAddress, udpPort);
+            this.peerConnectionHandler = new PeerConnectionHandler(udpSocket);
+            //TODO start miner and create memPool
+            //TODO handle adding transaction to memPool
         } catch (IOException e) {
             System.out.println("Error while creating sockets: " + e.getMessage());
             e.printStackTrace();
         }
-        this.tcpListener = new TcpListener(tcpSocket);
-        this.udpListener = new UdpListener(udpSocket);
-        tcpListener.subscribe(this);
-        udpListener.subscribe(this);
-        this.serverSessionHandler = new ServerSessionHandler(tcpSocket, udpSocket, serverAddress, udpPort);
-        this.peerConnectionHandler = new PeerConnectionHandler(udpSocket);
-        //TODO start miner and create memPool
-        //TODO handle adding transaction to memPool
+
     }
 
-    void startNode() {
+    public void startNode() {
         tcpListener.start();
         udpListener.start();
     }
 
-    void registerNode() {
+    public void registerNode() {
         serverSessionHandler.registerNode(ID);
     }
 
-    void requestBroadcast() {
+    public void requestBroadcast() {
         serverSessionHandler.requestSession(ID);
     }
 
@@ -64,8 +80,7 @@ public class Node implements EventListener {
         Message message;
         try {
             message = new Gson().fromJson(new String(event.getData()), Message.class);
-        }
-        catch(JsonSyntaxException e) {
+        } catch (JsonSyntaxException e) {
             System.err.println("Error while parsing message content");
             return;
         }
@@ -74,7 +89,7 @@ public class Node implements EventListener {
             case ID:
                 //TODO add validation
                 this.ID = message.getID();
-                this.registerNode();
+//                this.registerNode();
                 break;
             //TODO add validation everywhere
             case NODE_LIST:
