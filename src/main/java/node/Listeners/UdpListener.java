@@ -18,14 +18,14 @@ public class UdpListener extends EventManager {
     @Override
     public void run() {
         try {
-            this.listen();
+            this.listenForUdpPackets();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    private void listen() throws IOException {
+    private void listenForUdpPackets() throws IOException {
         DatagramPacket datagram = new DatagramPacket(new byte[1024], 1024);
         while (true) {
             socket.receive(datagram);

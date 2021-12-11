@@ -2,23 +2,22 @@ package core.models;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import core.models.MessageType;
-import org.json.JSONException;
-
-import java.io.IOException;
 
 public class PayloadMessage {
+    private static final Integer NOT_INITIALIZED_ID = null;
     private final MessageType type;
     private final JsonElement content;
-    private int ID;
-
+    private Integer ID = NOT_INITIALIZED_ID;
 
     public PayloadMessage(MessageType type, JsonElement content, int ID) {
         this.type = type;
         this.content = content;
         this.ID = ID;
+    }
+
+    public PayloadMessage(MessageType type, JsonElement content) {
+        this.type = type;
+        this.content = content;
     }
 
     public MessageType getMessageType() {
@@ -33,8 +32,7 @@ public class PayloadMessage {
         return this.content;
     }
 
-    @Override
-    public String toString() {
+    public String toJson() {
         return new Gson().toJson(this);
     }
 }

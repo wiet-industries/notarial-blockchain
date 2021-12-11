@@ -3,6 +3,7 @@ package core.stategies;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import core.ClientHandler;
+import core.Server;
 import core.models.MessageType;
 import core.models.PayloadMessage;
 import core.models.SocketPayload;
@@ -27,28 +28,24 @@ public class ConnectStrategy implements ServerStrategy {
     }
 
     @Override
-    public boolean respondToAuthor(ClientHandler client, List<ClientHandler> clientList) {
+    public void respondToAuthor(ClientHandler client, List<ClientHandler> clientList) {
         try {
             PayloadMessage response = new PayloadMessage(MessageType.ID, new Gson().toJsonTree(Integer.toString(client.getID())), client.getID());
             BufferedOutputStream output = client.getOutput();
-            output.write(response.toString().getBytes(StandardCharsets.UTF_8));
+            output.write(response.toJson().getBytes(StandardCharsets.UTF_8));
             output.write('\n');
             output.flush();
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
     }
 
     @Override
-    public boolean respondToOthers(ClientHandler client, List<ClientHandler> clientList) {
-        return false;
+    public void respondToOthers(ClientHandler client, List<ClientHandler> clientList) {
     }
 
     @Override
-    public boolean updateClients(ClientHandler clientHandler, List<ClientHandler> clientList) {
+    public void updateClients(ClientHandler clientHandler, List<ClientHandler> clientList, Server server) {
         clientList.add(clientHandler);
-        return true;
     }
 }

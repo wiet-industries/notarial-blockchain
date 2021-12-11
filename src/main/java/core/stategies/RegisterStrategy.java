@@ -1,6 +1,7 @@
 package core.stategies;
 
 import core.ClientHandler;
+import core.Server;
 import core.models.PayloadMessage;
 import core.models.SocketPayload;
 
@@ -25,17 +26,20 @@ public class RegisterStrategy implements ServerStrategy {
     }
 
     @Override
-    public boolean respondToAuthor(ClientHandler client, List<ClientHandler> clientList) {
-        return false;
+    public void respondToAuthor(ClientHandler client, List<ClientHandler> clientList) {
+
     }
 
     @Override
-    public boolean respondToOthers(ClientHandler client, List<ClientHandler> clientList) {
-        return false;
+    public void respondToOthers(ClientHandler client, List<ClientHandler> clientList) {
+
     }
 
     @Override
-    public boolean updateClients(ClientHandler client, List<ClientHandler> clientList) {
-        return false;
+    public void updateClients(ClientHandler client, List<ClientHandler> clientList, Server server) {
+        synchronized (clientList) {
+            int index = clientList.indexOf(client);
+            clientList.get(index).subscribe(server);
+        }
     }
 }

@@ -26,23 +26,23 @@ public class NewClientEventManager extends EventManager {
     public void run() {
         while (true) {
             try {
-                this.listenForTcpConnections();
+                this.listenForClientConnections();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void listenForTcpConnections() throws IOException {
+    private void listenForClientConnections() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
         System.out.println("New client with IP: " + clientSocket.getInetAddress() + ", PORT: " + clientSocket.getPort());
-        SocketPayload payload = new SocketPayload(this.createConnectionMessage().toString(), clientSocket.getPort(), clientSocket.getInetAddress(), clientSocket);
+        SocketPayload payload = new SocketPayload(this.createConnectionMessage().toJson(), clientSocket.getPort(), clientSocket.getInetAddress(), clientSocket);
         Event event = new Event(payload);
         this.notify(event);
     }
 
     private PayloadMessage createConnectionMessage() {
-        PayloadMessage message = new PayloadMessage(MessageType.CONNECT, new JsonObject(), -1);
+        PayloadMessage message = new PayloadMessage(MessageType.CONNECT, new JsonObject());
         return message;
     }
 

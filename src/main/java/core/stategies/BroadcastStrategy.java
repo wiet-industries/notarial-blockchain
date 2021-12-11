@@ -1,7 +1,6 @@
 package core.stategies;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import core.*;
 import core.models.MessageType;
 import core.models.PayloadMessage;
@@ -28,48 +27,45 @@ public class BroadcastStrategy implements ServerStrategy {
     }
 
     @Override
-    public boolean respondToAuthor(ClientHandler client, List<ClientHandler> clientList) {
+    public void respondToAuthor(ClientHandler client, List<ClientHandler> clientList) {
         //TODO not count clients without UDP PORT
         JsonArray addresses = new JsonArray();
 
         for (ClientHandler c : clientList) {
             if (c != null && !c.equals(client)) {
-                addresses.add(c.getClientDataAsJson());
+                addresses.add(c.getClientConnectionDataAsJson());
             }
         }
         PayloadMessage message = new PayloadMessage(MessageType.NODE_LIST, addresses, client.getID());
         BufferedOutputStream output = client.getOutput();
         try {
-            output.write(message.toString().getBytes(StandardCharsets.UTF_8));
+            output.write(message.toJson().getBytes(StandardCharsets.UTF_8));
             output.write('\n');
             output.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return true;
     }
 
     @Override
-    public boolean respondToOthers(ClientHandler client, List<ClientHandler> clientList) {
+    public void respondToOthers(ClientHandler client, List<ClientHandler> clientList) {
         for (ClientHandler c : clientList) {
             if (c != null && !c.equals(client)) {
-                PayloadMessage response = new PayloadMessage(MessageType.OPEN_REQUEST, c.getClientDataAsJson(), c.getID());
+                PayloadMessage response = new PayloadMessage(MessageType.OPEN_REQUEST, client.getClientConnectionDataAsJson(), c.getID());
                 BufferedOutputStream output = c.getOutput();
                   try {
-                    output.write(response.toString().getBytes(StandardCharsets.UTF_8));
+                    output.write(response.toJson().getBytes(StandardCharsets.UTF_8));
                     output.write('\n');
                     output.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }
-        return true;
     }
 
     @Override
-    public boolean updateClients(ClientHandler client, List<ClientHandler> clientList) {
-        return false;
+    public void updateClients(ClientHandler client, List<ClientHandler> clientList, Server server) {
+
     }
 }

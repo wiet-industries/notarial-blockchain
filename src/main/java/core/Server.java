@@ -51,7 +51,7 @@ public class Server implements EventListener {
         SocketPayload data = event.getPayload();
         PayloadMessage payloadMessage = data.getPayloadMessage();
         this.setProperStrategy(payloadMessage.getMessageType());
-        this.serverStrategyContext.execute(data, this.clientList);
+        this.serverStrategyContext.execute(data, this.clientList, this);
     }
 
 
@@ -62,7 +62,6 @@ public class Server implements EventListener {
                 break;
             case REGISTER:
                 this.serverStrategyContext.setStrategy(new RegisterStrategy());
-                this.clientList.get(clientList.size() - 1).subscribe(this); //TODO change this without destroying design pattern
                 break;
             case BROADCAST:
                 this.serverStrategyContext.setStrategy(new BroadcastStrategy());

@@ -1,6 +1,7 @@
 package core.stategies;
 
 import core.ClientHandler;
+import core.Server;
 import core.models.SocketPayload;
 
 import java.util.List;
@@ -14,15 +15,15 @@ public class ServerStrategyContext {
         this.strategy = strategy;
     }
 
-    public void execute(SocketPayload socketPayload, List<ClientHandler> clientList) {
+    public void execute(SocketPayload socketPayload, List<ClientHandler> clientList, Server server) {
         ClientHandler client = this.strategy.processAuthor(socketPayload, clientList);
         //TODO make chain of calls
         if(client == null) {
             System.err.println("Author not found");
             return;
         }
-        boolean respondToAuthorStatus = this.strategy.respondToAuthor(client, clientList);
-        boolean respondToOthersStatus = this.strategy.respondToOthers(client, clientList);
-        boolean clientUpdateStatus = this.strategy.updateClients(client, clientList);
+        this.strategy.respondToAuthor(client, clientList);
+        this.strategy.respondToOthers(client, clientList);
+        this.strategy.updateClients(client, clientList, server);
     }
 }
