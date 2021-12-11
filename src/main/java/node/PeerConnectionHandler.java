@@ -22,7 +22,7 @@ public class PeerConnectionHandler {
         this.udpSocket = udpSocket;
     }
 
-    void broadcastDataToPeers(List<Peer> peers, int id) {
+    public void broadcastDataToPeers(List<Peer> peers, int id) {
 
         Message message = new Message(MessageType.DATA, new Gson().toJsonTree("TEST-DATA"), id);
         byte[] data = message.getData();
@@ -31,7 +31,7 @@ public class PeerConnectionHandler {
             try {
                 datagramPacket = new DatagramPacket(data, data.length, InetAddress.getByName(peer.getIpAddress()), peer.getPort());
             } catch (UnknownHostException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
             System.out.println("Sending data to Peer IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
             try {
@@ -48,14 +48,14 @@ public class PeerConnectionHandler {
         });
     }
 
-    void openPort(Peer peer, int id) {
+    public void openPort(Peer peer, int id) {
         Message message = new Message(MessageType.DATA, new Gson().toJsonTree("TRASH-DATA"), id);
         byte[] data = message.getData();
         DatagramPacket datagramPacket = null;
         try {
             datagramPacket = new DatagramPacket(data, data.length, InetAddress.getByName(peer.getIpAddress()), peer.getPort());
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         int TRASH_DATAGRAM_COUNT = 10;
         System.out.println("Making hole with IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
