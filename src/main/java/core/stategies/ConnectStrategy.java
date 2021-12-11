@@ -14,10 +14,10 @@ import java.util.List;
 
 public class ConnectStrategy implements ServerStrategy {
     @Override
-    public ClientHandler processAuthor(Message socketPayload, List<ClientHandler> clientList) {
-        System.out.println("Client connected. IP: " + socketPayload.getAddress().toString() + ", PORT_TCP: " + socketPayload.getPort());
+    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList) {
+        System.out.println("Client connected. IP: " + message.getAddress().toString() + ", PORT_TCP: " + message.getPort());
         try {
-            ClientHandler client = new ClientHandler(socketPayload.getSocket(), clientList.size() + 1, clientList);
+            ClientHandler client = new ClientHandler(message.getSocket(), clientList.size() + 1, clientList);
             client.start();
             return client;
         } catch (IOException e) {

@@ -10,15 +10,15 @@ import java.util.List;
 public class RegisterStrategy implements ServerStrategy {
 
     @Override
-    public ClientHandler processAuthor(Message socketPayload, List<ClientHandler> clientList) {
-        MessageContent payloadMessage = socketPayload.getMessageContent();
+    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList) {
+        MessageContent payloadMessage = message.getMessageContent();
         // TODO change to GSON
         int ID = payloadMessage.getID();
         for (ClientHandler client : clientList) {
             if (client.getID() == ID) {
-                client.setIP(socketPayload.getAddress());
-                client.setUpdPort(socketPayload.getPort());
-                System.out.println("Register client ID: " + ID + ", IP:" + socketPayload.getAddress().toString() + ", PORT: " + socketPayload.getPort());
+                client.setIP(message.getAddress());
+                client.setUpdPort(message.getPort());
+                System.out.println("Register client ID: " + ID + ", IP:" + message.getAddress().toString() + ", PORT: " + message.getPort());
                 return client;
             }
         }

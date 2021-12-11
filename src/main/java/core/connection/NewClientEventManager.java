@@ -33,8 +33,8 @@ public class NewClientEventManager extends EventManager {
     private void listenForClientConnections() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
         System.out.println("New client with IP: " + clientSocket.getInetAddress() + ", PORT: " + clientSocket.getPort());
-        Message payload = new Message(this.createConnectionMessage().toJson(), clientSocket);
-        Event event = new Event(payload);
+        Message message = new Message(this.createConnectionMessage().toJson(), clientSocket);
+        Event event = new Event(message);
         this.notify(event);
     }
 
