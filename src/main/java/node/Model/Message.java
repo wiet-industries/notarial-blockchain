@@ -29,10 +29,11 @@ public class Message {
     }
 
     public List<Peer> parsePeerList() {
+        List<Peer> peers = new LinkedList<>();
         if(content.getAsJsonArray().size() > 0) {
-            return Arrays.asList(new Gson().fromJson(content, Peer[].class));
+            peers = Arrays.asList(new Gson().fromJson(content, Peer[].class));
         }
-        return new LinkedList<>();
+        return peers;
     }
 
     public Peer parsePeerInfo() {
