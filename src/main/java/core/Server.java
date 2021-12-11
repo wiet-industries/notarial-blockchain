@@ -45,10 +45,10 @@ public class Server implements EventListener {
 
     @Override
     public void update(Event event) {
-        Message data = event.getPayload();
-        MessageContent payloadMessage = data.getMessageContent();
-        this.setProperStrategy(payloadMessage.getMessageType());
-        this.serverStrategyContext.execute(data, this.clientList, this);
+        Message message = event.getPayload();
+        MessageContent messageContent = message.getMessageContent();
+        this.setProperStrategy(messageContent.getMessageType());
+        this.serverStrategyContext.execute(message, this.clientList, this);
     }
 
 

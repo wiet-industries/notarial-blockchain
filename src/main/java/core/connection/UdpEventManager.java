@@ -29,8 +29,8 @@ public class UdpEventManager extends EventManager {
         DatagramPacket receivedDatagram = new DatagramPacket(new byte[1024], 1024);
         datagramSocket.receive(receivedDatagram);
         System.out.println("Received upd packet from: " + receivedDatagram.getAddress() + ":" + receivedDatagram.getPort() + " with data: \n" + new String(receivedDatagram.getData()));
-        Message payload = this.createPayload(receivedDatagram);
-        Event event = this.createEvent(payload);
+        Message message = this.createPayload(receivedDatagram);
+        Event event = this.createEvent(message);
         this.notify(event);
     }
 

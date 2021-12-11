@@ -1,13 +1,13 @@
 package core.models;
 
 public class Event {
-    private final Message payload;
+    private final Message message;
 
-    public Event(Message payload) {
-        this.payload = payload;
+    public Event(Message message) {
+        this.message = message;
     }
 
     public Message getPayload() {
-        return this.payload;
+        return this.message;
     }
 }

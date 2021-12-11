@@ -2,6 +2,8 @@ package node;
 
 
 import node.Model.Config;
+import org.springframework.boot.SpringApplication;
+import rest.RestApplication;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -10,8 +12,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
-
+        SpringApplication.run(RestApplication.class, args);
         try {
             Node node = new Node(Config.TCP_PORT, Config.UDP_PORT, InetAddress.getByName(Config.IP));
             node.startNode();
@@ -24,8 +25,6 @@ public class Main {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-
-
     }
 
 

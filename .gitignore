@@ -10,4 +10,6 @@
 /target
 /.idea
 /lib
-
+/frontend/notarial-blockchain-ui/node_modules
+/frontend/node_modules
+/frontend/notarial-blockchain-ui/package-lock.json

@@ -67,7 +67,6 @@ public class Node implements EventListener {
         }
         catch(JsonSyntaxException e) {
             System.err.println("Error while parsing message content");
-            e.printStackTrace();
             return;
         }
 
