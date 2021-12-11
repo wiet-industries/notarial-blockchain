@@ -2,6 +2,7 @@ package node;
 
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import node.Listeners.TcpListener;
 import node.Listeners.UdpListener;
 import node.Model.Event;
@@ -60,14 +61,23 @@ public class Node implements EventListener {
 
     @Override
     public void update(Event event) {
-        Message message = new Gson().fromJson(new String(event.getData()), Message.class);
+        Message message;
+        try {
+            message = new Gson().fromJson(new String(event.getData()), Message.class);
+        }
+        catch(JsonSyntaxException e) {
+            System.err.println("Error while parsing message content");
+            e.printStackTrace();
+            return;
+        }
+
         switch (message.getType()) {
             case ID:
                 //TODO add validation
                 this.ID = message.getID();
                 this.registerNode();
                 break;
-                //TODO add validation everywhere
+            //TODO add validation everywhere
             case NODE_LIST:
                 this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList(), this.ID);
                 break;

@@ -1,10 +1,9 @@
 package core;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import core.connection.EventManager;
 import core.models.Event;
-import core.models.SocketPayload;
+import core.models.Message;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -74,7 +73,7 @@ public class ClientHandler extends EventManager {
     private void listenForTcpPackets() throws IOException {
         String message = this.input.readLine();
         System.out.println("Message: " + message + "from node: " + ID);
-        SocketPayload payload = new SocketPayload(message, socket.getPort(), socket.getInetAddress(), socket);
+        Message payload = new Message(message, socket);
         Event event = new Event(payload);
         this.notify(event);
     }

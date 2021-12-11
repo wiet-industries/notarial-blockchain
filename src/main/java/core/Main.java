@@ -1,7 +1,5 @@
 package core;
 
-import com.google.gson.Gson;
-import core.models.PayloadMessage;
 import core.utils.Config;
 
 import java.io.IOException;

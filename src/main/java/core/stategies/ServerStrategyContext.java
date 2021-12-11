@@ -2,7 +2,7 @@ package core.stategies;
 
 import core.ClientHandler;
 import core.Server;
-import core.models.SocketPayload;
+import core.models.Message;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class ServerStrategyContext {
         this.strategy = strategy;
     }
 
-    public void execute(SocketPayload socketPayload, List<ClientHandler> clientList, Server server) {
+    public void execute(Message socketPayload, List<ClientHandler> clientList, Server server) {
         ClientHandler client = this.strategy.processAuthor(socketPayload, clientList);
         //TODO make chain of calls
         if(client == null) {

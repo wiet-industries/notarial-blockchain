@@ -18,7 +18,7 @@ public class PeerConnectionHandler {
 
     private DatagramSocket udpSocket;
 
-    PeerConnectionHandler(DatagramSocket udpSocket) {
+    public PeerConnectionHandler(DatagramSocket udpSocket) {
         this.udpSocket = udpSocket;
     }
 

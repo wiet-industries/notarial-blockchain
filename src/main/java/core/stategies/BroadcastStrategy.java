@@ -3,8 +3,8 @@ package core.stategies;
 import com.google.gson.JsonArray;
 import core.*;
 import core.models.MessageType;
-import core.models.PayloadMessage;
-import core.models.SocketPayload;
+import core.models.MessageContent;
+import core.models.Message;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -13,9 +13,9 @@ import java.util.List;
 
 public class BroadcastStrategy implements ServerStrategy {
     @Override
-    public ClientHandler processAuthor(SocketPayload socketPayload, List<ClientHandler> clientList) {
-        PayloadMessage payloadMessage = socketPayload.getPayloadMessage();
-        int ID = payloadMessage.getID();
+    public ClientHandler processAuthor(Message socketPayload, List<ClientHandler> clientList) {
+        MessageContent message = socketPayload.getMessageContent();
+        int ID = message.getID();
 
         System.out.println("Broadcast from: " + ID);
         for (ClientHandler client : clientList) {
@@ -36,7 +36,7 @@ public class BroadcastStrategy implements ServerStrategy {
                 addresses.add(c.getClientConnectionDataAsJson());
             }
         }
-        PayloadMessage message = new PayloadMessage(MessageType.NODE_LIST, addresses, client.getID());
+        MessageContent message = new MessageContent(MessageType.NODE_LIST, addresses, client.getID());
         BufferedOutputStream output = client.getOutput();
         try {
             output.write(message.toJson().getBytes(StandardCharsets.UTF_8));
@@ -51,7 +51,7 @@ public class BroadcastStrategy implements ServerStrategy {
     public void respondToOthers(ClientHandler client, List<ClientHandler> clientList) {
         for (ClientHandler c : clientList) {
             if (c != null && !c.equals(client)) {
-                PayloadMessage response = new PayloadMessage(MessageType.OPEN_REQUEST, client.getClientConnectionDataAsJson(), c.getID());
+                MessageContent response = new MessageContent(MessageType.OPEN_REQUEST, client.getClientConnectionDataAsJson(), c.getID());
                 BufferedOutputStream output = c.getOutput();
                   try {
                     output.write(response.toJson().getBytes(StandardCharsets.UTF_8));

@@ -4,6 +4,8 @@ package node.Model;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -27,7 +29,10 @@ public class Message {
     }
 
     public List<Peer> parsePeerList() {
-        return new Gson().fromJson(content, PeerList.class).getPeerList();
+        if(content.getAsJsonArray().size() > 0) {
+            return Arrays.asList(new Gson().fromJson(content, Peer[].class));
+        }
+        return new LinkedList<>();
     }
 
     public Peer parsePeerInfo() {

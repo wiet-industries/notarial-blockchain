@@ -1,12 +1,11 @@
 package core.stategies;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import core.ClientHandler;
 import core.Server;
 import core.models.MessageType;
-import core.models.PayloadMessage;
-import core.models.SocketPayload;
+import core.models.MessageContent;
+import core.models.Message;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class ConnectStrategy implements ServerStrategy {
     @Override
-    public ClientHandler processAuthor(SocketPayload socketPayload, List<ClientHandler> clientList) {
+    public ClientHandler processAuthor(Message socketPayload, List<ClientHandler> clientList) {
         System.out.println("Client connected. IP: " + socketPayload.getAddress().toString() + ", PORT_TCP: " + socketPayload.getPort());
         try {
             ClientHandler client = new ClientHandler(socketPayload.getSocket(), clientList.size() + 1, clientList);
@@ -30,7 +29,7 @@ public class ConnectStrategy implements ServerStrategy {
     @Override
     public void respondToAuthor(ClientHandler client, List<ClientHandler> clientList) {
         try {
-            PayloadMessage response = new PayloadMessage(MessageType.ID, new Gson().toJsonTree(Integer.toString(client.getID())), client.getID());
+            MessageContent response = new MessageContent(MessageType.ID, new Gson().toJsonTree(Integer.toString(client.getID())), client.getID());
             BufferedOutputStream output = client.getOutput();
             output.write(response.toJson().getBytes(StandardCharsets.UTF_8));
             output.write('\n');

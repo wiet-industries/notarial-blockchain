@@ -5,8 +5,8 @@ import core.connection.UdpEventManager;
 import core.utils.EventListener;
 import core.models.Event;
 import core.models.MessageType;
-import core.models.PayloadMessage;
-import core.models.SocketPayload;
+import core.models.MessageContent;
+import core.models.Message;
 import core.stategies.BroadcastStrategy;
 import core.stategies.ConnectStrategy;
 import core.stategies.RegisterStrategy;
@@ -48,8 +48,8 @@ public class Server implements EventListener {
 
     @Override
     public void update(Event event) {
-        SocketPayload data = event.getPayload();
-        PayloadMessage payloadMessage = data.getPayloadMessage();
+        Message data = event.getPayload();
+        MessageContent payloadMessage = data.getMessageContent();
         this.setProperStrategy(payloadMessage.getMessageType());
         this.serverStrategyContext.execute(data, this.clientList, this);
     }

@@ -2,16 +2,16 @@ package core.stategies;
 
 import core.ClientHandler;
 import core.Server;
-import core.models.PayloadMessage;
-import core.models.SocketPayload;
+import core.models.MessageContent;
+import core.models.Message;
 
 import java.util.List;
 
 public class RegisterStrategy implements ServerStrategy {
 
     @Override
-    public ClientHandler processAuthor(SocketPayload socketPayload, List<ClientHandler> clientList) {
-        PayloadMessage payloadMessage = socketPayload.getPayloadMessage();
+    public ClientHandler processAuthor(Message socketPayload, List<ClientHandler> clientList) {
+        MessageContent payloadMessage = socketPayload.getMessageContent();
         // TODO change to GSON
         int ID = payloadMessage.getID();
         for (ClientHandler client : clientList) {
