@@ -1,5 +1,17 @@
 package core;
 
+import core.connection.NewClientEventManager;
+import core.connection.UdpEventManager;
+import core.utils.EventListener;
+import core.models.Event;
+import core.models.MessageType;
+import core.models.MessageContent;
+import core.models.Message;
+import core.stategies.BroadcastStrategy;
+import core.stategies.ConnectStrategy;
+import core.stategies.RegisterStrategy;
+import core.stategies.ServerStrategyContext;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +23,7 @@ public class Server implements EventListener {
     private NewClientEventManager tcpListener;
     private UdpEventManager udpEventManager;
     private ServerStrategyContext serverStrategyContext;
-    private List<Client> clientList = Collections.synchronizedList(new ArrayList<>());
+    private List<ClientHandler> clientList = Collections.synchronizedList(new ArrayList<>());
 
     public Server(int tcpPort, int udpPort) throws IOException {
         this.udpEventManager = new UdpEventManager(udpPort);
@@ -36,10 +48,10 @@ public class Server implements EventListener {
 
     @Override
     public void update(Event event) {
-        SocketPayload data = event.getPayload();
-        PayloadMessage payloadMessage = data.getPayloadMessage();
-        this.setProperStrategy(payloadMessage.getMessageType());
-        this.serverStrategyContext.execute(data, this.clientList);
+        Message message = event.getPayload();
+        MessageContent messageContent = message.getMessageContent();
+        this.setProperStrategy(messageContent.getMessageType());
+        this.serverStrategyContext.execute(message, this.clientList, this);
     }
 
 
@@ -50,7 +62,6 @@ public class Server implements EventListener {
                 break;
             case REGISTER:
                 this.serverStrategyContext.setStrategy(new RegisterStrategy());
-                this.clientList.get(clientList.size() - 1).subscribe(this); //TODO change this without destroying design pattern
                 break;
             case BROADCAST:
                 this.serverStrategyContext.setStrategy(new BroadcastStrategy());

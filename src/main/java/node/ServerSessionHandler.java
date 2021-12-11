@@ -1,5 +1,7 @@
 package node;
 
+import com.google.gson.Gson;
+
 import node.Model.Message;
 import node.Model.MessageType;
 
@@ -28,7 +30,7 @@ public class ServerSessionHandler {
     }
 
     void registerNode(int id) {
-        Message message = new Message(MessageType.REGISTER, Integer.toString(id), id);
+        Message message = new Message(MessageType.REGISTER, new Gson().toJsonTree(Integer.toString(id)), id);
         byte[] data = message.getData();
         DatagramPacket datagramPacket = new DatagramPacket(data, data.length, serverAddress, udpPort);
         try {
@@ -41,8 +43,7 @@ public class ServerSessionHandler {
     }
 
     void requestSession(int id) {
-        Message message = new Message(MessageType.BROADCAST, Integer.toString(id), id);
-        // BROADCAST~12~
+        Message message = new Message(MessageType.BROADCAST, new Gson().toJsonTree(Integer.toString(id)), id);
         try {
             BufferedOutputStream tcpOutput = new BufferedOutputStream(tcpSocket.getOutputStream());
             tcpOutput.write(message.getData());

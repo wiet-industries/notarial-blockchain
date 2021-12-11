@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class EventManager extends Thread {
-    List<EventListener> listeners = new LinkedList<>();
+    private final List<EventListener> listeners = new LinkedList<>();
 
     public void subscribe(EventListener eventListener) {
         this.listeners.add(eventListener);

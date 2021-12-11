@@ -1,6 +1,10 @@
-package core;
+package core.connection;
 
-import org.json.JSONObject;
+import core.models.Event;
+import core.models.MessageType;
+import core.models.MessageContent;
+import core.models.Message;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -19,23 +23,24 @@ public class NewClientEventManager extends EventManager {
     public void run() {
         while (true) {
             try {
-                this.listenForTcpPackets();
+                this.listenForClientConnections();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void listenForTcpPackets() throws IOException {
+    private void listenForClientConnections() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
-        JSONObject jo = new JSONObject();
-        jo.put("id", "0");
-        jo.put("type", "CONNECT");
-        jo.put("content","0");
         System.out.println("New client with IP: " + clientSocket.getInetAddress() + ", PORT: " + clientSocket.getPort());
-        SocketPayload payload = new SocketPayload(jo.toString(), clientSocket.getPort(), clientSocket.getInetAddress(), clientSocket);
-        Event event = new Event(payload);
+        Message message = new Message(this.createConnectionMessage().toJson(), clientSocket);
+        Event event = new Event(message);
         this.notify(event);
+    }
+
+    private MessageContent createConnectionMessage() {
+        MessageContent messageContent = new MessageContent(MessageType.CONNECT, new JsonObject());
+        return messageContent;
     }
 
 }
