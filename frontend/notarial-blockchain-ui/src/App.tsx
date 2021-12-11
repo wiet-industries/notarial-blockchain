@@ -21,6 +21,7 @@ const App = () => {
     setLoading(true);
     setMessage((prevState) => ["Connecting", ...prevState.slice(0, 6)]);
     axios
+    //TODO implement url builder
       .post("http://localhost:8080/node/connect")
       .then((response) => {
         if (response.status === 200 && response.data.message === "OK") {
