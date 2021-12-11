@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/node")
 public class NodeController {
 
+    //TODO ADD VALIDATION WHILE WORKING ON SERVER
 
     @Autowired
     private Node node;
@@ -45,6 +46,7 @@ public class NodeController {
 
     @RequestMapping(value = "/disconnect", method = RequestMethod.DELETE)
     public String disconnectHandler() {
+        this.node.disconnect();
         JsonObject response = new JsonObject();
         response.addProperty("message", "OK");
         return response.toString();

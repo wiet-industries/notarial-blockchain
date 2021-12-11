@@ -75,6 +75,10 @@ public class Node implements EventListener {
         serverSessionHandler.requestSession(ID);
     }
 
+    public void disconnect() {
+        serverSessionHandler.disconnect(ID);
+    }
+
     @Override
     public void update(Event event) {
         Message message;
