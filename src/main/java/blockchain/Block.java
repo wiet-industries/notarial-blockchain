@@ -13,7 +13,7 @@ public class Block {
     private Date creationDate;
 
     //TODO Make adapter
-    private  Gson parser = new Gson();
+    private final Gson parser = new Gson();
 
 
     public String getPreviousHash() {
@@ -32,12 +32,12 @@ public class Block {
         this.hash = hash;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
     public Date getCreationDate() {
         return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public List<Transaction> getTransactions() {
@@ -50,5 +50,15 @@ public class Block {
 
     public String transactionsToJson() {
         return this.parser.toJson(this.transactions);
+    }
+
+    @Override
+    public String toString() {
+        return "Block{" +
+                "transactions=" + transactions +
+                ", hash='" + hash + '\'' +
+                ", previousHash='" + previousHash + '\'' +
+                ", creationDate=" + creationDate +
+                '}';
     }
 }

@@ -1,11 +1,13 @@
 package rest;
 
+import blockchain.Transaction;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import node.Node;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -52,8 +54,13 @@ public class NodeController {
         return response.toString();
     }
 
-    @RequestMapping(value = "/tmp", method = RequestMethod.POST)
-    public String tmp(@RequestParam(value = "name") String name) {
-        return name;
+    @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)
+    public String addTransaction(@RequestBody String transactionJson) {
+        Transaction transactionToAdd = new Gson().fromJson(transactionJson, Transaction.class);
+        this.node.addTransactionToMemPool(transactionToAdd);
+//        System.out.printf(transactionToAdd.toString() + "\n");
+        JsonObject response = new JsonObject();
+        response.addProperty("message", "OK");
+        return response.toString();
     }
 }

@@ -1,6 +1,7 @@
 package node;
 
 
+import blockchain.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import node.Listeners.TcpListener;
@@ -12,11 +13,16 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.List;
 
 public class Node implements EventListener {
     private final int tcpPort;
     private final int udpPort;
     private final InetAddress serverAddress;
+    private final Miner miner;
+    private final MemPool memPool;
+    private Blockchain blockchain;
     private UdpListener udpListener;
     private TcpListener tcpListener;
     private ServerSessionHandler serverSessionHandler;
@@ -29,6 +35,12 @@ public class Node implements EventListener {
         this.tcpPort = tcpPort;
         this.udpPort = udpPort;
         this.serverAddress = serverAddress;
+        //TODO this should work with DATABASE
+        this.blockchain = new Blockchain();
+        this.blockchain.subscribe(this);
+        this.memPool = new MemPool();
+        this.miner = new Miner(this.memPool, this.blockchain);
+        this.miner.start();
     }
 
     public int getTcpPort() {
@@ -53,18 +65,16 @@ public class Node implements EventListener {
             udpListener.subscribe(this);
             this.serverSessionHandler = new ServerSessionHandler(tcpSocket, udpSocket, serverAddress, udpPort);
             this.peerConnectionHandler = new PeerConnectionHandler(udpSocket);
-            //TODO start miner and create memPool
-            //TODO handle adding transaction to memPool
         } catch (IOException e) {
             System.out.println("Error while creating sockets: " + e.getMessage());
             e.printStackTrace();
         }
-
     }
 
     public void startNode() {
-        tcpListener.start();
-        udpListener.start();
+        this.tcpListener.start();
+        this.udpListener.start();
+//        this.miner.start();
     }
 
     public void registerNode() {
@@ -97,13 +107,50 @@ public class Node implements EventListener {
                 break;
             //TODO add validation everywhere
             case NODE_LIST:
-                this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList(), this.ID);
+                this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList(), this.ID, this.blockchain.getBlockchainAsJsonElement());
                 break;
             case OPEN_REQUEST:
                 this.peerConnectionHandler.openPort(message.parsePeerInfo(), this.ID);
                 break;
-            case DATA:
+            case SESSION_DATA:
                 System.out.println("RECEIVED DATA:" + new String(message.getData()));
+            case BLOCKCHAIN_DATA:
+                try {
+                    Blockchain blockchainFromOtherNode = new Gson().fromJson(Arrays.toString(message.getData()), Blockchain.class);
+                    this.handleBlockchainFromOtherNode(blockchainFromOtherNode);
+                } catch (Exception e) {
+                    System.err.println("Error while trying to parse received message to Transaction.\n" + e.getMessage());
+                }
+                System.out.println("RECEIVED DATA:" + new String(message.getData()));
+            case REQUEST_BROADCAST:
+                this.requestBroadcast();
         }
+    }
+
+    public void addTransactionToMemPool(Transaction transaction) {
+        this.memPool.addTransaction(transaction);
+        // TODO does it work?
+        synchronized (this.miner) {
+            this.miner.notify();
+        }
+    }
+
+    private void handleBlockchainFromOtherNode(Blockchain blockchain) {
+        //TODO handle it
+        if (blockchain.getBlockchain().size() < this.blockchain.getBlockchain().size()) {
+            return;
+        }
+        List<Block> blockList = blockchain.getBlockchain();
+        Block current = blockList.get(blockList.size() - 1);
+        for (int i = blockList.size() - 2; i >= 0; i--) {
+            Block b = blockList.get(i);
+            if (b.getHash().equals(current.getPreviousHash())) {
+                current = b;
+            } else {
+                throw new RuntimeException("Blockchain Invalid");
+            }
+        }
+        this.blockchain = blockchain;
+        //sprawdzić poprawność otrzymanego i wybrać dłuższy
     }
 }
