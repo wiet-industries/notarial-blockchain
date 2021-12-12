@@ -9,6 +9,8 @@ import node.Model.Message;
 import node.Model.MessageType;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Blockchain {
@@ -43,9 +45,17 @@ public class Blockchain {
 
     private void createFirstBlock() {
         // TODO add parameters to first block
+        // TODO no to jest TAK OBRZYGANE że to ejst przesada
+        List<Transaction> transactions = new LinkedList<>();
+        Transaction transaction = new Transaction();
+        transaction.data = "1";
+        transaction.hash = "1";
+        transactions.add(transaction);
         Block gemin = new Block();
         gemin.setHash("1");
         gemin.setPreviousHash(null);
+        gemin.setCreationDate(new Date());
+        gemin.setTransactions(transactions);
         this.blockchain.add(gemin);
     }
 

@@ -56,6 +56,7 @@ public class NodeController {
 
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)
     public String addTransaction(@RequestBody String transactionJson) {
+        //TODO add body validation
         Transaction transactionToAdd = new Gson().fromJson(transactionJson, Transaction.class);
         this.node.addTransactionToMemPool(transactionToAdd);
 //        System.out.printf(transactionToAdd.toString() + "\n");

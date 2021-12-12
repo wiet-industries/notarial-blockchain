@@ -93,9 +93,9 @@ public class Node implements EventListener {
     public void update(Event event) {
         Message message;
         try {
-            message = new Gson().fromJson(new String(event.getData()).split("\n")[0], Message.class);
+            message = new Gson().fromJson(new String(event.getData()), Message.class);
         } catch (JsonSyntaxException e) {
-            System.out.println(new String(event.getData()).split("\n")[0]);
+            System.out.println(new String(event.getData()));
             System.err.println("Error while parsing message content");
             return;
         }
@@ -117,7 +117,8 @@ public class Node implements EventListener {
                 break;
             case BLOCKCHAIN_DATA:
                 try {
-                    List<Block> blockchainFromOtherNode = Arrays.asList(new Gson().fromJson(message.getData().toString(), Block[].class));
+                    System.out.println("Elo" + message.getContent());
+                    List<Block> blockchainFromOtherNode = Arrays.asList(new Gson().fromJson(message.getContent(), Block[].class));
                     this.handleBlockchainFromOtherNode(blockchainFromOtherNode);
                 } catch (Exception e) {
                     System.err.println("Error while trying to parse received message to Transaction.\n" + e.getMessage());

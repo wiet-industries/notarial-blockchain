@@ -6,6 +6,7 @@ import node.Model.Event;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.Arrays;
 
 public class UdpListener extends EventManager {
     DatagramSocket socket;
@@ -28,8 +29,9 @@ public class UdpListener extends EventManager {
         DatagramPacket datagram = new DatagramPacket(new byte[1024], 1024);
         while (true) {
             socket.receive(datagram);
-            System.out.println("Received upd packet from: " + datagram.getAddress() + ":" + datagram.getPort() + " with data: " + new String(datagram.getData()));
-            Event event = new Event(datagram.getData());
+//            System.out.println("Received upd packet from: " + datagram.getAddress() + ":" + datagram.getPort() + " with data: " + new String(datagram.getData()));
+            System.out.println(new String(Arrays.copyOf(datagram.getData(), datagram.getLength())));
+            Event event = new Event(Arrays.copyOf(datagram.getData(), datagram.getLength()));
             this.notify(event);
         }
     }
