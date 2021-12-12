@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Blockchain {
     //TODO consider Thread safe queue and add DataBase
-    private final List<Block> blockchain = new ArrayList<>();
+    public List<Block> blockchain = new ArrayList<>();
     //TODO this eventListener maybe je**** method
     private EventListener listener;
 
@@ -23,6 +23,10 @@ public class Blockchain {
 
     public List<Block> getBlockchain() {
         return blockchain;
+    }
+
+    public void setBlockchain(List<Block> blockchain) {
+        this.blockchain = blockchain;
     }
 
     public void subscribe(EventListener eventListener) {

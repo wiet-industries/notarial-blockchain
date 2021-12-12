@@ -22,7 +22,7 @@ public class Node implements EventListener {
     private final InetAddress serverAddress;
     private final Miner miner;
     private final MemPool memPool;
-    private Blockchain blockchain;
+    private final Blockchain blockchain;
     private UdpListener udpListener;
     private TcpListener tcpListener;
     private ServerSessionHandler serverSessionHandler;
@@ -93,12 +93,12 @@ public class Node implements EventListener {
     public void update(Event event) {
         Message message;
         try {
-            message = new Gson().fromJson(new String(event.getData()), Message.class);
+            message = new Gson().fromJson(new String(event.getData()).split("\n")[0], Message.class);
         } catch (JsonSyntaxException e) {
+            System.out.println(new String(event.getData()).split("\n")[0]);
             System.err.println("Error while parsing message content");
             return;
         }
-
         switch (message.getType()) {
             case ID:
                 //TODO add validation
@@ -114,16 +114,19 @@ public class Node implements EventListener {
                 break;
             case SESSION_DATA:
                 System.out.println("RECEIVED DATA:" + new String(message.getData()));
+                break;
             case BLOCKCHAIN_DATA:
                 try {
-                    Blockchain blockchainFromOtherNode = new Gson().fromJson(Arrays.toString(message.getData()), Blockchain.class);
+                    List<Block> blockchainFromOtherNode = Arrays.asList(new Gson().fromJson(message.getData().toString(), Block[].class));
                     this.handleBlockchainFromOtherNode(blockchainFromOtherNode);
                 } catch (Exception e) {
                     System.err.println("Error while trying to parse received message to Transaction.\n" + e.getMessage());
                 }
                 System.out.println("RECEIVED DATA:" + new String(message.getData()));
+                break;
             case REQUEST_BROADCAST:
                 this.requestBroadcast();
+                break;
         }
     }
 
@@ -135,22 +138,22 @@ public class Node implements EventListener {
         }
     }
 
-    private void handleBlockchainFromOtherNode(Blockchain blockchain) {
+    private void handleBlockchainFromOtherNode(List<Block> blockchain) {
         //TODO handle it
-        if (blockchain.getBlockchain().size() < this.blockchain.getBlockchain().size()) {
+        if (blockchain.size() < this.blockchain.getBlockchain().size()) {
             return;
         }
-        List<Block> blockList = blockchain.getBlockchain();
-        Block current = blockList.get(blockList.size() - 1);
-        for (int i = blockList.size() - 2; i >= 0; i--) {
-            Block b = blockList.get(i);
+        Block current = blockchain.get(blockchain.size() - 1);
+        for (int i = blockchain.size() - 2; i >= 0; i--) {
+            Block b = blockchain.get(i);
             if (b.getHash().equals(current.getPreviousHash())) {
                 current = b;
             } else {
                 throw new RuntimeException("Blockchain Invalid");
             }
         }
-        this.blockchain = blockchain;
+        this.blockchain.setBlockchain(blockchain);
+        System.out.println(this.blockchain.getBlockchain());
         //sprawdzić poprawność otrzymanego i wybrać dłuższy
     }
 }

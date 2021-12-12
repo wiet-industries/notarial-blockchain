@@ -7,13 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Block {
-    private List<Transaction> transactions = new LinkedList<>();
-    private String hash;
-    private String previousHash;
-    private Date creationDate;
-
-    //TODO Make adapter
-    private final Gson parser = new Gson();
+    // TODO this should not be public but is due to Gson casting
+    public List<Transaction> transactions = new LinkedList<>();
+    public String hash;
+    public String previousHash;
+    public Date creationDate;
 
 
     public String getPreviousHash() {
@@ -49,7 +47,7 @@ public class Block {
     }
 
     public String transactionsToJson() {
-        return this.parser.toJson(this.transactions);
+        return new Gson().toJson(this.transactions);
     }
 
     @Override
