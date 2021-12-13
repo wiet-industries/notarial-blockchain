@@ -4,6 +4,9 @@ Infrastructure to store notarial data based on blockchain
 ## Overview
 Application infrastructure is based on web of `Nodes`. Each Node shares data with others using P2P model (NAT Hole is used). To establish connection between nodes each node send requests to `Core` with public IP, so can be reachable for any Node in Web. Node is a service which runs it's own `REST` and open a `frontend` web application. Application provides sets of operation to controll node, establish connection, add transaction to blockchain, see blocks etc. and use REST to connect with Node service which is responsible for connection and sharing data. Blockchain data is stored localy in database (still developing). Blockchain architecture is classic blockchai-like app.
 
+![image](https://user-images.githubusercontent.com/30171233/145886543-ded726b2-d6fd-46f2-a1b2-15baa2ddee06.png)
+
+
 ## Authors
 - Adrian Ryt (adrianryt3@gmail.com)
 - Kamil Kurowski (kkurowski.kk@gmail.com)
