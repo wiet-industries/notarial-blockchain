@@ -170,6 +170,20 @@ Design pattern used: <b>Builder and Factory</b> <br>
 
 ## REST
 
+Server-like App implemented using Spring technology, runned by node service. Rest has direct access to Node and is allowed to perform actions on it.
+
+Provides endpoints to allow controll app from frontend level.
+
+### Endpoints
+Documtation so far, endpoints as well as methods might change in future :) 
+- `/node/connect` - [POST] - handle connection to core 
+- `/node/register` - [POST] - handle node registration on core service
+- `/node/broadcast` - [POST] - propagate data to other nodes (it is possible to force this action, but Node will share data by itself)
+- `/node/disconnect` - [DELETE] - disconnect from core and stop node service
+- `/node/add/transaction` - [POST] - add transaction to node's mempool
+- `/node/company/info/{id}` - [GET] - fetch data about company with given id
+
+
 ## Frontend
 
 
