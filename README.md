@@ -28,6 +28,8 @@ Rendezvous server which manages nodes connection
 
 Core is a virtual private server with public IP, is listening on both TCP and UDP ports.
 
+![image](https://user-images.githubusercontent.com/30171233/146049650-fed3be71-1bf9-4b75-8acf-44dd469dbc6f.png)
+
 
 Comunication with Node:
 
