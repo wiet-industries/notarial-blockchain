@@ -2,7 +2,7 @@
 Infrastructure to store notarial data based on blockchain
 
 ## Overview
-Application infrastructure is based on web of `Nodes`. Each Node shares data with others using P2P model (NAT Hole is used). To establish connection between nodes each node send requests to `Core` with public IP, so can be reachable for any Node in Web. Node is a service which runs it's own `REST` and open a `frontend` web application. Application provides sets of operation to controll node, establish connection, add transaction to blockchain, see blocks etc. and use REST to connect with Node service which is responsible for connection and sharing data. Blockchain data is stored localy in database (still developing). Blockchain architecture is classic blockchai-like app.
+Application infrastructure is based on web of `Nodes`. Each Node shares data with others using P2P model (NAT Hole punching is used). To establish connections between nodes each node sends requests to `Core` with public IP, so it can be reachable from any Node in Web. Node is a service which runs it's own `REST` and open a `frontend` web application. Application provides set of operations to controll node, establish connection, add transaction to blockchain, see blocks etc. and use REST to connect with Node service which is responsible for connection and sharing data. Blockchain data is stored localy in database (still developing). Blockchain architecture is classic blockchain-like app.
 
 ![image](https://user-images.githubusercontent.com/30171233/145886543-ded726b2-d6fd-46f2-a1b2-15baa2ddee06.png)
 
@@ -23,7 +23,7 @@ Application infrastructure is based on web of `Nodes`. Each Node shares data wit
 
 ## Core
 
-Rendezvous server which manage nodes connection
+Rendezvous server which manages nodes connection
 
 
 Core is a virtual private server with public IP, is listening on both TCP and UDP ports.
@@ -45,16 +45,6 @@ single blockchain node
 
 Node is listening on both TCP and UDP ports.
 
-
-
-Comunication with Server:
-
-![image](https://user-images.githubusercontent.com/30171233/143587283-26e3750c-433a-442d-ab97-bc88fcca1ef1.png)
-
-
-Sending to server request to broadcast data:
-
-![image](https://user-images.githubusercontent.com/30171233/143587375-0dec4f69-e80d-435a-b8f4-97b3042c1ae2.png)
 
 
 Connection with different node:
@@ -83,11 +73,11 @@ Every company will be represented by following values:
     -Voting results
 We need to be able to calculate/update those values
 depending on what actions company will make.
-For this every company action will be held as a transaction.
+For this, every company action will be held as a transaction.
 Every transaction will have required information and will trigger
 proper action on company.
 
-You can read more about blockchain transaction at global ReadMe
+You can read more about blockchain transaction in global ReadMe
 
 <h3> Transactions </h3>
 Transaction is an object representing changes at company.
@@ -166,7 +156,7 @@ Design pattern used: <b>Factory</b> <br>
 
 Server-like App implemented using Spring technology, runned by node service. Rest has direct access to Node and is allowed to perform actions on it.
 
-Provides endpoints to allow controll app from frontend level.
+Provides endpoints allowing to controll app from frontend level.
 
 ### Endpoints
 Documtation so far, endpoints as well as methods might change in future :) 
