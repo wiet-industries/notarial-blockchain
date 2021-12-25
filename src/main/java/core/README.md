@@ -28,10 +28,27 @@ Considering we have a lot of different types of message, such as: CONNECTION, RE
 we had to use strategy pattern for managing server actions. Server is just in charge of selecting proper strategy according to what type of message it receives.
 StrategyContext is responsible for proper strategy execution, which was chosen by the server. For each message type we implemented separate strategy.
 
+## Strategies
+
+### Connect Strategy
+
+As soon as server gets the new connection notification, we create new client handler with unique ID and respond to author with the ID.
+
+### Register Strategy
+
+If client want to be listened for next requests/messages, he sends a Register message containing his ID provided in the previous step. This way server knows that this client is certain that he's going to be sending more messages under the given ID number.
+
+### Broadcast Strategy
+
+This strategy is used whenever any given client wants to broadcast some message to other nodes. It takes received ID of node and informs others, that this particular node wants to communicate with them. The author of broadcast is provided with list of addresses of other nodes, and then they initialize the NAT hole with each other.
+
+### Disconnect Strategy
+
+This is as simple as it sounds. If node is certain he's not going to be sending more messages, he just sends a message that indicates that. We are also using this strategy as node breaks connection with us without even notifying us.
+
 ## CommunicationDTO
 
 We wanted to standardize the way that each node communicates with each other, as well as with the server. Every message received or sent has given data model. Here is an example one:
-
 ```JSON
 {
   "messageType": "OPEN_REQUEST",
