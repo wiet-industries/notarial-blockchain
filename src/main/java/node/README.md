@@ -1,4 +1,4 @@
-#Node
+# Node
 The node is used to communicate with other users as well as to handle server communication. Node is run on user's machine and it communicates with frontend using REST API and communicates with server and other nodes using TCP/UDP sockets.
 
 The Diagram below shows the whole communication process.
@@ -18,7 +18,7 @@ Our event managers (tcp/udp listeners) work independent of each other and each o
 ##Server connection
 Server connection is handled using ServerSessionHandler class; the class manages registering node on the server and requesting a broadcast to other nodes.
 
-###Register message 
+### Register message 
 ```JSON
 {
   "messageType": "REGISTER",
@@ -27,7 +27,7 @@ Server connection is handled using ServerSessionHandler class; the class manages
 }
 ```
 
-###Request broadcast message
+### Request broadcast message
 ```JSON
 {
   "messageType": "BROADCAST",
@@ -36,10 +36,10 @@ Server connection is handled using ServerSessionHandler class; the class manages
 }
 ```
 
-##Peers connection
+## Peers connection
 Peer connection is handled using PeerConnectionHandler class, the class manages broadcasting data to other peers as well as opening session for other peers to send data to us.
 
-###Send data message
+### Send data message
 ```JSON
 {
   "messageType": "DATA",
@@ -48,7 +48,7 @@ Peer connection is handled using PeerConnectionHandler class, the class manages 
 }
 ```
 
-###Open session message
+### Open session message
 ```JSON
 {
   "messageType": "SESSION_DATA",
