@@ -15,7 +15,7 @@ We decided to use observer pattern as we need to notify the Node object
 The node takes role of the observer which subscribes to subjects - tcp or udp listeners.
 Our event managers (tcp/udp listeners) work independent of each other and each of them work on a different thread.
 
-##Server connection
+## Server connection
 Server connection is handled using ServerSessionHandler class; the class manages registering node on the server and requesting a broadcast to other nodes.
 
 ### Register message 
