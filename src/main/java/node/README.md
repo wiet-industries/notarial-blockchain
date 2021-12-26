@@ -1,5 +1,5 @@
 # Node
-The node is used to communicate with other users as well as to handle server communication. Node is run on user's machine and it communicates with frontend using REST API and communicates with server and other nodes using TCP/UDP sockets.
+The node is used to communicate with other users as well as to handle server communication. Node is run on user's machine and it communicates with frontend using REST API while communicating with server and other nodes using TCP/UDP sockets.
 
 The Diagram below shows the whole communication process.
 
