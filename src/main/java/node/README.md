@@ -57,5 +57,10 @@ Peer connection is handled using PeerConnectionHandler class, the class manages 
 }
 ```
 
+# Here is the UML of the whole Node package:
+
+![image](https://user-images.githubusercontent.com/37600249/147414868-a459356f-1673-4ebb-ae58-66f17c9567ae.png)
+
+
 
 
