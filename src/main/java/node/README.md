@@ -7,7 +7,7 @@ The Diagram below shows the whole communication process.
 ![image](https://user-images.githubusercontent.com/30171233/146049650-fed3be71-1bf9-4b75-8acf-44dd469dbc6f.png)
 
 
-##Used design patterns
+## Used design patterns
 
 ### Observer
 
