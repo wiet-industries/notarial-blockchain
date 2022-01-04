@@ -1,5 +1,7 @@
 ## REST API
-Rest Api implemented in Spring used handle communication between frontend and node.
+Rest Api implemented in Spring used to handle communication between frontend and Node. Rest controller has direct access to Node and is allowed to perform actions on it and also using Spring validators to validate data that comes form endpoints.
+
+Provides endpoints allowing to controll app from frontend level.
 
 
 ### Endpoints
