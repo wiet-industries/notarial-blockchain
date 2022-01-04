@@ -86,6 +86,7 @@ cash comes from Company Account(earnings) not from Company Value
 
 <h3> Implementation </h3>
 <h4>Design pattern used: <b>Factory</b></h4> <br> 
+Since every transaction extends AbstractTransaction, our Factory always return AbstractTransaction object.
 
 UML Diagram
 
