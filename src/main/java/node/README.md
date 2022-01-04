@@ -4,7 +4,7 @@ The node is used to communicate with other users as well as to handle server com
 The Diagram below shows the whole communication process.
 
 
-![image](https://user-images.githubusercontent.com/30171233/146049650-fed3be71-1bf9-4b75-8acf-44dd469dbc6f.png)
+![image](https://user-images.githubusercontent.com/37600249/148099507-21e84b61-999b-4eb1-a1a5-ee33c1be7e18.png)
 
 
 ## Used design patterns
