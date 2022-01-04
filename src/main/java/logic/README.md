@@ -84,14 +84,13 @@ cash comes from Company Account(earnings) not from Company Value
     Additional properties
     -ValueToAdd
 
-<h4> Implementation </h4>
+<h3> Implementation </h3>
+<h4>Design pattern used: <b>Factory</b></h4> <br> 
+
+UML Diagram
 
 ![image](https://user-images.githubusercontent.com/72470330/144077593-6e342cfc-b60d-4b1a-991e-b0b8af81177f.png)
 
 
-Design pattern used: <b>Builder and Factory</b> <br>
 
-<h5>Short summary of implementation</h5>
-- Every concrete transaction has own builder. <br>
-- Every concrete builder can be returned by BuilderFactory <br>
-- To create transaction we should use TransactionsDirector
+
