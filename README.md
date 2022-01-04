@@ -161,7 +161,7 @@ Design pattern used: <b>Factory</b> <br>
 
 ## REST
 
-Server-like App implemented using Spring technology, runned by node service. Rest has direct access to Node and is allowed to perform actions on it.
+Server-like App implemented using Spring technology, runned by node service. Rest has direct access to Node and is allowed to perform actions on it and also using Spring validators to validate data that comes form endpoints.
 
 Provides endpoints allowing to controll app from frontend level.
 
