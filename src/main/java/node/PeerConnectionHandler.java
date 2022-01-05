@@ -49,7 +49,7 @@ public class PeerConnectionHandler {
     }
 
     public void openPort(Peer peer, int id) {
-        Message message = new Message(MessageType.DATA, new Gson().toJsonTree("TRASH-DATA"), id);
+        Message message = new Message(MessageType.SESSION_DATA, new Gson().toJsonTree("TRASH-DATA"), id);
         byte[] data = message.getData();
         DatagramPacket datagramPacket = null;
         try {
