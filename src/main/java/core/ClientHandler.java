@@ -65,30 +65,30 @@ public class ClientHandler extends EventManager {
 
     @Override
     public void run() {
-        while (true) {
+        boolean isConnected = true;
+        while (isConnected) {
             try {
-                this.listenForClientDisconnect();
-                this.listenForTcpPackets();
+                isConnected = this.listenForTcpPackets();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void listenForClientDisconnect() throws IOException{
-        if (!this.isClientConnected()) {
-            Message message = new Message(this.createDisconnectMessage().toJson(), this.socket);
+    private boolean listenForTcpPackets() throws IOException {
+        try{
+            String data = this.input.readLine();
+            System.out.println("Message: " + data + "from node: " + ID);
+            Message message = new Message(data, socket.getInetAddress(), socket.getPort(), socket);
             Event event = new Event(message);
             this.notify(event);
+            return true;
+        } catch (Exception e) {
+            Message message = new Message(this.createDisconnectMessage().toJson(), this.socket.getInetAddress(), this.socket.getPort(), this.socket);
+            Event event = new Event(message);
+            this.notify(event);
+            return false;
         }
-    }
-
-    private void listenForTcpPackets() throws IOException {
-        String message = this.input.readLine();
-        System.out.println("Message: " + message + "from node: " + ID);
-        Message payload = new Message(message, socket);
-        Event event = new Event(payload);
-        this.notify(event);
     }
 
     public JsonObject getClientConnectionDataAsJson() {
@@ -98,8 +98,8 @@ public class ClientHandler extends EventManager {
         return clientRecord;
     }
 
-    private boolean isClientConnected() throws IOException {
-        return this.input.read() != -1;
+    private boolean isClientConnected(String message) throws IOException {
+        return message != null;
     }
 
     private MessageContent createDisconnectMessage() {

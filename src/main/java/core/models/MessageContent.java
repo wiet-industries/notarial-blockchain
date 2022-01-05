@@ -4,11 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
 public class MessageContent {
-    private static final Integer NOT_INITIALIZED_ID = null;
-
     private final MessageType type;
     private final JsonElement content;
-    private Integer ID = NOT_INITIALIZED_ID;
+    private Integer ID = null;
 
     public MessageContent(MessageType type, JsonElement content, int ID) {
         this.type = type;
