@@ -4,6 +4,9 @@ import com.google.gson.JsonObject;
 import core.connection.EventManager;
 import core.models.Event;
 import core.models.Message;
+import core.models.MessageContent;
+import core.models.MessageType;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,9 +27,10 @@ public class ClientHandler extends EventManager {
     public ClientHandler(Socket socket, int ID, List<ClientHandler> clients) throws IOException {
         this.socket = socket;
         this.ID = ID;
-        input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        output = new BufferedOutputStream(socket.getOutputStream());
+        this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        this.output = new BufferedOutputStream(socket.getOutputStream());
         this.clients = clients;
+
     }
 
     private List<ClientHandler> clients;
@@ -61,21 +65,30 @@ public class ClientHandler extends EventManager {
 
     @Override
     public void run() {
-        while (true) {
+        boolean isConnected = true;
+        while (isConnected) {
             try {
-                this.listenForTcpPackets();
+                isConnected = this.listenForTcpPackets();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void listenForTcpPackets() throws IOException {
-        String message = this.input.readLine();
-        System.out.println("Message: " + message + "from node: " + ID);
-        Message payload = new Message(message, socket);
-        Event event = new Event(payload);
-        this.notify(event);
+    private boolean listenForTcpPackets() throws IOException {
+        try{
+            String data = this.input.readLine();
+            System.out.println("Message: " + data + "from node: " + ID);
+            Message message = new Message(data, socket.getInetAddress(), socket.getPort(), socket);
+            Event event = new Event(message);
+            this.notify(event);
+            return true;
+        } catch (Exception e) {
+            Message message = new Message(this.createDisconnectMessage().toJson(), this.socket.getInetAddress(), this.socket.getPort(), this.socket);
+            Event event = new Event(message);
+            this.notify(event);
+            return false;
+        }
     }
 
     public JsonObject getClientConnectionDataAsJson() {
@@ -83,6 +96,14 @@ public class ClientHandler extends EventManager {
         clientRecord.addProperty("ipAddress", this.IP.toString().substring(1));
         clientRecord.addProperty("port", this.updPort);
         return clientRecord;
+    }
+
+    private boolean isClientConnected(String message) throws IOException {
+        return message != null;
+    }
+
+    private MessageContent createDisconnectMessage() {
+        return new MessageContent(MessageType.DISCONNECT, new JsonObject(), this.ID);
     }
 
     @Override
