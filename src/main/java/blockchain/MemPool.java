@@ -14,6 +14,7 @@ public class MemPool {
 
     public void addTransaction(Transaction transaction) {
         // TODO check if mempool is full
+        System.out.println(transaction);
         this.priorityBlockingQueue.add(transaction);
     }
 

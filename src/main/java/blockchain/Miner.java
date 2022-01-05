@@ -1,7 +1,6 @@
 package blockchain;
 
 import blockchain.helpers.SHA256;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,15 +21,20 @@ public class Miner extends Thread {
 
     @Override
     public synchronized void run() {
-        while(true) {
+        while (true) {
             try {
                 //notify when transaction added to memPool
                 this.wait();
+                System.out.printf("DOSTAŁEM NOWĄ TRANZAKCJE! \n");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if (memPool.priorityBlockingQueue.size() >= BLOCKSIZE) {
                 createBlockAndApplyToChain();
+                System.out.printf("Stworzyłem nowy blok\n\n");
+                for (Block b : this.blockchain.getBlockchain()) {
+                    System.out.println(b);
+                }
             }
         }
     }
@@ -43,7 +47,7 @@ public class Miner extends Thread {
         // set block hash
         List<Transaction> transactionsForBlock = new ArrayList<>();
         IntStream.range(0, BLOCKSIZE).forEach(i -> {
-                transactionsForBlock.add(memPool.getTransaction());
+            transactionsForBlock.add(memPool.getTransaction());
         });
         block.setTransactions(transactionsForBlock);
         block.setHash(this.proofOfWork(block));
@@ -57,16 +61,22 @@ public class Miner extends Thread {
         String nonceHash = "";
 
         // There were more properties in Block at https://github.com/in-the-keyhole/khs-blockchain-java-example/blob/master/src/main/java/simple/chain/Block.java
-        String message = block.getCreationDate()  + block.transactionsToJson()
+        String message = block.getCreationDate() + block.transactionsToJson()
                 + block.getPreviousHash();
 
         // ewentualnie sleep(5000) XD
         while (!nonceFound) {
             nonceHash = SHA256.generateHash(message + nonce);
-            nonceFound = nonceHash.substring(0, nonceKey.length()).equals(nonceKey);
+            nonceFound = nonceHash.startsWith(nonceKey);
             nonce++;
         }
         return nonceHash;
     }
 
+    @Override
+    public String toString() {
+        return "Miner{" +
+                "blockchain=" + blockchain +
+                '}';
+    }
 }

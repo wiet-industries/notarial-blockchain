@@ -1,7 +1,6 @@
 package node;
 
 import com.google.gson.Gson;
-
 import node.Model.Message;
 import node.Model.MessageType;
 
@@ -50,6 +49,18 @@ public class ServerSessionHandler {
             tcpOutput.flush();
         } catch (IOException e) {
             System.out.println("Error requesting session: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void disconnect(int id) {
+        Message message = new Message(MessageType.DISCONNECT, new Gson().toJsonTree(Integer.toString(id)), id);
+        try {
+            BufferedOutputStream tcpOutput = new BufferedOutputStream(tcpSocket.getOutputStream());
+            tcpOutput.write(message.getData());
+            tcpOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error while disconnecting " + e.getMessage());
             e.printStackTrace();
         }
     }
