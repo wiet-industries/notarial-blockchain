@@ -1,9 +1,9 @@
 package blockchain;
 
+import blockchain.helpers.BlockchainEventManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import node.EventListener;
 import node.Model.Event;
 import node.Model.Message;
 import node.Model.MessageType;
@@ -13,11 +13,9 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Blockchain {
+public class Blockchain extends BlockchainEventManager {
     //TODO consider Thread safe queue and add DataBase
     public List<Block> blockchain = new ArrayList<>();
-    //TODO this eventListener maybe je**** method
-    private EventListener listener;
 
     public Blockchain() {
         createFirstBlock();
@@ -29,18 +27,6 @@ public class Blockchain {
 
     public void setBlockchain(List<Block> blockchain) {
         this.blockchain = blockchain;
-    }
-
-    public void subscribe(EventListener eventListener) {
-        this.listener = eventListener;
-    }
-
-    public void unsubscribe(EventListener eventListener) {
-        this.listener = null;
-    }
-
-    private void notify(Event event) {
-        this.listener.update(event);
     }
 
     private void createFirstBlock() {

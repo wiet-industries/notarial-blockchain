@@ -29,7 +29,7 @@ public class NodeController {
         return response.toString();
     }
 
-    @RequestMapping(value = "register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerHandler() {
         this.node.registerNode();
         JsonObject response = new JsonObject();

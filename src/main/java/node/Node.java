@@ -1,7 +1,7 @@
 package node;
 
-
-import blockchain.*;
+import blockchain.Block;
+import blockchain.Transaction;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import node.Listeners.TcpListener;
@@ -20,9 +20,10 @@ public class Node implements EventListener {
     private final int tcpPort;
     private final int udpPort;
     private final InetAddress serverAddress;
-    private final Miner miner;
-    private final MemPool memPool;
-    private final Blockchain blockchain;
+    //    private final Miner miner;
+//    private final MemPool memPool;
+//    private final Blockchain blockchain;
+    private final BlockchainProcessingHandler blockchainProcessingHandler;
     private UdpListener udpListener;
     private TcpListener tcpListener;
     private ServerSessionHandler serverSessionHandler;
@@ -35,12 +36,14 @@ public class Node implements EventListener {
         this.tcpPort = tcpPort;
         this.udpPort = udpPort;
         this.serverAddress = serverAddress;
-        //TODO this should work with DATABASE
-        this.blockchain = new Blockchain();
-        this.blockchain.subscribe(this);
-        this.memPool = new MemPool();
-        this.miner = new Miner(this.memPool, this.blockchain);
-        this.miner.start();
+//        this.blockchain = new Blockchain();
+
+        this.blockchainProcessingHandler = new BlockchainProcessingHandler();
+        this.blockchainProcessingHandler.getBlockchain().subscribe(this);
+
+//        this.memPool = new MemPool();
+//        this.miner = new Miner(this.memPool, this.blockchain);
+//        this.miner.start();
     }
 
     public int getTcpPort() {
@@ -107,7 +110,7 @@ public class Node implements EventListener {
                 break;
             //TODO add validation everywhere
             case NODE_LIST:
-                this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList(), this.ID, this.blockchain.getBlockchainAsJsonElement());
+                this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList(), this.ID, this.blockchainProcessingHandler.getBlockchain().getBlockchainAsJsonElement());
                 break;
             case OPEN_REQUEST:
                 this.peerConnectionHandler.openPort(message.parsePeerInfo(), this.ID);
@@ -132,29 +135,30 @@ public class Node implements EventListener {
     }
 
     public void addTransactionToMemPool(Transaction transaction) {
-        this.memPool.addTransaction(transaction);
-        // TODO does it work?
-        synchronized (this.miner) {
-            this.miner.notify();
-        }
+        this.blockchainProcessingHandler.addTransactionToMemPool(transaction);
+//        this.memPool.addTransaction(transaction);
+//        // TODO does it work?
+//        synchronized (this.miner) {
+//            this.miner.notify();
+//        }
     }
 
     private void handleBlockchainFromOtherNode(List<Block> blockchain) {
-        //TODO handle it
-        if (blockchain.size() < this.blockchain.getBlockchain().size()) {
-            return;
-        }
-        Block current = blockchain.get(blockchain.size() - 1);
-        for (int i = blockchain.size() - 2; i >= 0; i--) {
-            Block b = blockchain.get(i);
-            if (b.getHash().equals(current.getPreviousHash())) {
-                current = b;
-            } else {
-                throw new RuntimeException("Blockchain Invalid");
-            }
-        }
-        this.blockchain.setBlockchain(blockchain);
-        System.out.println(this.blockchain.getBlockchain());
-        //sprawdzić poprawność otrzymanego i wybrać dłuższy
+        this.blockchainProcessingHandler.handleBlockchainFromOtherNode(blockchain);
+//        if (blockchain.size() < this.blockchain.getBlockchain().size()) {
+//            return;
+//        }
+//        Block current = blockchain.get(blockchain.size() - 1);
+//        for (int i = blockchain.size() - 2; i >= 0; i--) {
+//            Block b = blockchain.get(i);
+//            if (b.getHash().equals(current.getPreviousHash())) {
+//                current = b;
+//            } else {
+//                throw new RuntimeException("Blockchain Invalid");
+//            }
+//        }
+//        this.blockchain.setBlockchain(blockchain);
+//        System.out.println(this.blockchain.getBlockchain());
+//        //sprawdzić poprawność otrzymanego i wybrać dłuższy
     }
 }
