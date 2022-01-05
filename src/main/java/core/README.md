@@ -60,6 +60,32 @@ We wanted to standardize the way that each node communicates with each other, as
 }
 ```
 
+```JSON
+{
+  "messageType": "NODE_LIST",
+  "content": [
+    {
+      "ipAddress": "77.66.55.44",
+      "port": "26655"
+    },
+    {
+      "ipAddress": "88.44.33.22",
+      "port": "26654"
+    }
+  ],
+  "ID": 2
+}
+```
+
+```JSON
+{
+  "messageType": "ID",
+  "content": 1,
+  "ID": 1
+}
+```
+
+
 
 
 
