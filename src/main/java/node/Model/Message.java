@@ -10,18 +10,24 @@ import java.util.List;
 
 
 public class Message {
-    private MessageType type;
-    private JsonElement content;
-    private int ID;
+    private final MessageType type;
 
-    public int getID() {
-        return ID;
-    }
+    private final JsonElement content;
+
+    private final int ID;
 
     public Message(MessageType type, JsonElement content, int ID) {
         this.type = type;
         this.content = content;
         this.ID = ID;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public JsonElement getContent() {
+        return content;
     }
 
     public byte[] getData() {
@@ -30,7 +36,7 @@ public class Message {
 
     public List<Peer> parsePeerList() {
         List<Peer> peers = new LinkedList<>();
-        if(content.getAsJsonArray().size() > 0) {
+        if (content.getAsJsonArray().size() > 0) {
             peers = Arrays.asList(new Gson().fromJson(content, Peer[].class));
         }
         return peers;

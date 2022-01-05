@@ -3,8 +3,8 @@ package blockchain;
 import blockchain.helpers.SHA256;
 
 public class Transaction {
-    private String transactionJson;
-    private String hash;
+    public String data;
+    public String hash;
     //TODO klucze ogarnąć
 
 //    {
@@ -16,12 +16,29 @@ public class Transaction {
 
 //    IN THIS MODEL WE NEED TO REMOVE HASH FROM LOGIC TRANSACTIONS
 
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
     public void calculateHash() {
-        this.hash = SHA256.generateHash(this.transactionJson);
+        this.hash = SHA256.generateHash(this.data);
         System.out.println(this.hash);
     }
 
-    public void setTransactionJson(String transactionJson) {
-        this.transactionJson = transactionJson;
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "data='" + data + '\'' +
+                ", hash='" + hash + '\'' +
+                '}';
     }
 }

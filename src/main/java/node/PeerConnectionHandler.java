@@ -2,6 +2,7 @@ package node;
 
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import node.Model.Message;
 import node.Model.MessageType;
 import node.Model.Peer;
@@ -16,15 +17,16 @@ import java.util.List;
 
 public class PeerConnectionHandler {
 
-    private DatagramSocket udpSocket;
+    private final DatagramSocket udpSocket;
 
     public PeerConnectionHandler(DatagramSocket udpSocket) {
         this.udpSocket = udpSocket;
     }
 
-    public void broadcastDataToPeers(List<Peer> peers, int id) {
-
-        Message message = new Message(MessageType.DATA, new Gson().toJsonTree("TEST-DATA"), id);
+    public void broadcastDataToPeers(List<Peer> peers, int id, JsonElement content) {
+        //TODO Here I want to broadcast my blockchain
+        Message message = new Message(MessageType.BLOCKCHAIN_DATA, content, id);
+//        Message message = new Message(MessageType.DATA, new Gson().toJsonTree("TEST-DATA"), id);
         byte[] data = message.getData();
         peers.forEach(peer -> {
             DatagramPacket datagramPacket = null;
@@ -36,7 +38,7 @@ public class PeerConnectionHandler {
             System.out.println("Sending data to Peer IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
             try {
                 //TODO
-                for(int i = 0; i < 10; i++) {
+                for (int i = 0; i < 10; i++) {
                     udpSocket.send(datagramPacket);
                 }
             } catch (IOException e) {
