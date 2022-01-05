@@ -48,7 +48,7 @@ This is as simple as it sounds. If node is certain he's not going to be sending 
 
 ## CommunicationDTO
 
-We wanted to standardize the way that each node communicates with each other, as well as with the server. Every message received or sent has given data model. Here is an example one:
+We wanted to standardize the way that each node communicates with each other, as well as with the server. Every message received or sent has given data model.
 ```JSON
 {
   "messageType": "OPEN_REQUEST",
