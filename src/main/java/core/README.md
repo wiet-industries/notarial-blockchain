@@ -85,6 +85,11 @@ We wanted to standardize the way that each node communicates with each other, as
 }
 ```
 
+## UML
+
+![image](https://user-images.githubusercontent.com/17952406/148263248-db13d726-15a4-4a25-84ee-8435c5ef9510.png)
+
+
 
 
 
