@@ -1,7 +1,7 @@
 package rest;
 
 import blockchain.Transaction;
-import com.google.gson.Gson;
+import blockchain.helpers.SHA256;
 import com.google.gson.JsonObject;
 import node.Node;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +57,7 @@ public class NodeController {
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)
     public String addTransaction(@RequestBody String transactionJson) {
         //TODO add body validation
-        Transaction transactionToAdd = new Gson().fromJson(transactionJson, Transaction.class);
+        Transaction transactionToAdd = new Transaction(transactionJson, SHA256.generateHash(transactionJson));
         this.node.addTransactionToMemPool(transactionToAdd);
 //        System.out.printf(transactionToAdd.toString() + "\n");
         JsonObject response = new JsonObject();

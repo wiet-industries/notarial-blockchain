@@ -33,9 +33,7 @@ public class Blockchain extends BlockchainEventManager {
         // TODO add parameters to first block
         // TODO no to jest TAK OBRZYGANE że to ejst przesada
         List<Transaction> transactions = new LinkedList<>();
-        Transaction transaction = new Transaction();
-        transaction.data = "1";
-        transaction.hash = "1";
+        Transaction transaction = new Transaction("1", "1");
         transactions.add(transaction);
         Block gemin = new Block();
         gemin.setHash("1");
