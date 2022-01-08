@@ -1,7 +1,6 @@
 package logic.Transactions.ConcreteTransactions;
 
 
-import logic.Transactions.Utilities.Priority;
 import logic.Transactions.Utilities.TransactionType;
 
 import java.util.Date;
@@ -10,9 +9,9 @@ public class NewSharesEmission extends AbstractTransaction {
     private String owner;
     private int numberOfEmittedShares;
 
-    public NewSharesEmission(long transactionHash, Date transactionDate, int companyID, String transactionAuthor,
-                             TransactionType transactionType, String status, Priority priority, String owner, int numberOfEmittedShares) {
-        super(transactionHash, transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+    public NewSharesEmission(Date transactionDate, int companyID, String transactionAuthor,
+                             TransactionType transactionType, String status, int priority, String owner, int numberOfEmittedShares) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority);
         this.owner = owner;
         this.numberOfEmittedShares = numberOfEmittedShares;
     }
