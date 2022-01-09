@@ -15,7 +15,7 @@ const CompanyValueUpdateForm = () => {
     console.log("submiting...");
     // TODO validation
     const data = {
-      companyValue,
+      ValueToAdd: companyValue,
       transactionDate: new Date(),
       companyID: companyId,
       transactionAuthor: author,

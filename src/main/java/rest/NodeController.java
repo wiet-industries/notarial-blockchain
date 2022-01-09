@@ -2,7 +2,10 @@ package rest;
 
 import blockchain.Transaction;
 import blockchain.helpers.SHA256;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import logic.Transactions.ConcreteTransactions.AbstractTransaction;
+import logic.Transactions.ConcreteTransactions.VotingResults;
 import node.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,7 +62,11 @@ public class NodeController {
         //TODO add body validation
         Transaction transactionToAdd = new Transaction(transactionJson, SHA256.generateHash(transactionJson));
         this.node.addTransactionToMemPool(transactionToAdd);
-//        System.out.printf(transactionToAdd.toString() + "\n");
+        System.out.print(transactionToAdd + "\n");
+        var parser = new Gson();
+        AbstractTransaction t2 = parser.fromJson(
+                transactionToAdd.getData(), VotingResults.class);
+        System.out.println(t2);
         JsonObject response = new JsonObject();
         response.addProperty("message", "OK");
         return response.toString();

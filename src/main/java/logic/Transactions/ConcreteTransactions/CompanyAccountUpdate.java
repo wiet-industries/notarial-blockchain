@@ -23,7 +23,7 @@ public class CompanyAccountUpdate extends AbstractTransaction {
 
     @Override
     public String toString() {
-        return "CompanyAccountUpdate{" +
+        return super.toString() + "CompanyAccountUpdate{" +
                 "ValueToAdd=" + ValueToAdd +
                 '}';
     }
