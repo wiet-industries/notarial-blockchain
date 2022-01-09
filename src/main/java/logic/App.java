@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 import logic.Transactions.ConcreteTransactions.SellBuyShares;
 import logic.Transactions.TransactionFactory;
-import logic.Transactions.Utilities.DistributedShares;
 import logic.Transactions.Utilities.TransactionType;
+import logic.Transactions.Utilities.Voting;
+import logic.Transactions.Utilities.VotingAnswer;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -17,11 +18,12 @@ public class App {
         AbstractTransaction transaction = TransactionFactory.getSharesLiquidationTransaction(new Date(), 2, "Masty Ben", TransactionType.SharesLiquidation,
                 "GIT", 5, 10, "owner1");
         System.out.println(transaction);
-        List<DistributedShares> shares = new LinkedList<>();
-        shares.add(new DistributedShares("Andrzej", 13));
-        shares.add(new DistributedShares("Kamil", 53));
-        AbstractTransaction t1 = TransactionFactory.getAddCompanyTransaction(new Date(), 2, "Adrian",
-                TransactionType.AddCompany, "GIT", 5, "Nazwa", 10, 100, 5, shares);
+        List<VotingAnswer> answers = new LinkedList<>();
+        answers.add(new VotingAnswer("yes", 15));
+        answers.add(new VotingAnswer("no", 0));
+        Voting voting = new Voting("do you like your life ? :)", answers);
+        AbstractTransaction t1 = TransactionFactory.getVotingResultsTransaction(new Date(), 2, "Adrian",
+                TransactionType.VotingResults, "GIT", 5, voting);
         System.out.println(t1);
 
 

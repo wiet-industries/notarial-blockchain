@@ -3,6 +3,20 @@ import React, { useState } from "react";
 
 // eslint-disable-next-line import/no-unresolved
 import AddCompanyForm from "./transaction-forms/AddCompanyForm";
+// eslint-disable-next-line import/no-unresolved
+import CompanyAccountUpdateForm from "./transaction-forms/CompanyAccountUpdateForm";
+// eslint-disable-next-line import/no-unresolved
+import CompanyValueUpdateForm from "./transaction-forms/CompanyValueUpdateForm";
+// eslint-disable-next-line import/no-unresolved
+import DividendsPayment from "./transaction-forms/DividendsPayment";
+// eslint-disable-next-line import/no-unresolved
+import NewSharesEmission from "./transaction-forms/NewSharesEmission";
+// eslint-disable-next-line import/no-unresolved
+import SellBuyShares from "./transaction-forms/SellBuyShares";
+// eslint-disable-next-line import/no-unresolved
+import SharesLiquidation from "./transaction-forms/SharesLiquidation";
+// eslint-disable-next-line import/no-unresolved
+import VotingResults from "./transaction-forms/VotingResults";
 
 const TransactionForm = () => {
   type transactionTypeEnum =
@@ -28,13 +42,13 @@ const TransactionForm = () => {
 
   const transactionForms = {
     "add-company": <AddCompanyForm />,
-    "company-account-update": <div>company-account-update</div>,
-    "company-value-update": <div>company-value-update</div>,
-    "dividends-payment": <div>dividends-payment</div>,
-    "new-shares-emission": <div>new-shares-emission</div>,
-    "sell-buy-shares": <div>sell-buy-shares</div>,
-    "shares-liquidation": <div>shares-liquidation</div>,
-    "voting-results": <div>voting-results</div>,
+    "company-account-update": <CompanyAccountUpdateForm />,
+    "company-value-update": <CompanyValueUpdateForm />,
+    "dividends-payment": <DividendsPayment />,
+    "new-shares-emission": <NewSharesEmission />,
+    "sell-buy-shares": <SellBuyShares />,
+    "shares-liquidation": <SharesLiquidation />,
+    "voting-results": <VotingResults />,
   };
 
   const [currentTransaction, setCurrentTransaction] = useState(

@@ -2,44 +2,32 @@ import { Button, FormControl, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 
-type HolderType = {
-  name?: string;
-  shares?: number;
+type Answer = {
+  answer?: string;
+  result?: number;
 };
 
-const AddCompanyForm = () => {
+const DividendsPayment = () => {
+  const [message, setMessage] = useState<string | undefined>();
   const [author, setAuthor] = useState<undefined | string>(undefined);
   const [companyId, setCompanyId] = useState<undefined | number>(undefined);
   const [priority, setPriority] = useState<undefined | number>(undefined);
-  const [companyName, setCompanyName] = useState<undefined | string>(undefined);
-  const [companyValue, setCompanyValue] = useState<undefined | number>(
+  const [answer, setVoting] = useState<(undefined | Answer)[]>([]);
+  const [question, setQuestion] = useState<undefined | string>(undefined);
+  const [numberOfAnswers, setNumberOfAnswers] = useState<undefined | number>(
     undefined
   );
-  const [companyAccount, setCompanyAccount] = useState<undefined | number>(
-    undefined
-  );
-  const [shareValue, setshareValue] = useState<undefined | number>(undefined);
-  const [shareHoldersNumber, setShareHoldersNumber] = useState<
-    undefined | number
-  >(undefined);
-  const [holders, setHolders] = useState<(HolderType | undefined)[]>([]);
-
-  const [message, setMessage] = useState<string | undefined>();
 
   const handleSubmit = () => {
     console.log("submiting...");
     // TODO validation
     const data = {
-      companyName,
-      companyValue,
-      companyAccount,
-      shareValue,
-      distributedShares: holders.slice(0, shareHoldersNumber),
+      voting: { question, answer },
       transactionDate: new Date(),
       companyID: companyId,
       transactionAuthor: author,
-      transactionType: "AddCompany",
-      Status: "GIT",
+      transactionType: "VotingResults",
+      Status: "GIT", // ????
       priority,
     };
 
@@ -60,7 +48,7 @@ const AddCompanyForm = () => {
     <div className="p-4 bg-light">
       {!!message && <div>{message} </div>}
       <FormControl fullWidth>
-        <div>Adding company</div>
+        <div>Voting Results</div>
         <TextField
           className="my-2"
           id="author"
@@ -98,102 +86,74 @@ const AddCompanyForm = () => {
         />
         <TextField
           className="my-2"
-          id="name"
-          label="Company Name"
+          id="question"
+          label="Question"
           variant="standard"
-          value={companyName}
-          onChange={(e) => setCompanyName(e.target.value)}
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
         />
         <TextField
           className="my-2"
-          id="companyValue"
-          label="Company Value"
+          id="numberOfAnswers"
+          label="Number of answers"
           type="number"
           variant="standard"
-          value={companyValue}
-          onChange={(e) => setCompanyValue(parseInt(e.target.value, 10))}
-        />
-        <TextField
-          className="my-2"
-          id="companyAccount"
-          label="Company Account"
-          type="number"
-          variant="standard"
-          value={companyAccount}
-          onChange={(e) => setCompanyAccount(parseInt(e.target.value, 10))}
-        />
-        <TextField
-          className="my-2"
-          id="shareValue"
-          label="Share Value"
-          type="number"
-          variant="standard"
-          value={shareValue}
-          onChange={(e) => setshareValue(parseInt(e.target.value, 10))}
-        />
-        <TextField
-          className="my-2"
-          id="shareHolders"
-          label="Share Holders"
-          type="number"
-          variant="standard"
-          value={shareHoldersNumber}
+          value={numberOfAnswers}
           onChange={(e) => {
             let currentValue = parseInt(e.target.value, 10);
 
-            if (currentValue > 10) currentValue = 10;
+            if (currentValue > 10) currentValue = 5;
             if (currentValue < 0) currentValue = 0;
 
-            if (!holders || currentValue > holders.length) {
-              setHolders([
-                ...holders,
-                ...new Array(currentValue - holders.length),
+            if (!answer || currentValue > answer.length) {
+              setVoting([
+                ...answer,
+                ...new Array(currentValue - answer.length),
               ]);
             }
 
-            setShareHoldersNumber(currentValue);
+            setNumberOfAnswers(currentValue);
           }}
         />
-        {!!shareHoldersNumber &&
-          holders.slice(0, shareHoldersNumber).map((el, id) => (
+        {!!numberOfAnswers &&
+          answer.slice(0, numberOfAnswers).map((el, id) => (
             <div key={id}>
               {id + 1}{" "}
               <TextField
                 className="mx-3"
-                id="holderName"
-                label="Holder Name"
+                id="answer"
+                label="Answer"
                 variant="standard"
-                value={el?.name}
+                value={el?.answer}
                 onChange={(e) => {
-                  const arr = [...holders];
+                  const arr = [...answer];
 
                   arr[id] = {
                     ...arr[id],
-                    name: e.target.value,
+                    answer: e.target.value,
                   };
 
-                  setHolders(arr);
+                  setVoting(arr);
                 }}
               />
               <TextField
                 className="mx-3"
-                id="holderShares"
-                label="Holder's Shares"
+                id="result"
+                label="Result"
                 type="number"
                 variant="standard"
-                value={el?.shares}
+                value={el?.result}
                 onChange={(e) => {
-                  const arr = [...holders];
+                  const arr = [...answer];
                   arr[id] = {
                     ...arr[id],
-                    shares: parseInt(e.target.value, 10),
+                    result: parseInt(e.target.value, 10),
                   };
-                  setHolders(arr);
+                  setVoting(arr);
                 }}
               />
             </div>
           ))}
-
         <Button
           className="mt-4"
           type="submit"
@@ -208,4 +168,4 @@ const AddCompanyForm = () => {
   );
 };
 
-export default AddCompanyForm;
+export default DividendsPayment;
