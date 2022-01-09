@@ -1,7 +1,6 @@
 package logic.Transactions.ConcreteTransactions;
 
 
-import logic.Transactions.Utilities.Priority;
 import logic.Transactions.Utilities.TransactionType;
 
 import java.util.Date;
@@ -9,9 +8,9 @@ import java.util.Date;
 public class CompanyValueUpdate extends AbstractTransaction {
     private int ValueToAdd;
 
-    public CompanyValueUpdate(long transactionHash, Date transactionDate, int companyID, String transactionAuthor,
-                              TransactionType transactionType, String status, Priority priority, int valueToAdd) {
-        super(transactionHash, transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+    public CompanyValueUpdate(Date transactionDate, int companyID, String transactionAuthor,
+                              TransactionType transactionType, String status, int priority, int valueToAdd) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority);
         this.ValueToAdd = valueToAdd;
     }
 

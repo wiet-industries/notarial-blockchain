@@ -1,12 +1,10 @@
 package logic.Transactions.ConcreteTransactions;
 
-import logic.Transactions.Utilities.Priority;
 import logic.Transactions.Utilities.TransactionType;
 
 import java.util.Date;
 
 public abstract class AbstractTransaction {
-    private long transactionHash;
     private Date transactionDate;
     private int companyID;
     // TODO
@@ -14,25 +12,16 @@ public abstract class AbstractTransaction {
     private String transactionAuthor;
     private TransactionType transactionType;
     private String Status;
-    private Priority priority;
+    private int priority;
 
 
-    public AbstractTransaction(long transactionHash, Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String status, Priority priority) {
-        this.transactionHash = transactionHash;
+    public AbstractTransaction(Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String status, int priority) {
         this.transactionDate = transactionDate;
         this.companyID = companyID;
         this.transactionAuthor = transactionAuthor;
         this.transactionType = transactionType;
         this.Status = status;
         this.priority = priority;
-    }
-
-    public long getTransactionHash() {
-        return transactionHash;
-    }
-
-    public void setTransactionHash(long transactionHash) {
-        this.transactionHash = transactionHash;
     }
 
     public Date getTransactionDate() {
@@ -67,11 +56,11 @@ public abstract class AbstractTransaction {
         this.transactionType = transactionType;
     }
 
-    public Priority getPriority() {
+    public int getPriority() {
         return priority;
     }
 
-    public void setPriority(Priority priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 
@@ -86,7 +75,6 @@ public abstract class AbstractTransaction {
     @Override
     public String toString() {
         return "AbstractTransaction{" +
-                "transactionHash=" + transactionHash +
                 ", transactionDate=" + transactionDate +
                 ", companyID=" + companyID +
                 ", transactionAuthor='" + transactionAuthor + '\'' +
