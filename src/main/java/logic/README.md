@@ -72,7 +72,7 @@ liquidation of shares causes share value increase
 cash comes from Company Account(earnings) not from Company Value 
     
     Additional properties
-    -How mutch $
+    -How much $
     -In whose pocket $ lands
 7.VotingResults - Transaction representing Voting
     
