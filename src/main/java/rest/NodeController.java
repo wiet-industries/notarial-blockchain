@@ -3,15 +3,13 @@ package rest;
 import blockchain.Transaction;
 import blockchain.helpers.SHA256;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import logic.Transactions.ConcreteTransactions.AbstractTransaction;
-import logic.Transactions.ConcreteTransactions.VotingResults;
+import logic.Transactions.ConcreteTransactions.*;
+import logic.Transactions.Utilities.TransactionType;
 import node.Node;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/node")
@@ -60,7 +58,8 @@ public class NodeController {
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)
     public String addTransaction(@RequestBody String transactionJson) {
         //TODO add body validation
-        Transaction transactionToAdd = new Transaction(transactionJson, SHA256.generateHash(transactionJson));
+        TransactionType transactionType = this.chooseProperTransactionType(transactionJson);
+        Transaction transactionToAdd = new Transaction(transactionJson, SHA256.generateHash(transactionJson), transactionType);
         this.node.addTransactionToMemPool(transactionToAdd);
         System.out.print(transactionToAdd + "\n");
         var parser = new Gson();
@@ -70,5 +69,20 @@ public class NodeController {
         JsonObject response = new JsonObject();
         response.addProperty("message", "OK");
         return response.toString();
+    }
+
+    @RequestMapping(value = "/company/info/{id}", method = RequestMethod.GET)
+    public String getCompanyInfo(@PathVariable String id) {
+        this.node.
+    }
+
+    public TransactionType chooseProperTransactionType(String transactionJson) {
+        Gson gson = new Gson();
+        String type = gson
+                .fromJson(transactionJson, JsonElement.class)
+                .getAsJsonObject()
+                .get("type")
+                .getAsString();
+        return TransactionType.valueOf(type);
     }
 }

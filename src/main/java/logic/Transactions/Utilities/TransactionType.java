@@ -8,5 +8,6 @@ public enum TransactionType {
     DividendsPayment,
     VotingResults,
     AddCompany,
-    CompanyValueUpdate
+    CompanyValueUpdate,
+    Gemini
 }

@@ -1,6 +1,8 @@
 package node;
 
 import blockchain.*;
+import logic.Company;
+import logic.Transactions.ConcreteTransactions.*;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class BlockchainProcessingHandler {
         return blockchain;
     }
 
-    public void addTransactionToMemPool(Transaction transaction) {
+    public void addTransactionToMemPool(AbstractTransaction transaction) {
         this.memPool.addTransaction(transaction);
         // TODO does it work?
         synchronized (this.miner) {
@@ -46,6 +48,65 @@ public class BlockchainProcessingHandler {
         this.blockchain.setBlockchain(blockchain);
         System.out.println(this.blockchain.getBlockchain());
         //sprawdzić poprawność otrzymanego i wybrać dłuższy
+    }
+
+    public Company getCompanyWithID(int ID) throws IllegalArgumentException {
+        Company company = new Company(ID);
+        for (Block block : this.blockchain.getBlockchain()) {
+            for (AbstractTransaction transaction : block.getTransactions()) {
+                if (transaction.getCompanyID() == ID) {
+                    // TODO: Check if AddCompany transaction is the first one
+                    switch (transaction.getTransactionType()) {
+                        case AddCompany:
+                            AddCompany addCompany = (AddCompany) transaction;
+                            company.setName(addCompany.getCompanyName());
+                            company.setCompanyValue(addCompany.getCompanyValue());
+                            company.setEarnings(addCompany.getCompanyAccount());
+                            company.setShareValue(addCompany.getShareValue());
+                            company.setShares(addCompany.getDistributedShares());
+                            break;
+                        case CompanyValueUpdate:
+                            CompanyValueUpdate companyValueUpdate = (CompanyValueUpdate) transaction;
+                            company.updateCompanyValue(companyValueUpdate.getValueToAdd());
+                            company.updateShareValue();
+                            break;
+                        case NewSharesEmission:
+                            NewSharesEmission newSharesEmission = (NewSharesEmission) transaction;
+                            company.updateShares(newSharesEmission.getOwner(), newSharesEmission.getNumberOfEmittedShares());
+                            company.updateShareValue();
+                            break;
+                        case SharesBuySell:
+                            SellBuyShares sellBuyShares = (SellBuyShares) transaction;
+                            company.transferShareBetween(sellBuyShares.getSeller(), sellBuyShares.getBuyer(), sellBuyShares.getNumberOfShares());
+                            break;
+                        case SharesLiquidation:
+                            SharesLiquidation sharesLiquidation = (SharesLiquidation) transaction;
+                            company.updateShares(sharesLiquidation.getOwner(), (-1) * sharesLiquidation.getNumberOfSharesToLiquidate());
+                            company.updateShareValue();
+                            break;
+                        case DividendsPayment:
+                            DividendsPayment dividendsPayment = (DividendsPayment) transaction;
+                            company.updateDividend(dividendsPayment.getReceiver(), dividendsPayment.getNumberOfMoneyPayed());
+                            company.updateEarnings((-1) * dividendsPayment.getNumberOfMoneyPayed());
+                            break;
+                        case VotingResults:
+                            VotingResults votingResults = (VotingResults) transaction;
+                            company.addVoting(votingResults.getVoting());
+                            break;
+                        case CompanyAccountUpdate:
+                            CompanyAccountUpdate companyAccountUpdate = (CompanyAccountUpdate) transaction;
+                            company.updateEarnings(companyAccountUpdate.getValueToAdd());
+                            break;
+                    }
+                }
+            }
+        }
+        // TODO: Check if company with given id was found
+        return company;
+    }
+
+    public String getCompanyName(String ID) throws IllegalArgumentException {
+
     }
 
 }

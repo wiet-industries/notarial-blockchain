@@ -13,15 +13,16 @@ public abstract class AbstractTransaction {
     private TransactionType transactionType;
     private String Status;
     private int priority;
+    public String hash;
 
-
-    public AbstractTransaction(Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String status, int priority) {
+    public AbstractTransaction(Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String status, int priority, String hash) {
         this.transactionDate = transactionDate;
         this.companyID = companyID;
         this.transactionAuthor = transactionAuthor;
         this.transactionType = transactionType;
         this.Status = status;
         this.priority = priority;
+        this.hash = hash;
     }
 
     public Date getTransactionDate() {

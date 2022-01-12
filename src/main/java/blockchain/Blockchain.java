@@ -4,6 +4,7 @@ import blockchain.helpers.BlockchainEventManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import logic.Transactions.Utilities.TransactionType;
 import node.Model.Event;
 import node.Model.Message;
 import node.Model.MessageType;
@@ -33,7 +34,7 @@ public class Blockchain extends BlockchainEventManager {
         // TODO add parameters to first block
         // TODO no to jest TAK OBRZYGANE że to ejst przesada
         List<Transaction> transactions = new LinkedList<>();
-        Transaction transaction = new Transaction("1", "1");
+        Transaction transaction = new Transaction("1", "1", TransactionType.Gemini);
         transactions.add(transaction);
         Block gemin = new Block();
         gemin.setHash("1");

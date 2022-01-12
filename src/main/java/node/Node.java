@@ -4,6 +4,8 @@ import blockchain.Block;
 import blockchain.Transaction;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import logic.Company;
+import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 import node.Listeners.TcpListener;
 import node.Listeners.UdpListener;
 import node.Model.Event;
@@ -80,6 +82,10 @@ public class Node implements EventListener {
 //        this.miner.start();
     }
 
+    public Company getCompanyWithID(int ID) {
+        return this.blockchainProcessingHandler.getCompanyWithID(ID);
+    }
+
     public void registerNode() {
         serverSessionHandler.registerNode(ID);
     }
@@ -134,7 +140,7 @@ public class Node implements EventListener {
         }
     }
 
-    public void addTransactionToMemPool(Transaction transaction) {
+    public void addTransactionToMemPool(AbstractTransaction transaction) {
         this.blockchainProcessingHandler.addTransactionToMemPool(transaction);
 //        this.memPool.addTransaction(transaction);
 //        // TODO does it work?
@@ -142,6 +148,8 @@ public class Node implements EventListener {
 //            this.miner.notify();
 //        }
     }
+
+    public String
 
     private void handleBlockchainFromOtherNode(List<Block> blockchain) {
         this.blockchainProcessingHandler.handleBlockchainFromOtherNode(blockchain);
