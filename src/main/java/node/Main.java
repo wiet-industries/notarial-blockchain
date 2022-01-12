@@ -5,6 +5,7 @@ import rest.RestApplication;
 
 public class Main {
     public static void main(String[] args) {
+
         SpringApplication.run(RestApplication.class, args);
 //        try {
 //            Node node = new Node(Config.TCP_PORT, Config.UDP_PORT, InetAddress.getByName(Config.IP));

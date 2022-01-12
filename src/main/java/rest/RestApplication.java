@@ -1,5 +1,7 @@
 package rest;
 
+import com.mongodb.DB;
+import database.DBConnection;
 import node.Model.Config;
 import node.Node;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +20,9 @@ public class RestApplication {
 
     @Bean
     Node createNode() throws UnknownHostException {
-        return new Node(Config.TCP_PORT, Config.UDP_PORT, InetAddress.getByName(Config.IP));
+        DBConnection.startDBConnection("mongodb://127.0.0.1:27017");
+        DB database = DBConnection.getDatabase("blockchain-local-db");
+        // after end close connection
+        return new Node(Config.TCP_PORT, Config.UDP_PORT, InetAddress.getByName(Config.IP), database);
     }
 }
