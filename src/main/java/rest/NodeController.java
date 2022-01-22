@@ -1,12 +1,6 @@
 package rest;
 
-import blockchain.Transaction;
-import blockchain.helpers.SHA256;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import logic.Transactions.ConcreteTransactions.*;
-import logic.Transactions.Utilities.TransactionType;
 import node.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +13,9 @@ public class NodeController {
 
     @Autowired
     private Node node;
+
+    @Autowired
+    private TransactionAdapter adapter;
 
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
     public String connectHandler() {
@@ -58,14 +55,15 @@ public class NodeController {
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)
     public String addTransaction(@RequestBody String transactionJson) {
         //TODO add body validation
-        TransactionType transactionType = this.chooseProperTransactionType(transactionJson);
-        Transaction transactionToAdd = new Transaction(transactionJson, SHA256.generateHash(transactionJson), transactionType);
-        this.node.addTransactionToMemPool(transactionToAdd);
-        System.out.print(transactionToAdd + "\n");
-        var parser = new Gson();
-        AbstractTransaction t2 = parser.fromJson(
-                transactionToAdd.getData(), VotingResults.class);
-        System.out.println(t2);
+        try {
+            adapter.createTransactionFromJson(transactionJson);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Bad /add/transaction data");
+        }
+        System.out.println(transactionJson);
+        this.node.addTransactionToMemPool(adapter.getTransaction());
+        System.out.println("dodana transakcja B) \n");
         JsonObject response = new JsonObject();
         response.addProperty("message", "OK");
         return response.toString();
@@ -73,16 +71,7 @@ public class NodeController {
 
     @RequestMapping(value = "/company/info/{id}", method = RequestMethod.GET)
     public String getCompanyInfo(@PathVariable String id) {
-        this.node.
+        return "Tobys zesrane";
     }
 
-    public TransactionType chooseProperTransactionType(String transactionJson) {
-        Gson gson = new Gson();
-        String type = gson
-                .fromJson(transactionJson, JsonElement.class)
-                .getAsJsonObject()
-                .get("type")
-                .getAsString();
-        return TransactionType.valueOf(type);
-    }
 }

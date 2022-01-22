@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Company {
     private String name;
-    private int ID;
+    private final int ID;
     private int shareValue;
     private int companyValue;
     private int earnings;
@@ -51,7 +51,7 @@ public class Company {
 
     // TODO: use double as shareValue
     public void updateShareValue() {
-        this.shareValue = (int)(this.companyValue / this.getNumberOfShares());
+        this.shareValue = this.companyValue / this.getNumberOfShares();
     }
 
     public int getNumberOfShares() {
@@ -76,7 +76,7 @@ public class Company {
     }
 
     public void transferShareBetween(String seller, String buyer, int numberOfShares) {
-        this.updateShares(seller,  (-1)*numberOfShares);
+        this.updateShares(seller, (-1) * numberOfShares);
         this.updateShares(buyer, numberOfShares);
     }
 
@@ -88,5 +88,5 @@ public class Company {
 
     public void addVoting(Voting voting) {
         this.votingResults.add(voting);
-
+    }
 }

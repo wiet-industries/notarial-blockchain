@@ -27,6 +27,17 @@ const AddCompanyForm = () => {
   const [message, setMessage] = useState<string | undefined>();
 
   const handleSubmit = () => {
+    interface HolderInterface {
+      [key: string]: number;
+    }
+
+    const obj: HolderInterface = {};
+    // eslint-disable-next-line no-restricted-syntax
+    for (const x of holders.slice(0, shareHoldersNumber)) {
+      if (x?.name && x?.shares) {
+        obj[x.name] = x.shares;
+      }
+    }
     console.log("submiting...");
     // TODO validation
     const data = {
@@ -34,7 +45,7 @@ const AddCompanyForm = () => {
       companyValue,
       companyAccount,
       shareValue,
-      distributedShares: holders.slice(0, shareHoldersNumber),
+      distributedShares: obj,
       transactionDate: new Date(),
       companyID: companyId,
       transactionAuthor: author,

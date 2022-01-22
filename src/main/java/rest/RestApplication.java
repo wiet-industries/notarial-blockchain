@@ -20,4 +20,9 @@ public class RestApplication {
     Node createNode() throws UnknownHostException {
         return new Node(Config.TCP_PORT, Config.UDP_PORT, InetAddress.getByName(Config.IP));
     }
+
+    @Bean
+    TransactionAdapter createAdapter() throws UnknownHostException {
+        return new TransactionAdapter();
+    }
 }

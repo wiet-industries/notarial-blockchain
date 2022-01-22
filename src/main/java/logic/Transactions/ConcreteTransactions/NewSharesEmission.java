@@ -10,8 +10,8 @@ public class NewSharesEmission extends AbstractTransaction {
     private int numberOfEmittedShares;
 
     public NewSharesEmission(Date transactionDate, int companyID, String transactionAuthor,
-                             TransactionType transactionType, String status, int priority, String owner, int numberOfEmittedShares) {
-        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+                             TransactionType transactionType, String status, int priority, String owner, int numberOfEmittedShares, String hash) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash);
         this.owner = owner;
         this.numberOfEmittedShares = numberOfEmittedShares;
     }

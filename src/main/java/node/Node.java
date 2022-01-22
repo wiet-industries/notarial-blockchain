@@ -1,7 +1,6 @@
 package node;
 
 import blockchain.Block;
-import blockchain.Transaction;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import logic.Company;
@@ -148,8 +147,6 @@ public class Node implements EventListener {
 //            this.miner.notify();
 //        }
     }
-
-    public String
 
     private void handleBlockchainFromOtherNode(List<Block> blockchain) {
         this.blockchainProcessingHandler.handleBlockchainFromOtherNode(blockchain);

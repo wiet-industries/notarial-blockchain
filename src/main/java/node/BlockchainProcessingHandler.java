@@ -1,6 +1,9 @@
 package node;
 
-import blockchain.*;
+import blockchain.Block;
+import blockchain.Blockchain;
+import blockchain.MemPool;
+import blockchain.Miner;
 import logic.Company;
 import logic.Transactions.ConcreteTransactions.*;
 
@@ -105,8 +108,8 @@ public class BlockchainProcessingHandler {
         return company;
     }
 
-    public String getCompanyName(String ID) throws IllegalArgumentException {
-
-    }
+//   public String getCompanyName(String ID) throws IllegalArgumentException {
+//
+//    }
 
 }

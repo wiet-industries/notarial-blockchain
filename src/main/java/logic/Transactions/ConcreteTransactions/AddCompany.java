@@ -1,10 +1,8 @@
 package logic.Transactions.ConcreteTransactions;
 
-import logic.Transactions.Utilities.DistributedShares;
 import logic.Transactions.Utilities.TransactionType;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 public class AddCompany extends AbstractTransaction {
@@ -16,8 +14,8 @@ public class AddCompany extends AbstractTransaction {
 
     public AddCompany(Date transactionDate, int companyID, String transactionAuthor,
                       TransactionType transactionType, String status, int priority, String companyName,
-                      int companyValue, int companyAccount, int shareValue, Map<String, Integer> distributedShares) {
-        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+                      int companyValue, int companyAccount, int shareValue, Map<String, Integer> distributedShares, String hash) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash);
         this.companyName = companyName;
         this.companyValue = companyValue;
         this.companyAccount = companyAccount;
@@ -69,7 +67,7 @@ public class AddCompany extends AbstractTransaction {
 
     @Override
     public String toString() {
-        return "AddCompany{" +
+        return super.toString() + "AddCompany{" +
                 "companyName='" + companyName + '\'' +
                 ", companyValue=" + companyValue +
                 ", companyAccount=" + companyAccount +
