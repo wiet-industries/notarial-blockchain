@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
   },
   "extends": [
     "airbnb",
@@ -54,6 +55,7 @@
     "simple-import-sort/imports": "warn",
     "no-console": "warn",
     "jsx-a11y/no-autofocus": "off",
+    "import/no-unresolved": "off",
     "no-use-before-define": "off",
     "react/no-array-index-key": "off",
     "react/function-component-definition": [
@@ -75,7 +77,10 @@
       }
     ],
     "prettier/prettier": [
-      "error"
+      "error",
+      {
+        "endOfLine": "auto"
+      }
     ]
   }
 }

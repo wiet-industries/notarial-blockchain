@@ -1,6 +1,5 @@
 package logic.Transactions.ConcreteTransactions;
 
-import logic.Transactions.Utilities.Priority;
 import logic.Transactions.Utilities.TransactionType;
 
 import java.util.Date;
@@ -10,9 +9,9 @@ public class SellBuyShares extends AbstractTransaction {
     private String Buyer;
     private int numberOfShares;
 
-    public SellBuyShares(long transactionHash, Date transactionDate, int companyID, String transactionAuthor,
-                         TransactionType transactionType, String status, Priority priority, String seller, String buyer, int numberOfShares) {
-        super(transactionHash, transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+    public SellBuyShares(Date transactionDate, int companyID, String transactionAuthor,
+                         TransactionType transactionType, String status, int priority, String seller, String buyer, int numberOfShares) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority);
         this.Seller = seller;
         this.Buyer = buyer;
         this.numberOfShares = numberOfShares;

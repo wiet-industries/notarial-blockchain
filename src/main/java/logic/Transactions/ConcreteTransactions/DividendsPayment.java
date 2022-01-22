@@ -1,6 +1,5 @@
 package logic.Transactions.ConcreteTransactions;
 
-import logic.Transactions.Utilities.Priority;
 import logic.Transactions.Utilities.TransactionType;
 
 import java.util.Date;
@@ -9,9 +8,9 @@ public class DividendsPayment extends AbstractTransaction {
     private int numberOfMoneyPayed;
     private String receiver;
 
-    public DividendsPayment(long transactionHash, Date transactionDate, int companyID, String transactionAuthor,
-                            TransactionType transactionType, String status, Priority priority, int numberOfMoneyPayed, String receiver) {
-        super(transactionHash, transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+    public DividendsPayment(Date transactionDate, int companyID, String transactionAuthor,
+                            TransactionType transactionType, String status, int priority, int numberOfMoneyPayed, String receiver) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority);
         this.numberOfMoneyPayed = numberOfMoneyPayed;
         this.receiver = receiver;
     }

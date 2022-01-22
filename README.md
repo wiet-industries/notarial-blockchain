@@ -5,6 +5,7 @@ Infrastructure to store notarial data based on blockchain, detailed documentatio
 - [Blockchain](https://github.com/wiet-industries/notarial-blockchain/tree/master/src/main/java/blockchain)
 - [Logic](https://github.com/wiet-industries/notarial-blockchain/tree/master/src/main/java/logic)
 - [Rest](https://github.com/wiet-industries/notarial-blockchain/tree/master/src/main/java/rest)
+- [Database](https://github.com/wiet-industries/notarial-blockchain/tree/master/src/main/java/database)
 
 ## Overview
 Application infrastructure is based on web of `Nodes`. Each Node shares data with others using P2P model (NAT Hole punching is used). To establish connections between nodes each node sends requests to `Core` with public IP, so it can be reachable from any Node in Web. Node is a service which runs it's own `REST` and open a `frontend` web application. Application provides set of operations to controll node, establish connection, add transaction to blockchain, see blocks etc. and use REST to connect with Node service which is responsible for connection and sharing data. Blockchain data is stored localy in database (still developing). Blockchain architecture is classic blockchain-like app.

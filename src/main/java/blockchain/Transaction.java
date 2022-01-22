@@ -5,6 +5,14 @@ import blockchain.helpers.SHA256;
 public class Transaction {
     public String data;
     public String hash;
+
+    public Transaction(String data, String hash) {
+        this.data = data;
+        this.hash = hash;
+    }
+
+    public Transaction() {
+    }
     //TODO klucze ogarnąć
 
 //    {
@@ -27,6 +35,10 @@ public class Transaction {
 
     public String getHash() {
         return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 
     public void calculateHash() {
