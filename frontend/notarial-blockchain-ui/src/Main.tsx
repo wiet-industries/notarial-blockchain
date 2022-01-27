@@ -165,9 +165,7 @@ const Main = () => {
           Disconnect from server
         </Button>
         <Link to="/form">
-          <Button variant="contained" onClick={disconnect}>
-            Add transaction
-          </Button>
+          <Button variant="contained">Add transaction</Button>
         </Link>
       </div>
 
