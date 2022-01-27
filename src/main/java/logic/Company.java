@@ -1,5 +1,6 @@
 package logic;
 
+import com.google.gson.Gson;
 import logic.Transactions.Utilities.Voting;
 
 import java.util.LinkedList;
@@ -88,5 +89,9 @@ public class Company {
 
     public void addVoting(Voting voting) {
         this.votingResults.add(voting);
+    }
+
+    public String toJson() {
+        return new Gson().toJson(this);
     }
 }

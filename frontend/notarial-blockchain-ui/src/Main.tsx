@@ -169,6 +169,9 @@ const Main = () => {
             Add transaction
           </Button>
         </Link>
+        <Link to="/searchCompany">
+          <Button variant="contained">Search company</Button>
+        </Link>
       </div>
 
       <div className="my-5">

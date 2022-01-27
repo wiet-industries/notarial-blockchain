@@ -71,7 +71,7 @@ public class NodeController {
 
     @RequestMapping(value = "/company/info/{id}", method = RequestMethod.GET)
     public String getCompanyInfo(@PathVariable String id) {
-        return "Tobys zesrane";
+        return this.node.getCompanyWithID(Integer.parseInt(id)).toJson();
     }
 
 }
