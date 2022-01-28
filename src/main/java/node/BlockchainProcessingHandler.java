@@ -4,9 +4,15 @@ import blockchain.Block;
 import blockchain.Blockchain;
 import blockchain.MemPool;
 import blockchain.Miner;
+import blockchain.helpers.UnparsedBlock;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import logic.Company;
+import logic.TransactionAdapter;
 import logic.Transactions.ConcreteTransactions.*;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BlockchainProcessingHandler {
@@ -35,7 +41,9 @@ public class BlockchainProcessingHandler {
         }
     }
 
-    public void handleBlockchainFromOtherNode(List<Block> blockchain) {
+    public void handleBlockchainFromOtherNode(JsonElement unparsedBlockchain) {
+        List<Block> blockchain = this.parseJsonElementToBlockList(unparsedBlockchain);
+
         if (blockchain.size() < this.blockchain.getBlockchain().size()) {
             return;
         }
@@ -51,6 +59,27 @@ public class BlockchainProcessingHandler {
         this.blockchain.setBlockchain(blockchain);
         System.out.println(this.blockchain.getBlockchain());
         //sprawdzić poprawność otrzymanego i wybrać dłuższy
+    }
+
+    private List<Block> parseJsonElementToBlockList(JsonElement unparsedBlockchain) {
+        UnparsedBlock[] unparsedBlockList = new Gson().fromJson(unparsedBlockchain.toString(), UnparsedBlock[].class);
+        List<Block> blockList = new LinkedList<>();
+        TransactionAdapter adapter = new TransactionAdapter();
+        for (UnparsedBlock unparsedBlock : unparsedBlockList) {
+            List<AbstractTransaction> parsedTransactions = new LinkedList<>();
+            unparsedBlock.transactions.forEach(transaction -> {
+                try {
+                    adapter.createTransactionFromJson(transaction.toString());
+                } catch (ClassNotFoundException e) {
+                    System.out.println("Error 77Line BlockchainProcessingHandler");
+                    e.printStackTrace();
+                }
+                parsedTransactions.add(adapter.getTransaction());
+            });
+            Block blockToAdd = new Block(parsedTransactions, unparsedBlock.hash, unparsedBlock.previousHash, unparsedBlock.creationDate);
+            blockList.add(blockToAdd);
+        }
+        return blockList;
     }
 
     public Company getCompanyWithID(int ID) throws IllegalArgumentException {

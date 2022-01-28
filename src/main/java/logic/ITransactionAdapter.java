@@ -1,4 +1,4 @@
-package rest;
+package logic;
 
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 

@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
+import logic.Transactions.TransactionFactory;
+import logic.Transactions.Utilities.TransactionType;
 import node.Model.Event;
 import node.Model.Message;
 import node.Model.MessageType;
@@ -34,9 +36,10 @@ public class Blockchain extends BlockchainEventManager {
         // TODO add parameters to first block
         // TODO no to jest TAK OBRZYGANE że to ejst przesada
         List<AbstractTransaction> transactions = new LinkedList<>();
+        transactions.add(TransactionFactory.getCompanyAccountUpdateTransaction(new Date(), 3, "Masny Ben", TransactionType.CompanyAccountUpdate, "GIT", 5, 4, "1"));
         Block gemin = new Block();
         gemin.setHash("1");
-        gemin.setPreviousHash(null);
+        gemin.setPreviousHash("-1");
         gemin.setCreationDate(new Date());
         gemin.setTransactions(transactions);
         this.blockchain.add(gemin);

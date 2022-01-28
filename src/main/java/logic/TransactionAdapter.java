@@ -1,4 +1,4 @@
-package rest;
+package logic;
 
 import blockchain.helpers.SHA256;
 import com.google.gson.Gson;

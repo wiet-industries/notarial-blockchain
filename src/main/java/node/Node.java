@@ -1,7 +1,7 @@
 package node;
 
-import blockchain.Block;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import logic.Company;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.List;
 
 public class Node implements EventListener {
     private final int tcpPort;
@@ -126,12 +124,11 @@ public class Node implements EventListener {
             case BLOCKCHAIN_DATA:
                 try {
                     System.out.println("Elo" + message.getContent());
-                    List<Block> blockchainFromOtherNode = Arrays.asList(new Gson().fromJson(message.getContent(), Block[].class));
-                    this.handleBlockchainFromOtherNode(blockchainFromOtherNode);
+                    this.handleBlockchainFromOtherNode(message.getContent());
                 } catch (Exception e) {
                     System.err.println("Error while trying to parse received message to Transaction.\n" + e.getMessage());
                 }
-                System.out.println("RECEIVED DATA:" + new String(message.getData()));
+//                System.out.println("RECEIVED DATA:" + new String(message.getData()));
                 break;
             case REQUEST_BROADCAST:
                 this.requestBroadcast();
@@ -140,6 +137,7 @@ public class Node implements EventListener {
     }
 
     public void addTransactionToMemPool(AbstractTransaction transaction) {
+        System.out.println("to MemPool: " + transaction.toString());
         this.blockchainProcessingHandler.addTransactionToMemPool(transaction);
 //        this.memPool.addTransaction(transaction);
 //        // TODO does it work?
@@ -148,8 +146,8 @@ public class Node implements EventListener {
 //        }
     }
 
-    private void handleBlockchainFromOtherNode(List<Block> blockchain) {
-        this.blockchainProcessingHandler.handleBlockchainFromOtherNode(blockchain);
+    private void handleBlockchainFromOtherNode(JsonElement unparsedBlockchain) {
+        this.blockchainProcessingHandler.handleBlockchainFromOtherNode(unparsedBlockchain);
 //        if (blockchain.size() < this.blockchain.getBlockchain().size()) {
 //            return;
 //        }
