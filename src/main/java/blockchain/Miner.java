@@ -1,6 +1,7 @@
 package blockchain;
 
 import blockchain.helpers.SHA256;
+import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +46,7 @@ public class Miner extends Thread {
         // set previous hash with current hash
         block.setPreviousHash(blockchain.getLastBlockHash());
         // set block hash
-        List<Transaction> transactionsForBlock = new ArrayList<>();
+        List<AbstractTransaction> transactionsForBlock = new ArrayList<>();
         IntStream.range(0, BLOCKSIZE).forEach(i -> {
             transactionsForBlock.add(memPool.getTransaction());
         });

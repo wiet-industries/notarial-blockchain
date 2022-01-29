@@ -12,8 +12,8 @@ public class SharesLiquidation extends AbstractTransaction {
 
     public SharesLiquidation(Date transactionDate, int companyID, String transactionAuthor,
                              TransactionType transactionType, String status, int priority, int numberOfSharesToLiquidate,
-                             String owner) {
-        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+                             String owner, String hash) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash);
         this.numberOfSharesToLiquidate = numberOfSharesToLiquidate;
         this.owner = owner;
     }
