@@ -15,31 +15,36 @@ const CompanyInfoView = () => {
       setCompanyInfo(fetchedCompanyInfo);
       setIsInfoVisible(true);
     } catch (err) {
-      console.log(err);
+      // TODO show user information about error
+      console.error(err);
     }
   };
 
+  // TODO make this as variable, not a function and use useMemo to avoid re-declaration
+  // Maybe use default values or message instead of !.
   const renderCompanyInfo = () => {
     if (isInfoVisible) {
       return (
         <div>
-          <p>Name: {companyInfo!.name}</p>
-          <p>ID: {companyInfo!.ID}</p>
-          <p>shareValue: {companyInfo!.shareValue}</p>
-          <p>companyValue: {companyInfo!.companyValue}</p>
-          <p>earnings: {companyInfo!.earnings}</p>
+          <p>Name: {companyInfo?.name}</p>
+          <p>ID: {companyInfo?.ID}</p>
+          <p>shareValue: {companyInfo?.shareValue}</p>
+          <p>companyValue: {companyInfo?.companyValue}</p>
+          <p>earnings: {companyInfo?.earnings}</p>
           <p>shares: </p>
-          {Object.entries(companyInfo!.shares).forEach((key, value) => {
-            <div>
-              {key}: {value}
-            </div>;
-          })}
+          {companyInfo?.shares &&
+            Object.entries(companyInfo.shares).forEach((key, value) => (
+              <div>
+                {key}: {value}
+              </div>
+            ))}
         </div>
       );
     }
     return <div />;
   };
 
+  // NUMBER FIELD NOT TEXT FIELD
   const renderSearchForm = () => (
     <div>
       <TextField
