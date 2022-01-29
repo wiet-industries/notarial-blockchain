@@ -1,6 +1,9 @@
 package node;
 
 import blockchain.*;
+import blockchain.helpers.UnparsedBlock;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import logic.Company;
 import logic.TransactionAdapter;
 import logic.Transactions.ConcreteTransactions.*;
@@ -84,53 +87,36 @@ public class BlockchainProcessingHandler {
             for (AbstractTransaction transaction : block.getTransactions()) {
                 if (transaction.getCompanyID() == ID) {
                     // TODO: Check if AddCompany transaction is the first one
-                    switch (transaction.getTransactionType()) {
-                        case AddCompany:
-                            AddCompany addCompany = (AddCompany) transaction;
-                            company.setName(addCompany.getCompanyName());
-                            company.setCompanyValue(addCompany.getCompanyValue());
-                            company.setEarnings(addCompany.getCompanyAccount());
-                            company.setShareValue(addCompany.getShareValue());
-                            company.setShares(addCompany.getDistributedShares());
-                            break;
-                        case CompanyValueUpdate:
-                            CompanyValueUpdate companyValueUpdate = (CompanyValueUpdate) transaction;
-                            company.updateCompanyValue(companyValueUpdate.getValueToAdd());
-                            company.updateShareValue();
-                            break;
-                        case NewSharesEmission:
-                            NewSharesEmission newSharesEmission = (NewSharesEmission) transaction;
-                            company.updateShares(newSharesEmission.getOwner(), newSharesEmission.getNumberOfEmittedShares());
-                            company.updateShareValue();
-                            break;
-                        case SharesBuySell:
-                            SellBuyShares sellBuyShares = (SellBuyShares) transaction;
-                            company.transferShareBetween(sellBuyShares.getSeller(), sellBuyShares.getBuyer(), sellBuyShares.getNumberOfShares());
-                            break;
-                        case SharesLiquidation:
-                            SharesLiquidation sharesLiquidation = (SharesLiquidation) transaction;
-                            company.updateShares(sharesLiquidation.getOwner(), (-1) * sharesLiquidation.getNumberOfSharesToLiquidate());
-                            company.updateShareValue();
-                            break;
-                        case DividendsPayment:
-                            DividendsPayment dividendsPayment = (DividendsPayment) transaction;
-                            company.updateDividend(dividendsPayment.getReceiver(), dividendsPayment.getNumberOfMoneyPayed());
-                            company.updateEarnings((-1) * dividendsPayment.getNumberOfMoneyPayed());
-                            break;
-                        case VotingResults:
-                            VotingResults votingResults = (VotingResults) transaction;
-                            company.addVoting(votingResults.getVoting());
-                            break;
-                        case CompanyAccountUpdate:
-                            CompanyAccountUpdate companyAccountUpdate = (CompanyAccountUpdate) transaction;
-                            company.updateEarnings(companyAccountUpdate.getValueToAdd());
-                            break;
-                    }
+                    transactionProcessContext.setTransactionProcess(this.getProperTransactionProcess(transaction));
+                    transactionProcessContext.process(transaction, company);
                 }
             }
         }
         // TODO: Check if company with given id was found
         return company;
+    }
+
+    private TransactionProcess getProperTransactionProcess(AbstractTransaction transaction) {
+        switch(transaction.getTransactionType()) {
+            case AddCompany:
+                return new AddCompanyTransactionProcess();
+            case CompanyValueUpdate:
+                return new CompanyValueUpdateProcess();
+            case NewSharesEmission:
+                return new NewSharesEmissionProcess();
+            case SharesBuySell:
+                return new SharesBuySellProcess();
+            case SharesLiquidation:
+                return new SharesLiquidationProcess();
+            case DividendsPayment:
+                return new DividendsPaymentProcess();
+            case VotingResults:
+                return new VotingResultsProcess();
+            case CompanyAccountUpdate:
+                return new CompanyAccountUpdateProcess();
+            default:
+                throw new IllegalArgumentException("Non supported transaction type");
+        }
     }
 
 //   public String getCompanyName(String ID) throws IllegalArgumentException {
