@@ -9,11 +9,21 @@ import java.util.List;
 
 public class Block {
     // TODO this should not be public but is due to Gson casting
-    public List<AbstractTransaction> transactions = new LinkedList<>();
+    public List<AbstractTransaction> transactions;
     public String hash;
     public String previousHash;
     public Date creationDate;
 
+    public Block() {
+        this.transactions = new LinkedList<>();
+    }
+
+    public Block(List<AbstractTransaction> transactions, String hash, String previousHash, Date creationDate) {
+        this.transactions = transactions;
+        this.hash = hash;
+        this.previousHash = previousHash;
+        this.creationDate = creationDate;
+    }
 
     public String getPreviousHash() {
         return previousHash;

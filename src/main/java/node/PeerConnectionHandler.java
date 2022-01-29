@@ -29,6 +29,7 @@ public class PeerConnectionHandler {
 //        Message message = new Message(MessageType.DATA, new Gson().toJsonTree("TEST-DATA"), id);
         byte[] data = message.getData();
         peers.forEach(peer -> {
+            openPort(peer, id);
             DatagramPacket datagramPacket = null;
             try {
                 datagramPacket = new DatagramPacket(data, data.length, InetAddress.getByName(peer.getIpAddress()), peer.getPort());
@@ -38,7 +39,7 @@ public class PeerConnectionHandler {
             System.out.println("Sending data to Peer IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
             try {
                 //TODO
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 1; i++) {
                     udpSocket.send(datagramPacket);
                 }
             } catch (IOException e) {
@@ -59,7 +60,7 @@ public class PeerConnectionHandler {
         } catch (UnknownHostException e) {
             System.out.println(e.getMessage());
         }
-        int TRASH_DATAGRAM_COUNT = 10;
+        int TRASH_DATAGRAM_COUNT = 20;
         System.out.println("Making hole with IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
         for (int i = 0; i < TRASH_DATAGRAM_COUNT; i++) {
             try {

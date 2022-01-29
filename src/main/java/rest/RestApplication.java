@@ -1,5 +1,6 @@
 package rest;
 
+import logic.TransactionAdapter;
 import node.Model.Config;
 import node.Node;
 import org.springframework.boot.SpringApplication;

@@ -1,6 +1,7 @@
 package rest;
 
 import com.google.gson.JsonObject;
+import logic.TransactionAdapter;
 import node.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,7 @@ public class NodeController {
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)
     public String addTransaction(@RequestBody String transactionJson) {
         //TODO add body validation
+        System.out.println(transactionJson);
         try {
             adapter.createTransactionFromJson(transactionJson);
         } catch (ClassNotFoundException e) {

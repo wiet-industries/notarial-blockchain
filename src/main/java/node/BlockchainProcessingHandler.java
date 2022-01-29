@@ -2,9 +2,12 @@ package node;
 
 import blockchain.*;
 import logic.Company;
+import logic.TransactionAdapter;
 import logic.Transactions.ConcreteTransactions.*;
 import node.TransactionProcess.*;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BlockchainProcessingHandler {
@@ -33,7 +36,9 @@ public class BlockchainProcessingHandler {
         }
     }
 
-    public void handleBlockchainFromOtherNode(List<Block> blockchain) {
+    public void handleBlockchainFromOtherNode(JsonElement unparsedBlockchain) {
+        List<Block> blockchain = this.parseJsonElementToBlockList(unparsedBlockchain);
+
         if (blockchain.size() < this.blockchain.getBlockchain().size()) {
             return;
         }
@@ -51,6 +56,27 @@ public class BlockchainProcessingHandler {
         //sprawdzić poprawność otrzymanego i wybrać dłuższy
     }
 
+    private List<Block> parseJsonElementToBlockList(JsonElement unparsedBlockchain) {
+        UnparsedBlock[] unparsedBlockList = new Gson().fromJson(unparsedBlockchain.toString(), UnparsedBlock[].class);
+        List<Block> blockList = new LinkedList<>();
+        TransactionAdapter adapter = new TransactionAdapter();
+        for (UnparsedBlock unparsedBlock : unparsedBlockList) {
+            List<AbstractTransaction> parsedTransactions = new LinkedList<>();
+            unparsedBlock.transactions.forEach(transaction -> {
+                try {
+                    adapter.createTransactionFromJson(transaction.toString());
+                } catch (ClassNotFoundException e) {
+                    System.out.println("Error 77Line BlockchainProcessingHandler");
+                    e.printStackTrace();
+                }
+                parsedTransactions.add(adapter.getTransaction());
+            });
+            Block blockToAdd = new Block(parsedTransactions, unparsedBlock.hash, unparsedBlock.previousHash, unparsedBlock.creationDate);
+            blockList.add(blockToAdd);
+        }
+        return blockList;
+    }
+
     public Company getCompanyWithID(int ID) throws IllegalArgumentException {
         Company company = new Company(ID);
         TransactionProcessContext transactionProcessContext = new TransactionProcessContext();
@@ -58,36 +84,53 @@ public class BlockchainProcessingHandler {
             for (AbstractTransaction transaction : block.getTransactions()) {
                 if (transaction.getCompanyID() == ID) {
                     // TODO: Check if AddCompany transaction is the first one
-                    transactionProcessContext.setTransactionProcess(this.getProperTransactionProcess(transaction));
-                    transactionProcessContext.process(transaction, company);
+                    switch (transaction.getTransactionType()) {
+                        case AddCompany:
+                            AddCompany addCompany = (AddCompany) transaction;
+                            company.setName(addCompany.getCompanyName());
+                            company.setCompanyValue(addCompany.getCompanyValue());
+                            company.setEarnings(addCompany.getCompanyAccount());
+                            company.setShareValue(addCompany.getShareValue());
+                            company.setShares(addCompany.getDistributedShares());
+                            break;
+                        case CompanyValueUpdate:
+                            CompanyValueUpdate companyValueUpdate = (CompanyValueUpdate) transaction;
+                            company.updateCompanyValue(companyValueUpdate.getValueToAdd());
+                            company.updateShareValue();
+                            break;
+                        case NewSharesEmission:
+                            NewSharesEmission newSharesEmission = (NewSharesEmission) transaction;
+                            company.updateShares(newSharesEmission.getOwner(), newSharesEmission.getNumberOfEmittedShares());
+                            company.updateShareValue();
+                            break;
+                        case SharesBuySell:
+                            SellBuyShares sellBuyShares = (SellBuyShares) transaction;
+                            company.transferShareBetween(sellBuyShares.getSeller(), sellBuyShares.getBuyer(), sellBuyShares.getNumberOfShares());
+                            break;
+                        case SharesLiquidation:
+                            SharesLiquidation sharesLiquidation = (SharesLiquidation) transaction;
+                            company.updateShares(sharesLiquidation.getOwner(), (-1) * sharesLiquidation.getNumberOfSharesToLiquidate());
+                            company.updateShareValue();
+                            break;
+                        case DividendsPayment:
+                            DividendsPayment dividendsPayment = (DividendsPayment) transaction;
+                            company.updateDividend(dividendsPayment.getReceiver(), dividendsPayment.getNumberOfMoneyPayed());
+                            company.updateEarnings((-1) * dividendsPayment.getNumberOfMoneyPayed());
+                            break;
+                        case VotingResults:
+                            VotingResults votingResults = (VotingResults) transaction;
+                            company.addVoting(votingResults.getVoting());
+                            break;
+                        case CompanyAccountUpdate:
+                            CompanyAccountUpdate companyAccountUpdate = (CompanyAccountUpdate) transaction;
+                            company.updateEarnings(companyAccountUpdate.getValueToAdd());
+                            break;
+                    }
                 }
             }
         }
         // TODO: Check if company with given id was found
         return company;
-    }
-
-    private TransactionProcess getProperTransactionProcess(AbstractTransaction transaction) {
-        switch(transaction.getTransactionType()) {
-            case AddCompany:
-                return new AddCompanyTransactionProcess();
-            case CompanyValueUpdate:
-                return new CompanyValueUpdateProcess();
-            case NewSharesEmission:
-                return new NewSharesEmissionProcess();
-            case SharesBuySell:
-                return new SharesBuySellProcess();
-            case SharesLiquidation:
-                return new SharesLiquidationProcess();
-            case DividendsPayment:
-                return new DividendsPaymentProcess();
-            case VotingResults:
-                return new VotingResultsProcess();
-            case CompanyAccountUpdate:
-                return new CompanyAccountUpdateProcess();
-            default:
-                throw new IllegalArgumentException("Non supported transaction type");
-        }
     }
 
 //   public String getCompanyName(String ID) throws IllegalArgumentException {
