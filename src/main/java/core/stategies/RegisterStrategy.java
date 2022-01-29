@@ -16,8 +16,7 @@ public class RegisterStrategy implements ServerStrategy {
         int ID = payloadMessage.getID();
         for (ClientHandler client : clientList) {
             if (client.getID() == ID) {
-                client.setIP(message.getAddress());
-                client.setUpdPort(message.getPort());
+                client.register(message.getAddress(), message.getPort());
                 System.out.println("Register client ID: " + ID + ", IP:" + message.getAddress().toString() + ", PORT: " + message.getPort());
                 return client;
             }
