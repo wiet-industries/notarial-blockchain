@@ -167,9 +167,6 @@ const Main = () => {
         <Link to="/form">
           <Button variant="contained">Add transaction</Button>
         </Link>
-        <Link to="/searchCompany">
-          <Button variant="contained">Search company</Button>
-        </Link>
       </div>
 
       <div className="my-5">

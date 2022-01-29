@@ -1,10 +1,13 @@
 package node;
 
+import blockchain.Block;
+import blockchain.Transaction;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import logic.Company;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
+import com.mongodb.DB;
 import node.Listeners.TcpListener;
 import node.Listeners.UdpListener;
 import node.Model.Event;
@@ -14,6 +17,8 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.List;
 
 public class Node implements EventListener {
     private final int tcpPort;
@@ -30,11 +35,13 @@ public class Node implements EventListener {
     private Socket tcpSocket;
     private DatagramSocket udpSocket;
     private int ID;
+    private final DB database;
 
-    public Node(int tcpPort, int udpPort, InetAddress serverAddress) {
+    public Node(int tcpPort, int udpPort, InetAddress serverAddress, DB database) {
         this.tcpPort = tcpPort;
         this.udpPort = udpPort;
         this.serverAddress = serverAddress;
+        this.database = database;
 //        this.blockchain = new Blockchain();
 
         this.blockchainProcessingHandler = new BlockchainProcessingHandler();
