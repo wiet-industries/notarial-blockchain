@@ -17,7 +17,7 @@ public class ConnectStrategy implements ServerStrategy {
     public ClientHandler processAuthor(Message message, List<ClientHandler> clientList) {
         System.out.println("Client connected. IP: " + message.getAddress().toString() + ", PORT_TCP: " + message.getPort());
         try {
-            ClientHandler client = new ClientHandler(message.getSocket(), clientList.size() + 1, clientList);
+            ClientHandler client = new ClientHandler(message.getSocket(), this.findNextID(clientList), clientList);
             client.start();
             return client;
         } catch (IOException e) {
@@ -46,5 +46,15 @@ public class ConnectStrategy implements ServerStrategy {
     @Override
     public void updateClients(ClientHandler clientHandler, List<ClientHandler> clientList, Server server) {
         clientList.add(clientHandler);
+    }
+
+    private int findNextID(List<ClientHandler> clientList) {
+        int result = 0;
+        for(ClientHandler client : clientList) {
+            if(client.getID() > result) {
+                result = client.getID();
+            }
+        }
+        return result + 1;
     }
 }

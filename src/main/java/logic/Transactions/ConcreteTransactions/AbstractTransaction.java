@@ -5,6 +5,7 @@ import logic.Transactions.Utilities.TransactionType;
 import java.util.Date;
 
 public abstract class AbstractTransaction {
+    public String hash;
     private Date transactionDate;
     private int companyID;
     // TODO
@@ -14,14 +15,14 @@ public abstract class AbstractTransaction {
     private String Status;
     private int priority;
 
-
-    public AbstractTransaction(Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String status, int priority) {
+    public AbstractTransaction(Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String status, int priority, String hash) {
         this.transactionDate = transactionDate;
         this.companyID = companyID;
         this.transactionAuthor = transactionAuthor;
         this.transactionType = transactionType;
         this.Status = status;
         this.priority = priority;
+        this.hash = hash;
     }
 
     public Date getTransactionDate() {
@@ -72,9 +73,13 @@ public abstract class AbstractTransaction {
         Status = status;
     }
 
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
     @Override
     public String toString() {
-        return "AbstractTransaction{" +
+        return "AbstractTransaction{" + hash +
                 ", transactionDate=" + transactionDate +
                 ", companyID=" + companyID +
                 ", transactionAuthor='" + transactionAuthor + '\'' +

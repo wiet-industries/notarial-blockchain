@@ -169,6 +169,10 @@ const Main = () => {
         </Link>
       </div>
 
+      <Link to="/searchCompany">
+        <Button variant="contained">Search company</Button>
+      </Link>
+
       <div className="my-5">
         <ul>
           {message.map((item, id) => (

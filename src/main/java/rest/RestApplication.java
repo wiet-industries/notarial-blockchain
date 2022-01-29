@@ -2,6 +2,7 @@ package rest;
 
 import com.mongodb.DB;
 import database.DBConnection;
+import logic.TransactionAdapter;
 import node.Model.Config;
 import node.Node;
 import org.springframework.boot.SpringApplication;
@@ -24,5 +25,10 @@ public class RestApplication {
         DB database = DBConnection.getDatabase("blockchain-local-db");
         // after end close connection
         return new Node(Config.TCP_PORT, Config.UDP_PORT, InetAddress.getByName(Config.IP), database);
+    }
+
+    @Bean
+    TransactionAdapter createAdapter() throws UnknownHostException {
+        return new TransactionAdapter();
     }
 }

@@ -1,22 +1,21 @@
 package logic.Transactions.ConcreteTransactions;
 
-import logic.Transactions.Utilities.DistributedShares;
 import logic.Transactions.Utilities.TransactionType;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 public class AddCompany extends AbstractTransaction {
     private String companyName;
     private int companyValue;
     private int companyAccount = 0;
     private int shareValue;
-    private List<DistributedShares> distributedShares;
+    private Map<String, Integer> distributedShares;
 
     public AddCompany(Date transactionDate, int companyID, String transactionAuthor,
                       TransactionType transactionType, String status, int priority, String companyName,
-                      int companyValue, int companyAccount, int shareValue, List<DistributedShares> distributedShares) {
-        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority);
+                      int companyValue, int companyAccount, int shareValue, Map<String, Integer> distributedShares, String hash) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash);
         this.companyName = companyName;
         this.companyValue = companyValue;
         this.companyAccount = companyAccount;
@@ -57,18 +56,18 @@ public class AddCompany extends AbstractTransaction {
         this.shareValue = shareValue;
     }
 
-    public List<DistributedShares> getDistributedShares() {
+    public Map<String, Integer> getDistributedShares() {
         return distributedShares;
     }
 
-    public void setDistributedShares(List<DistributedShares> distributedShares) {
+    public void setDistributedShares(Map<String, Integer> distributedShares) {
         this.distributedShares = distributedShares;
     }
 
 
     @Override
     public String toString() {
-        return "AddCompany{" +
+        return super.toString() + "AddCompany{" +
                 "companyName='" + companyName + '\'' +
                 ", companyValue=" + companyValue +
                 ", companyAccount=" + companyAccount +

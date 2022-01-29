@@ -32,7 +32,7 @@ public class BroadcastStrategy implements ServerStrategy {
         JsonArray addresses = new JsonArray();
 
         for (ClientHandler c : clientList) {
-            if (c != null && !c.equals(client)) {
+            if (c != null && !c.equals(client) && c.isRegistered()) {
                 addresses.add(c.getClientConnectionDataAsJson());
             }
         }

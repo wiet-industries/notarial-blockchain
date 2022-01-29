@@ -22,7 +22,8 @@ public class ClientHandler extends EventManager {
     private BufferedOutputStream output;
     private int ID;
     private InetAddress IP;
-    private int updPort;
+    private int udpPort;
+    private boolean registered = false;
 
     public ClientHandler(Socket socket, int ID, List<ClientHandler> clients) throws IOException {
         this.socket = socket;
@@ -30,7 +31,6 @@ public class ClientHandler extends EventManager {
         this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.output = new BufferedOutputStream(socket.getOutputStream());
         this.clients = clients;
-
     }
 
     private List<ClientHandler> clients;
@@ -55,12 +55,12 @@ public class ClientHandler extends EventManager {
         this.IP = IP;
     }
 
-    public int getUpdPort() {
-        return updPort;
+    public int getUdpPort() {
+        return udpPort;
     }
 
-    public void setUpdPort(int updPort) {
-        this.updPort = updPort;
+    public void setUdpPort(int udpPort) {
+        this.udpPort = udpPort;
     }
 
     @Override
@@ -75,6 +75,16 @@ public class ClientHandler extends EventManager {
         }
     }
 
+    public boolean isRegistered() {
+        return this.registered;
+    }
+
+    public void register(InetAddress IP, int udpPort) {
+        this.IP = IP;
+        this.udpPort = udpPort;
+        this.registered = true;
+    }
+
     private boolean listenForTcpPackets() throws IOException {
         try{
             String data = this.input.readLine();
@@ -84,6 +94,7 @@ public class ClientHandler extends EventManager {
             this.notify(event);
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             Message message = new Message(this.createDisconnectMessage().toJson(), this.socket.getInetAddress(), this.socket.getPort(), this.socket);
             Event event = new Event(message);
             this.notify(event);
@@ -94,7 +105,7 @@ public class ClientHandler extends EventManager {
     public JsonObject getClientConnectionDataAsJson() {
         JsonObject clientRecord = new JsonObject();
         clientRecord.addProperty("ipAddress", this.IP.toString().substring(1));
-        clientRecord.addProperty("port", this.updPort);
+        clientRecord.addProperty("port", this.udpPort);
         return clientRecord;
     }
 
@@ -111,12 +122,12 @@ public class ClientHandler extends EventManager {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ClientHandler that = (ClientHandler) o;
-        return ID == that.ID && updPort == that.updPort && IP.equals(that.IP);
+        return ID == that.ID && udpPort == that.udpPort && IP.equals(that.IP);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, IP, updPort);
+        return Objects.hash(ID, IP, udpPort);
     }
 }
 

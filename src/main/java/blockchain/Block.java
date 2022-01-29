@@ -1,6 +1,7 @@
 package blockchain;
 
 import com.google.gson.Gson;
+import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -8,11 +9,21 @@ import java.util.List;
 
 public class Block {
     // TODO this should not be public but is due to Gson casting
-    public List<Transaction> transactions = new LinkedList<>();
+    public List<AbstractTransaction> transactions;
     public String hash;
     public String previousHash;
     public Date creationDate;
 
+    public Block() {
+        this.transactions = new LinkedList<>();
+    }
+
+    public Block(List<AbstractTransaction> transactions, String hash, String previousHash, Date creationDate) {
+        this.transactions = transactions;
+        this.hash = hash;
+        this.previousHash = previousHash;
+        this.creationDate = creationDate;
+    }
 
     public String getPreviousHash() {
         return previousHash;
@@ -38,11 +49,11 @@ public class Block {
         this.creationDate = creationDate;
     }
 
-    public List<Transaction> getTransactions() {
+    public List<AbstractTransaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(List<AbstractTransaction> transactions) {
         this.transactions = transactions;
     }
 

@@ -3,6 +3,7 @@ import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+import CompanyInfoView from "./companyInfo/CompanyInfoView";
 // eslint-disable-next-line import/no-unresolved
 import Main from "./Main";
 // eslint-disable-next-line import/no-unresolved
@@ -18,6 +19,8 @@ const App = () => (
           <Route path="/" element={<Main />} />
 
           <Route path="/form" element={<TransactionForm />} />
+
+          <Route path="/searchCompany" element={<CompanyInfoView />} />
 
           {/* <Route */}
           {/*  path="/dishdetails/:dishID" */}
