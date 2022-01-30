@@ -4,7 +4,7 @@ import logic.Transactions.Utilities.TransactionType;
 
 import java.util.Date;
 
-public abstract class AbstractTransaction {
+public abstract class AbstractTransaction implements Comparable {
     public String hash;
     private Date transactionDate;
     private int companyID;
@@ -86,5 +86,10 @@ public abstract class AbstractTransaction {
                 ", transactionType=" + transactionType +
                 ", priority=" + priority +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.transactionDate.compareTo(((AbstractTransaction) o).getTransactionDate());
     }
 }

@@ -4,7 +4,7 @@ import logic.Company;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 import logic.Transactions.ConcreteTransactions.AddCompany;
 
-public class AddCompanyTransactionProcess implements TransactionProcess{
+public class AddCompanyTransactionProcess implements TransactionProcess {
 
     @Override
     public void process(AbstractTransaction transaction, Company company) {
@@ -14,5 +14,10 @@ public class AddCompanyTransactionProcess implements TransactionProcess{
         company.setEarnings(addCompany.getCompanyAccount());
         company.setShareValue(addCompany.getShareValue());
         company.setShares(addCompany.getDistributedShares());
+    }
+
+    @Override
+    public boolean validate(AbstractTransaction transaction, Company company) {
+        return true;
     }
 }

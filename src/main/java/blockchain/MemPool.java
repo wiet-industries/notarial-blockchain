@@ -2,6 +2,8 @@ package blockchain;
 
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import static blockchain.helpers.Config.MEMPOOLCAPACITY;
@@ -20,6 +22,10 @@ public class MemPool {
 
     public AbstractTransaction getTransaction() {
         return this.priorityBlockingQueue.poll();
+    }
+
+    public List<AbstractTransaction> getMemPoolTransactions() {
+        return new LinkedList<>(priorityBlockingQueue);
     }
 
 }

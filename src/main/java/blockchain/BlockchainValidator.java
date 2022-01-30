@@ -1,32 +1,31 @@
 package blockchain;
 
+import blockchain.helpers.BlockchainTraverse;
 import logic.Company;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
-import node.BlockchainProcessingHandler;
+import logic.Transactions.Utilities.TransactionType;
+import node.TransactionProcess.TransactionProcess;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BlockchainValidator {
 
-    private final Blockchain blockchain;
-    private final MemPool memPool;
-
-    public BlockchainValidator(Blockchain blockchain, MemPool memPool) {
-        this.blockchain = blockchain;
-        this.memPool = memPool;
-    }
-
-    private boolean validateAddCompany(Company company, AbstractTransaction abstractTransaction) {
-
-    }
-
-
-    public boolean checkIfCompanyWasPreviouslyCreated(AbstractTransaction transaction) {
-        BlockchainProcessingHandler blockchainProcessingHandler = new BlockchainProcessingHandler(this.blockchain, this.memPool);
-
+    public static boolean validate(Blockchain blockchain, MemPool memPool, AbstractTransaction transaction) {
+        List<AbstractTransaction> blockchainTransactions = Stream.concat(blockchain.getFlattenBlockchain().stream(), memPool.getMemPoolTransactions().stream())
+                .collect(Collectors.toList());
         try {
-            Company company = blockchainProcessingHandler.getCompanyWithID(transaction.getCompanyID());
+            Company company = BlockchainTraverse.getCompanyWithID(transaction.getCompanyID(), blockchainTransactions);
+
+            if (transaction.getTransactionType() == TransactionType.AddCompany) {
+                return false;
+            }
+
+            TransactionProcess process = BlockchainTraverse.getProperTransactionProcess(transaction);
+            return process.validate(transaction, company);
         } catch (IllegalArgumentException e) {
-            return this.companyCreatedInMempool(transaction)
+            return transaction.getTransactionType() == TransactionType.AddCompany;
         }
-        return false;
     }
 }

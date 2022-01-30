@@ -1,18 +1,14 @@
 package node;
 
-import blockchain.Block;
-import blockchain.Blockchain;
-import blockchain.MemPool;
-import blockchain.Miner;
+import blockchain.*;
+import blockchain.helpers.BlockchainTraverse;
 import blockchain.helpers.UnparsedBlock;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import logic.Company;
 import logic.TransactionAdapter;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
-import node.TransactionProcess.*;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,11 +40,17 @@ public class BlockchainProcessingHandler {
     }
 
     public void addTransactionToMemPool(AbstractTransaction transaction) {
-        this.memPool.addTransaction(transaction);
-        // TODO does it work?
-        synchronized (this.miner) {
-            this.miner.notify();
+        // VALIDATION HERE
+        if (BlockchainValidator.validate(blockchain, memPool, transaction)) {
+            System.out.println("VALIDATE RIGHT");
+            this.memPool.addTransaction(transaction);
+            // TODO does it work?
+            synchronized (this.miner) {
+                this.miner.notify();
+            }
         }
+
+
     }
 
     public void handleBlockchainFromOtherNode(JsonElement unparsedBlockchain) {
@@ -69,6 +71,10 @@ public class BlockchainProcessingHandler {
         this.blockchain.setBlockchain(blockchain);
         System.out.println(this.blockchain.getBlockchain());
         //sprawdzić poprawność otrzymanego i wybrać dłuższy
+    }
+
+    public Company getCompanyWithID(int ID) {
+        return BlockchainTraverse.getCompanyWithID(ID, this.blockchain.getFlattenBlockchain());
     }
 
     private List<Block> parseJsonElementToBlockList(JsonElement unparsedBlockchain) {
@@ -92,52 +98,6 @@ public class BlockchainProcessingHandler {
         return blockList;
     }
 
-    public Company getCompanyWithID(int ID) throws IllegalArgumentException {
-        Company company = new Company(ID);
-        boolean companyFound = false;
-        TransactionProcessContext transactionProcessContext = new TransactionProcessContext();
-        for (Block block : this.blockchain.getBlockchain()) {
-            // TODO: fix transaction order problem
-            Collections.reverse(block.getTransactions());
-            for (AbstractTransaction transaction : block.getTransactions()) {
-                if (transaction.getCompanyID() == ID) {
-                    // TODO: Check if AddCompany transaction is the first one
-                    companyFound = true;
-                    transactionProcessContext.setTransactionProcess(this.getProperTransactionProcess(transaction));
-                    transactionProcessContext.process(transaction, company);
-                }
-            }
-        }
-        // TODO: Check if company with given id was found
-        if (!companyFound) {
-            throw new IllegalArgumentException("Company with given ID does not exist.");
-        }
-        return company;
-
-    }
-
-    private TransactionProcess getProperTransactionProcess(AbstractTransaction transaction) {
-        switch (transaction.getTransactionType()) {
-            case AddCompany:
-                return new AddCompanyTransactionProcess();
-            case CompanyValueUpdate:
-                return new CompanyValueUpdateProcess();
-            case NewSharesEmission:
-                return new NewSharesEmissionProcess();
-            case SharesBuySell:
-                return new SharesBuySellProcess();
-            case SharesLiquidation:
-                return new SharesLiquidationProcess();
-            case DividendsPayment:
-                return new DividendsPaymentProcess();
-            case VotingResults:
-                return new VotingResultsProcess();
-            case CompanyAccountUpdate:
-                return new CompanyAccountUpdateProcess();
-            default:
-                throw new IllegalArgumentException("Non supported transaction type");
-        }
-    }
 
 //   public String getCompanyName(String ID) throws IllegalArgumentException {
 //

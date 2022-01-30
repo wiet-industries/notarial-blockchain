@@ -41,4 +41,5 @@ public class SharesLiquidation extends AbstractTransaction {
                 ", owner='" + owner + '\'' +
                 '}';
     }
+
 }

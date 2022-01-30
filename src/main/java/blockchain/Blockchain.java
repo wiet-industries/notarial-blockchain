@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Blockchain extends BlockchainEventManager {
     //TODO consider Thread safe queue and add DataBase
@@ -78,6 +79,10 @@ public class Blockchain extends BlockchainEventManager {
         } else {
             throw new RuntimeException("No Block's have been added to chain...");
         }
+    }
+
+    public List<AbstractTransaction> getFlattenBlockchain() {
+        return this.blockchain.stream().flatMap(o -> o.getTransactions().stream()).collect(Collectors.toList());
     }
 
     public JsonElement getBlockchainAsJsonElement() {
