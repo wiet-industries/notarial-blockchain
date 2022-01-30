@@ -10,6 +10,7 @@ import logic.Transactions.ConcreteTransactions.*;
 import node.TransactionProcess.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,6 +85,8 @@ public class BlockchainProcessingHandler {
         Company company = new Company(ID);
         TransactionProcessContext transactionProcessContext = new TransactionProcessContext();
         for (Block block : this.blockchain.getBlockchain()) {
+            // TODO: fix transaction order problem
+            Collections.reverse(block.getTransactions());
             for (AbstractTransaction transaction : block.getTransactions()) {
                 if (transaction.getCompanyID() == ID) {
                     // TODO: Check if AddCompany transaction is the first one

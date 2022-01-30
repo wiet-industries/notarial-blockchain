@@ -3,6 +3,7 @@ package logic;
 import com.google.gson.Gson;
 import logic.Transactions.Utilities.Voting;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +14,9 @@ public class Company {
     private int shareValue;
     private int companyValue;
     private int earnings;
-    private Map<String, Integer> shares;
-    private Map<String, List<Integer>> dividends;
-    private List<Voting> votingResults;
+    private Map<String, Integer> shares = new HashMap<>();
+    private Map<String, List<Integer>> dividends = new HashMap<>();
+    private List<Voting> votingResults = new LinkedList<>();
 
     public Company(int ID) {
         this.ID = ID;
