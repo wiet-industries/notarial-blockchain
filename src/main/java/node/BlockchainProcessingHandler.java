@@ -94,6 +94,7 @@ public class BlockchainProcessingHandler {
 
     public Company getCompanyWithID(int ID) throws IllegalArgumentException {
         Company company = new Company(ID);
+        boolean companyFound = false;
         TransactionProcessContext transactionProcessContext = new TransactionProcessContext();
         for (Block block : this.blockchain.getBlockchain()) {
             // TODO: fix transaction order problem
@@ -101,13 +102,14 @@ public class BlockchainProcessingHandler {
             for (AbstractTransaction transaction : block.getTransactions()) {
                 if (transaction.getCompanyID() == ID) {
                     // TODO: Check if AddCompany transaction is the first one
+                    companyFound = true;
                     transactionProcessContext.setTransactionProcess(this.getProperTransactionProcess(transaction));
                     transactionProcessContext.process(transaction, company);
                 }
             }
         }
         // TODO: Check if company with given id was found
-        if (1 == 2) {
+        if (!companyFound) {
             throw new IllegalArgumentException("Company with given ID does not exist.");
         }
         return company;

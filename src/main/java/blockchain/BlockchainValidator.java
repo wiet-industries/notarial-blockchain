@@ -6,22 +6,27 @@ import node.BlockchainProcessingHandler;
 
 public class BlockchainValidator {
 
-    private static boolean validateAddCompany(Company company, AbstractTransaction abstractTransaction) {
+    private final Blockchain blockchain;
+    private final MemPool memPool;
+
+    public BlockchainValidator(Blockchain blockchain, MemPool memPool) {
+        this.blockchain = blockchain;
+        this.memPool = memPool;
+    }
+
+    private boolean validateAddCompany(Company company, AbstractTransaction abstractTransaction) {
 
     }
 
 
-    public static boolean validate(Blockchain blockchain, MemPool memPool, AbstractTransaction transaction) {
-        BlockchainProcessingHandler blockchainProcessingHandler = new BlockchainProcessingHandler(blockchain, memPool);
+    public boolean checkIfCompanyWasPreviouslyCreated(AbstractTransaction transaction) {
+        BlockchainProcessingHandler blockchainProcessingHandler = new BlockchainProcessingHandler(this.blockchain, this.memPool);
 
-        Company company;
         try {
-            company = blockchainProcessingHandler.getCompanyWithID(transaction.getCompanyID());
+            Company company = blockchainProcessingHandler.getCompanyWithID(transaction.getCompanyID());
         } catch (IllegalArgumentException e) {
-            return false;
+            return this.companyCreatedInMempool(transaction)
         }
-
-
         return false;
     }
 }
