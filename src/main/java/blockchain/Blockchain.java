@@ -84,7 +84,7 @@ public class Blockchain extends BlockchainEventManager {
         return new JsonParser().parse(this.getBlockchainStringJson());
     }
 
-    private String getBlockchainStringJson() {
+    public String getBlockchainStringJson() {
         return new Gson().toJson(this.blockchain);
     }
 }
