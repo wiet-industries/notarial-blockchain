@@ -2,7 +2,11 @@ package database;
 
 import com.mongodb.*;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class DBConnection {
     private static MongoClient mongoClient = null;
@@ -15,6 +19,10 @@ public class DBConnection {
             e.printStackTrace();
         }
     }
+
+    public DBConnection() {
+    }
+
 
     public static void startDBConnection(String dbUri) {
         if (mongoClient == null) {
@@ -45,5 +53,17 @@ public class DBConnection {
             return database;
         }
         return null;
+    }
+
+    public String getBlockchainJson() {
+        // Need to be absolute for now
+        String PATH = "/Users/kamil/notarial-blockchain/src/main/java/database/Blockchain.json";
+        String text = "";
+        try {
+            text = new String(Files.readAllBytes(Paths.get(PATH)), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text;
     }
 }

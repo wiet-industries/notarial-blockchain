@@ -65,7 +65,7 @@ public class Miner extends Thread {
         String message = block.getCreationDate() + block.transactionsToJson()
                 + block.getPreviousHash();
 
-        // ewentualnie sleep(5000) XD
+        // ewentualnie sleep(5000) XD33
         while (!nonceFound) {
             nonceHash = SHA256.generateHash(message + nonce);
             nonceFound = nonceHash.startsWith(nonceKey);
