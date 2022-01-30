@@ -20,8 +20,6 @@ const CompanyInfoView = () => {
     }
   };
 
-  console.log(Object.entries(companyInfo?.shares ?? []));
-
   const renderCompanyInfo = isInfoVisible ? (
     <div>
       <p>Name: {companyInfo?.name}</p>

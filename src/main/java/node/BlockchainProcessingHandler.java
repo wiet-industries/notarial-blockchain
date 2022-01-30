@@ -1,15 +1,17 @@
 package node;
 
-import blockchain.*;
+import blockchain.Block;
+import blockchain.Blockchain;
+import blockchain.MemPool;
+import blockchain.Miner;
 import blockchain.helpers.UnparsedBlock;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import logic.Company;
 import logic.TransactionAdapter;
-import logic.Transactions.ConcreteTransactions.*;
+import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 import node.TransactionProcess.*;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,9 +26,18 @@ public class BlockchainProcessingHandler {
         this.blockchain = new Blockchain();
         this.memPool = new MemPool();
 
+        //TODO MOVE THIS SOMEWHERE ELSE
         this.miner = new Miner(this.memPool, this.blockchain);
         this.miner.start();
     }
+
+    public BlockchainProcessingHandler(Blockchain blockchain, MemPool memPool) {
+        this.blockchain = blockchain;
+        this.memPool = memPool;
+        this.miner = new Miner(this.memPool, this.blockchain);
+        this.miner.start();
+    }
+
 
     public Blockchain getBlockchain() {
         return blockchain;
@@ -96,11 +107,15 @@ public class BlockchainProcessingHandler {
             }
         }
         // TODO: Check if company with given id was found
+        if (1 == 2) {
+            throw new IllegalArgumentException("Company with given ID does not exist.");
+        }
         return company;
+
     }
 
     private TransactionProcess getProperTransactionProcess(AbstractTransaction transaction) {
-        switch(transaction.getTransactionType()) {
+        switch (transaction.getTransactionType()) {
             case AddCompany:
                 return new AddCompanyTransactionProcess();
             case CompanyValueUpdate:

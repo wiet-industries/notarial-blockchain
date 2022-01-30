@@ -49,6 +49,12 @@ public class BlockchainGenerator {
         }
     }
 
+    private boolean checkIsValid() {
+
+        return false;
+    }
+
+
     private void generateTransactions() {
         int COMPANIES = 10;
         this.generateCompanies(COMPANIES);
@@ -70,6 +76,8 @@ public class BlockchainGenerator {
             );
             transactions.add(transaction);
         }
+        
+
     }
 
     private void generateBlockchain() {
