@@ -20,32 +20,27 @@ const CompanyInfoView = () => {
     }
   };
 
-  // TODO make this as variable, not a function and use useMemo to avoid re-declaration
-  // Maybe use default values or message instead of !.
-  const renderCompanyInfo = () => {
-    if (isInfoVisible) {
-      return (
-        <div>
-          <p>Name: {companyInfo?.name}</p>
-          <p>ID: {companyInfo?.ID}</p>
-          <p>shareValue: {companyInfo?.shareValue}</p>
-          <p>companyValue: {companyInfo?.companyValue}</p>
-          <p>earnings: {companyInfo?.earnings}</p>
-          <p>shares: </p>
-          {companyInfo?.shares &&
-            Object.entries(companyInfo.shares).forEach((key, value) => (
-              <div>
-                {key}: {value}
-              </div>
-            ))}
-        </div>
-      );
-    }
-    return <div />;
-  };
+  console.log(Object.entries(companyInfo?.shares ?? []));
+
+  const renderCompanyInfo = isInfoVisible ? (
+    <div>
+      <p>Name: {companyInfo?.name}</p>
+      <p>ID: {companyInfo?.ID}</p>
+      <p>shareValue: {companyInfo?.shareValue}</p>
+      <p>companyValue: {companyInfo?.companyValue}</p>
+      <p>earnings: {companyInfo?.earnings}</p>
+      <p>shares: </p>
+      {companyInfo?.shares &&
+        Object.entries(companyInfo.shares).map((key, idx) => (
+          <div key={idx}>
+            {key[0]}: {key[1]}
+          </div>
+        ))}
+    </div>
+  ) : null;
 
   // NUMBER FIELD NOT TEXT FIELD
-  const renderSearchForm = () => (
+  const renderSearchForm = (
     <div>
       <TextField
         label="Company ID you want to search"
@@ -60,8 +55,8 @@ const CompanyInfoView = () => {
 
   return (
     <div>
-      {renderSearchForm()}
-      {renderCompanyInfo()}
+      {renderSearchForm}
+      {renderCompanyInfo}
     </div>
   );
 };
