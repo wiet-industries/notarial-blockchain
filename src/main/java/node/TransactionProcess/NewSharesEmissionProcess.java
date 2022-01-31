@@ -14,6 +14,7 @@ public class NewSharesEmissionProcess implements TransactionProcess {
 
     @Override
     public boolean validate(AbstractTransaction transaction, Company company) {
-        return true;
+        NewSharesEmission newSharesEmission = (NewSharesEmission) transaction;
+        return company != null && newSharesEmission.getNumberOfEmittedShares() > 0;
     }
 }

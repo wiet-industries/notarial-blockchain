@@ -14,6 +14,7 @@ public class CompanyValueUpdateProcess implements TransactionProcess {
 
     @Override
     public boolean validate(AbstractTransaction transaction, Company company) {
-        return true;
+        CompanyValueUpdate companyValueUpdate = (CompanyValueUpdate) transaction;
+        return company != null && company.getCompanyValue() + companyValueUpdate.getValueToAdd() >= 0;
     }
 }

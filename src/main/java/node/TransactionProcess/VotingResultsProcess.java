@@ -12,6 +12,6 @@ public class VotingResultsProcess implements TransactionProcess {
 
     @Override
     public boolean validate(AbstractTransaction transaction, Company company) {
-        return true;
+        return company != null;
     }
 }

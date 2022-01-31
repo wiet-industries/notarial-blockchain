@@ -14,6 +14,12 @@ public class DividendsPaymentProcess implements TransactionProcess {
 
     @Override
     public boolean validate(AbstractTransaction transaction, Company company) {
-        return true;
+        DividendsPayment dividendsPayment = (DividendsPayment) transaction;
+        return company != null &&
+                checkIfShareHolderExist(company, dividendsPayment.getReceiver());
+    }
+
+    private boolean checkIfShareHolderExist(Company company, String shareHolder) {
+        return company.getShares().containsKey(shareHolder);
     }
 }

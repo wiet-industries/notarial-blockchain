@@ -7,7 +7,7 @@ import node.TransactionProcess.*;
 import java.util.List;
 
 public class BlockchainTraverse {
-    public static Company getCompanyWithID(int ID, List<AbstractTransaction> transactionList) throws IllegalArgumentException {
+    public static Company getCompanyWithID(int ID, List<AbstractTransaction> transactionList) {
         Company company = new Company(ID);
         boolean companyFound = false;
         TransactionProcessContext transactionProcessContext = new TransactionProcessContext();
@@ -19,7 +19,7 @@ public class BlockchainTraverse {
             }
         }
         if (!companyFound) {
-            throw new IllegalArgumentException("Company with given ID does not exist.");
+            return null;
         }
         return company;
     }

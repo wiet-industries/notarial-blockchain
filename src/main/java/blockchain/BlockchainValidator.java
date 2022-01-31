@@ -3,7 +3,6 @@ package blockchain;
 import blockchain.helpers.BlockchainTraverse;
 import logic.Company;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
-import logic.Transactions.Utilities.TransactionType;
 import node.TransactionProcess.TransactionProcess;
 
 import java.util.List;
@@ -16,15 +15,8 @@ public class BlockchainValidator {
         List<AbstractTransaction> blockchainTransactions = Stream.concat(blockchain.getFlattenBlockchain().stream(), memPool.getMemPoolTransactions().stream())
                 .collect(Collectors.toList());
 
-        try {
-            Company company = BlockchainTraverse.getCompanyWithID(transaction.getCompanyID(), blockchainTransactions);
-            if (transaction.getTransactionType() == TransactionType.AddCompany) {
-                return false;
-            }
-            TransactionProcess process = BlockchainTraverse.getProperTransactionProcess(transaction);
-            return process.validate(transaction, company);
-        } catch (IllegalArgumentException e) {
-            return transaction.getTransactionType() == TransactionType.AddCompany;
-        }
+        Company company = BlockchainTraverse.getCompanyWithID(transaction.getCompanyID(), blockchainTransactions);
+        TransactionProcess process = BlockchainTraverse.getProperTransactionProcess(transaction);
+        return process.validate(transaction, company);
     }
 }

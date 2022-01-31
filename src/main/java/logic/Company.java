@@ -114,7 +114,11 @@ public class Company {
 
     public void updateShares(String owner, int shareCount) {
         int oldValue = this.shares.getOrDefault(owner, 0);
-        this.shares.put(owner, oldValue + shareCount);
+        if (oldValue + shareCount != 0) {
+            this.shares.put(owner, oldValue + shareCount);
+        } else {
+            this.shares.remove(owner);
+        }
     }
 
     public void transferShareBetween(String seller, String buyer, int numberOfShares) {

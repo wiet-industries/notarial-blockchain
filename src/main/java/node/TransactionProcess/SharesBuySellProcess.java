@@ -13,6 +13,19 @@ public class SharesBuySellProcess implements TransactionProcess {
 
     @Override
     public boolean validate(AbstractTransaction transaction, Company company) {
-        return true;
+        SellBuyShares sellBuyShares = (SellBuyShares) transaction;
+        return company != null &&
+                sellBuyShares.getNumberOfShares() > 0 &&
+                checkIfShareHolderExist(company, sellBuyShares.getSeller()) &&
+                checkIfShareHolderHasEnoughShares(company, sellBuyShares.getSeller(), sellBuyShares.getNumberOfShares());
+
+    }
+
+    private boolean checkIfShareHolderExist(Company company, String shareHolder) {
+        return company.getShares().containsKey(shareHolder);
+    }
+
+    private boolean checkIfShareHolderHasEnoughShares(Company company, String shareHolder, int shares) {
+        return company.getShares().get(shareHolder) >= shares;
     }
 }
