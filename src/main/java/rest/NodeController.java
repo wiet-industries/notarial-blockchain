@@ -56,16 +56,16 @@ public class NodeController {
     @RequestMapping(value = "/add/transaction", method = RequestMethod.POST)
     public String addTransaction(@RequestBody String transactionJson) {
         //TODO add body validation
-        System.out.println(transactionJson);
+        //System.out.println(transactionJson);
         try {
             adapter.createTransactionFromJson(transactionJson);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("Bad /add/transaction data");
         }
-        System.out.println(transactionJson);
+        //System.out.println(transactionJson);
         this.node.addTransactionToMemPool(adapter.getTransaction());
-        System.out.println("dodana transakcja B) \n");
+        //System.out.println("dodana transakcja B) \n");
         JsonObject response = new JsonObject();
         response.addProperty("message", "OK");
         return response.toString();

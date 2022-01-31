@@ -97,7 +97,12 @@ public class Node implements EventListener {
     }
 
     public void requestBroadcast() {
-        serverSessionHandler.requestSession(ID);
+        try {
+            serverSessionHandler.requestSession(ID);
+        } catch (Exception e) {
+            System.err.println("Server session handler");
+            e.printStackTrace();
+        }
     }
 
     public void disconnect() {

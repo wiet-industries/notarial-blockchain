@@ -12,7 +12,6 @@ public class BlockchainTraverse {
         boolean companyFound = false;
         TransactionProcessContext transactionProcessContext = new TransactionProcessContext();
         for (AbstractTransaction transaction : transactionList) {
-            System.out.println(transaction.getTransactionType());
             if (transaction.getCompanyID() == ID) {
                 companyFound = true;
                 transactionProcessContext.setTransactionProcess(getProperTransactionProcess(transaction));
