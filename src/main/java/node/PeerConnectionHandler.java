@@ -39,7 +39,7 @@ public class PeerConnectionHandler {
             System.out.println("Sending data to Peer IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
             try {
                 //TODO
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < 10; i++) {
                     udpSocket.send(datagramPacket);
                 }
             } catch (IOException e) {
@@ -60,7 +60,7 @@ public class PeerConnectionHandler {
         } catch (UnknownHostException e) {
             System.out.println(e.getMessage());
         }
-        int TRASH_DATAGRAM_COUNT = 20;
+        int TRASH_DATAGRAM_COUNT = 100;
         System.out.println("Making hole with IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
         for (int i = 0; i < TRASH_DATAGRAM_COUNT; i++) {
             try {

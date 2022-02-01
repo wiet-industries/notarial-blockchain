@@ -36,7 +36,7 @@ public class NewSharesEmission extends AbstractTransaction {
     public String toString() {
         return "NewSharesEmission{" +
                 "owner='" + owner + '\'' +
-                ", numberOfEmitedShares=" + numberOfEmittedShares +
+                ", numberOfEmittedShares=" + numberOfEmittedShares +
                 '}';
     }
 }
