@@ -29,12 +29,16 @@ public class PeerConnectionHandler {
 //        Message message = new Message(MessageType.DATA, new Gson().toJsonTree("TEST-DATA"), id);
         byte[] data = message.getData();
         peers.forEach(peer -> {
-            openPort(peer, id);
             DatagramPacket datagramPacket = null;
             try {
                 datagramPacket = new DatagramPacket(data, data.length, InetAddress.getByName(peer.getIpAddress()), peer.getPort());
             } catch (UnknownHostException e) {
                 System.out.println(e.getMessage());
+            }
+            try {
+                Thread.sleep(6000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             System.out.println("Sending data to Peer IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
             try {
@@ -62,13 +66,20 @@ public class PeerConnectionHandler {
         }
         int TRASH_DATAGRAM_COUNT = 100;
         System.out.println("Making hole with IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
-        for (int i = 0; i < TRASH_DATAGRAM_COUNT; i++) {
+        for(int j = 0; j < 5;j++){
+            for (int i = 0; i < TRASH_DATAGRAM_COUNT; i++) {
+                try {
+                    udpSocket.send(datagramPacket);
+                } catch (IOException e) {
+                    System.out.println("Error sending datagram\n" +
+                            "address: " + peer.getIpAddress() + ':' + peer.getPort() + "\n" +
+                            "data: " + Arrays.toString(data));
+                    e.printStackTrace();
+                }
+            }
             try {
-                udpSocket.send(datagramPacket);
-            } catch (IOException e) {
-                System.out.println("Error sending datagram\n" +
-                        "address: " + peer.getIpAddress() + ':' + peer.getPort() + "\n" +
-                        "data: " + Arrays.toString(data));
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
