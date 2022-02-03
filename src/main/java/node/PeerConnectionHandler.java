@@ -28,17 +28,17 @@ public class PeerConnectionHandler {
         Message message = new Message(MessageType.BLOCKCHAIN_DATA, content, id);
 //        Message message = new Message(MessageType.DATA, new Gson().toJsonTree("TEST-DATA"), id);
         byte[] data = message.getData();
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         peers.forEach(peer -> {
             DatagramPacket datagramPacket = null;
             try {
                 datagramPacket = new DatagramPacket(data, data.length, InetAddress.getByName(peer.getIpAddress()), peer.getPort());
             } catch (UnknownHostException e) {
                 System.out.println(e.getMessage());
-            }
-            try {
-                Thread.sleep(6000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
             System.out.println("Sending data to Peer IP: " + peer.getIpAddress() + ", PORT: " + peer.getPort());
             try {
