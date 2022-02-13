@@ -57,7 +57,7 @@ public class DBConnection {
 
     public String getBlockchainJson() {
         // Need to be absolute for now
-        String PATH = "/Users/kamil/notarial-blockchain/src/main/java/database/Blockchain.json";
+        String PATH = "/home/adam/notarial-blockchain/notarial-blockchain/src/main/java/database/Blockchain.json";
         String text = "";
         try {
             text = new String(Files.readAllBytes(Paths.get(PATH)), StandardCharsets.UTF_8);

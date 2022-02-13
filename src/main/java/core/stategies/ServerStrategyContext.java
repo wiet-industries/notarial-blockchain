@@ -16,7 +16,7 @@ public class ServerStrategyContext {
     }
 
     public void execute(Message message, List<ClientHandler> clientList, Server server) {
-        ClientHandler client = this.strategy.processAuthor(message, clientList);
+        ClientHandler client = this.strategy.processAuthor(message, clientList, server);
         //TODO make chain of calls
         if(client == null) {
             System.err.println("Author not found");

@@ -10,6 +10,7 @@ import core.models.MessageContent;
 import core.models.Message;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,8 +22,9 @@ public class Server implements EventListener {
     private UdpEventManager udpEventManager;
     private ServerStrategyContext serverStrategyContext;
     private List<ClientHandler> clientList = Collections.synchronizedList(new ArrayList<>());
+    private List<InetAddress> authorizedClients;
 
-    public Server(int tcpPort, int udpPort) throws IOException {
+    public Server(int tcpPort, int udpPort, List<InetAddress> authorizedClients) throws IOException {
         this.udpEventManager = new UdpEventManager(udpPort);
         this.tcpListener = new NewClientEventManager(tcpPort);
         this.tcpPort = tcpPort;
@@ -30,6 +32,7 @@ public class Server implements EventListener {
         this.udpEventManager.subscribe(this);
         this.tcpListener.subscribe(this);
         this.serverStrategyContext = new ServerStrategyContext();
+        this.authorizedClients = authorizedClients;
     }
 
     void startServer() {
@@ -51,7 +54,6 @@ public class Server implements EventListener {
         this.serverStrategyContext.execute(message, this.clientList, this);
     }
 
-
     private void setProperStrategy(MessageType messageType) {
         switch (messageType) {
             case CONNECT:
@@ -69,5 +71,14 @@ public class Server implements EventListener {
             default:
                 System.out.println("Message Type not supported");
         }
+    }
+
+    public boolean checkIfAuthorized(InetAddress ip) {
+        for(InetAddress existingIP : this.authorizedClients) {
+            if(ip.toString().equals(existingIP.toString())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
