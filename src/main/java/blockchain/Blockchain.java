@@ -12,6 +12,9 @@ import node.Model.Message;
 import node.Model.MessageType;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -95,30 +98,13 @@ public class Blockchain extends BlockchainEventManager {
     public void writeBlockchainToFile(){
         String filename = System.getenv("BLOCKCHAIN_FILE_PATH");
         try {
-            File blockchainFile = new File(filename);
-            blockchainFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(filename);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(this.blockchain);
-            oos.close();
+            PrintWriter writer = new PrintWriter(filename);
+            writer.print(this.getBlockchainStringJson());
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error while saving blockchain to file");
         }
     }
 
-    public void readBlockchainFromFile(){
-        String filename = System.getenv("BLOCKCHAIN_FILE_PATH");
-        try {
-            FileInputStream fis = new FileInputStream(filename);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            Block[] fileBlockchain = (Block[]) ois.readObject();
-            ois.close();
-            blockchain = Arrays.asList(fileBlockchain);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("Error while reading blockchain from file");
-        }
-
-    }
 }
