@@ -22,9 +22,9 @@ public class RestApplication {
     @Bean
     Node createNode() throws UnknownHostException {
         DBConnection.startDBConnection("mongodb://127.0.0.1:27017");
-        DB database = DBConnection.getDatabase("blockchain-local-db");
+        //DB database = DBConnection.getDatabase("blockchain-local-db");
         // after end close connection
-        return new Node(Config.TCP_PORT, Config.UDP_PORT, InetAddress.getByName(Config.IP), database);
+        return new Node(Config.TCP_PORT, Config.UDP_PORT, InetAddress.getByName(Config.IP), null);
     }
 
     @Bean
