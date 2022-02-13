@@ -3,51 +3,91 @@ package logic;
 import com.google.gson.Gson;
 import logic.Transactions.Utilities.Voting;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class Company {
-    private String name;
     private final int ID;
+    private String name;
     private int shareValue;
     private int companyValue;
     private int earnings;
-    private Map<String, Integer> shares;
-    private Map<String, List<Integer>> dividends;
-    private List<Voting> votingResults;
+    private Map<String, Integer> shares = new HashMap<>();
+    private Map<String, List<Integer>> dividends = new HashMap<>();
+    private List<Voting> votingResults = new LinkedList<>();
+
+    public Company(int ID, String name, int shareValue, int companyValue, int earnings) {
+        this.ID = ID;
+        this.name = name;
+        this.shareValue = shareValue;
+        this.companyValue = companyValue;
+        this.earnings = earnings;
+    }
 
     public Company(int ID) {
         this.ID = ID;
     }
 
+    public String getName() {
+        return name;
+    }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getShareValue() {
+        return shareValue;
     }
 
     public void setShareValue(int shareValue) {
         this.shareValue = shareValue;
     }
 
+    public int getCompanyValue() {
+        return companyValue;
+    }
+
     public void setCompanyValue(int companyValue) {
         this.companyValue = companyValue;
+    }
+
+    public int getEarnings() {
+        return earnings;
     }
 
     public void setEarnings(int earnings) {
         this.earnings = earnings;
     }
 
+    public Map<String, Integer> getShares() {
+        return shares;
+    }
+
     public void setShares(Map<String, Integer> shares) {
         this.shares = shares;
+    }
+
+    public Map<String, List<Integer>> getDividends() {
+        return dividends;
     }
 
     public void setDividends(Map<String, List<Integer>> dividends) {
         this.dividends = dividends;
     }
 
+    public List<Voting> getVotingResults() {
+        return votingResults;
+    }
+
     public void setVotingResults(List<Voting> votingResults) {
         this.votingResults = votingResults;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     // TODO: use double as shareValue
@@ -55,6 +95,7 @@ public class Company {
         this.shareValue = this.companyValue / this.getNumberOfShares();
     }
 
+    // TODO this shares is null error
     public int getNumberOfShares() {
         int result = 0;
         for (Map.Entry<String, Integer> entry : this.shares.entrySet()) {
@@ -73,7 +114,11 @@ public class Company {
 
     public void updateShares(String owner, int shareCount) {
         int oldValue = this.shares.getOrDefault(owner, 0);
-        this.shares.put(owner, oldValue + shareCount);
+        if (oldValue + shareCount != 0) {
+            this.shares.put(owner, oldValue + shareCount);
+        } else {
+            this.shares.remove(owner);
+        }
     }
 
     public void transferShareBetween(String seller, String buyer, int numberOfShares) {

@@ -26,16 +26,16 @@ public class Miner extends Thread {
             try {
                 //notify when transaction added to memPool
                 this.wait();
-                System.out.printf("DOSTAŁEM NOWĄ TRANZAKCJE! \n");
+                System.out.println("New transaction in Miner.");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if (memPool.priorityBlockingQueue.size() >= BLOCKSIZE) {
-                createBlockAndApplyToChain();
-                System.out.printf("Stworzyłem nowy blok\n\n");
-                for (Block b : this.blockchain.getBlockchain()) {
-                    System.out.println(b);
-                }
+                this.createBlockAndApplyToChain();
+                System.out.println("New block created.");
+//                for (Block b : this.blockchain.getBlockchain()) {
+//                    System.out.println(b);
+//                }
             }
         }
     }
@@ -65,7 +65,7 @@ public class Miner extends Thread {
         String message = block.getCreationDate() + block.transactionsToJson()
                 + block.getPreviousHash();
 
-        // ewentualnie sleep(5000) XD
+        // ewentualnie sleep(5000) XD33
         while (!nonceFound) {
             nonceHash = SHA256.generateHash(message + nonce);
             nonceFound = nonceHash.startsWith(nonceKey);

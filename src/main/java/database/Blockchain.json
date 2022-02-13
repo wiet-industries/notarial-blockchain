@@ -1,0 +1,251 @@
+[
+  {
+    "transactions": [
+      {
+        "ValueToAdd": 4,
+        "hash": "1",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 3,
+        "transactionAuthor": "Masny Ben",
+        "transactionType": "CompanyAccountUpdate",
+        "Status": "GIT",
+        "priority": 5
+      }
+    ],
+    "hash": "1",
+    "previousHash": "-1",
+    "creationDate": "Jan 30, 2022, 4:31:20 PM"
+  },
+  {
+    "transactions": [
+      {
+        "companyName": "company-e44mucH3IMXcypXfK",
+        "companyValue": 2756,
+        "companyAccount": 6362,
+        "shareValue": 1864,
+        "distributedShares": {
+          "0JGBwMv1J97B0J": 22,
+          "EpZZrVxWEIgY6D": 49,
+          "s4xuGG": 55,
+          "4eWfwF8ZNaVznolum": 52,
+          "xwqmi8": 57
+        },
+        "hash": "hashhhhhh",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 1,
+        "transactionAuthor": "xsan",
+        "transactionType": "AddCompany",
+        "Status": "GIT",
+        "priority": 5
+      },
+      {
+        "companyName": "company-VcGoFClTnCk",
+        "companyValue": 8467,
+        "companyAccount": 315,
+        "shareValue": 2338,
+        "distributedShares": {
+          "": 57,
+          "O8ufgIRG2Nx": 95,
+          "AkXQOn6p0B1C": 1,
+          "hFmFG20aKEa9": 58,
+          "kwM0WyTWkPiQy1SCijkHt": 88,
+          "3mMfodUqJdmF8bFa7f": 7,
+          "FhlIrFqswryhiDFrS0": 91,
+          "j6X": 37
+        },
+        "hash": "hashhhhhh",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 2,
+        "transactionAuthor": "xsan",
+        "transactionType": "AddCompany",
+        "Status": "GIT",
+        "priority": 5
+      },
+      {
+        "companyName": "company-Ql41GWJG",
+        "companyValue": 4600,
+        "companyAccount": 5673,
+        "shareValue": 625,
+        "distributedShares": {
+          "1dQWMzUG1ftKmp9": 74
+        },
+        "hash": "hashhhhhh",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 3,
+        "transactionAuthor": "xsan",
+        "transactionType": "AddCompany",
+        "Status": "GIT",
+        "priority": 5
+      }
+    ],
+    "hash": "f062e92afecd68c00bf568766dd2b1672ad857acea0d87d40811aae2489956c8",
+    "previousHash": "1",
+    "creationDate": "Jan 30, 2022, 4:31:20 PM"
+  },
+  {
+    "transactions": [
+      {
+        "companyName": "company-T4QKFHnKGeqa6Cdw",
+        "companyValue": 2415,
+        "companyAccount": 4873,
+        "shareValue": 509,
+        "distributedShares": {
+          "": 97,
+          "TVyXkp5lpScjXdqcU": 37,
+          "wl": 42,
+          "rG": 88,
+          "PaxkpCw0": 47,
+          "y524ml1GelJ0V1L6jsMNmf": 76,
+          "4JdoNmKfa3H": 40,
+          "OuvzvSX": 31,
+          "AMRHg": 81,
+          "S5oL3": 44
+        },
+        "hash": "hashhhhhh",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 4,
+        "transactionAuthor": "xsan",
+        "transactionType": "AddCompany",
+        "Status": "GIT",
+        "priority": 5
+      },
+      {
+        "companyName": "company-DXC",
+        "companyValue": 7355,
+        "companyAccount": 6792,
+        "shareValue": 792,
+        "distributedShares": {
+          "": 39,
+          "ahmHc46roXTAm8Ww3iPbQPE": 32,
+          "lI": 68,
+          "2op8ERvr16H5udZAKDJOTA": 28
+        },
+        "hash": "hashhhhhh",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 5,
+        "transactionAuthor": "xsan",
+        "transactionType": "AddCompany",
+        "Status": "GIT",
+        "priority": 5
+      },
+      {
+        "companyName": "company-m7VoOoJ",
+        "companyValue": 8636,
+        "companyAccount": 3094,
+        "shareValue": 1659,
+        "distributedShares": {
+          "CSxLMqNC2B2jKnbCN": 92,
+          "lwyLAvpEpZxw": 2,
+          "Hh7vXNYd8l3fKWoGt8": 67
+        },
+        "hash": "hashhhhhh",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 6,
+        "transactionAuthor": "xsan",
+        "transactionType": "AddCompany",
+        "Status": "GIT",
+        "priority": 5
+      }
+    ],
+    "hash": "645d65f3208a3ad27ab40bc8b9f6c3659bcdeed4518e582f3ee2f26fd8f96bdb",
+    "previousHash": "f062e92afecd68c00bf568766dd2b1672ad857acea0d87d40811aae2489956c8",
+    "creationDate": "Jan 30, 2022, 4:31:21 PM"
+  },
+  {
+    "transactions": [
+      {
+        "companyName": "company-VapjyRHOj",
+        "companyValue": 9552,
+        "companyAccount": 1601,
+        "shareValue": 2121,
+        "distributedShares": {
+          "": 14,
+          "koD": 32,
+          "nGliCmMgYvNcL1K": 93,
+          "GeyR7EoORVvptgnSAniZYvF": 27,
+          "8UDp5bXrbzO4ALxKWri": 48,
+          "cGQuaXVp3uX7SvAy87": 67,
+          "h0xGP8ZL": 54
+        },
+        "hash": "hashhhhhh",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 7,
+        "transactionAuthor": "xsan",
+        "transactionType": "AddCompany",
+        "Status": "GIT",
+        "priority": 5
+      },
+      {
+        "companyName": "company-tFyzfpuG3pUfstECfrHVa",
+        "companyValue": 7718,
+        "companyAccount": 6780,
+        "shareValue": 2973,
+        "distributedShares": {
+          "gg5YVjceSc4PgbHm": 79,
+          "yx1": 70,
+          "PkWGwMLaG": 96,
+          "j33iR8ZW4zXwgp0BCRh": 98,
+          "FMJ4cAif5pkGpeM": 65
+        },
+        "hash": "hashhhhhh",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 8,
+        "transactionAuthor": "xsan",
+        "transactionType": "AddCompany",
+        "Status": "GIT",
+        "priority": 5
+      },
+      {
+        "companyName": "company-cMsRS2tJz063jUVkLgxi",
+        "companyValue": 7444,
+        "companyAccount": 4399,
+        "shareValue": 156,
+        "distributedShares": {
+          "pFNy7G5T": 66
+        },
+        "hash": "hashhhhhh",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 9,
+        "transactionAuthor": "xsan",
+        "transactionType": "AddCompany",
+        "Status": "GIT",
+        "priority": 5
+      }
+    ],
+    "hash": "9bbcb67036eadf6de3d333713fa9963771b3bdef9663393cc58ed1eae001a912",
+    "previousHash": "645d65f3208a3ad27ab40bc8b9f6c3659bcdeed4518e582f3ee2f26fd8f96bdb",
+    "creationDate": "Jan 30, 2022, 4:31:21 PM"
+  },
+  {
+    "transactions": [
+      {
+        "companyName": "company-Js6xfUVaRBwtOymzuHKm",
+        "companyValue": 1016,
+        "companyAccount": 3646,
+        "shareValue": 89,
+        "distributedShares": {
+          "etHeQbicfKM": 46,
+          "2rg1": 62,
+          "x5zAeUOwBw8GWR": 36,
+          "mv": 1,
+          "yQQ02esi5ukzHEXjE3p3": 13,
+          "R8n6CcDPiq0rDo": 81,
+          "Z": 2,
+          "mmNsDmh2fpF1zSB3U0IS": 53,
+          "CEoZge2Gwls1QFL6owiOI": 60,
+          "if5A1GSWA1W": 47
+        },
+        "hash": "hashhhhhh",
+        "transactionDate": "Jan 30, 2022, 4:31:20 PM",
+        "companyID": 10,
+        "transactionAuthor": "xsan",
+        "transactionType": "AddCompany",
+        "Status": "GIT",
+        "priority": 5
+      }
+    ],
+    "hash": "e5e412fbb97b3d8c952b148d16356b4d1a385b8b74682a6e6a07c268947ddb22",
+    "previousHash": "9bbcb67036eadf6de3d333713fa9963771b3bdef9663393cc58ed1eae001a912",
+    "creationDate": "Jan 30, 2022, 4:31:21 PM"
+  }
+]

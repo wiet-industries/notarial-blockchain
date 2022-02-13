@@ -53,7 +53,7 @@ Every transaction has those properties:
 
     Additional properties
     -To who we emit new shares(1 person per transaction)
-    -Who gets shares
+    -How many shares does the shareholder gets
 
 4.SellBuyShares - Transaction providing possibility of exchange
 
