@@ -5,10 +5,18 @@ import blockchain.helpers.BlockchainTraverse;
 import blockchain.helpers.UnparsedBlock;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import logic.Company;
 import logic.TransactionAdapter;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -69,6 +77,7 @@ public class BlockchainProcessingHandler {
             }
         }
         this.blockchain.setBlockchain(blockchain);
+        this.blockchain.writeBlockchainToFile();
         System.out.println(this.blockchain.getBlockchain());
         //sprawdzić poprawność otrzymanego i wybrać dłuższy
     }
@@ -98,9 +107,14 @@ public class BlockchainProcessingHandler {
         return blockList;
     }
 
-
-//   public String getCompanyName(String ID) throws IllegalArgumentException {
-//
-//    }
-
+    public void createBlockchainFromFile(){
+        String filename = System.getenv("BLOCKCHAIN_FILE_PATH");
+        try {
+            String blockchainJson = new String(Files.readAllBytes(Paths.get(filename)));
+            this.blockchain.setBlockchain(this.parseJsonElementToBlockList(new JsonParser().parse(blockchainJson)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error while reading blockchain from file");
+        }
+    }
 }
