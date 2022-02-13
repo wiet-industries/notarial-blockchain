@@ -17,7 +17,7 @@ public class ConnectStrategy implements ServerStrategy {
     public ClientHandler processAuthor(Message message, List<ClientHandler> clientList, Server server) {
         System.out.println("Client connected. IP: " + message.getAddress().toString() + ", PORT_TCP: " + message.getPort());
         try {
-            if (server.checkIfAuthorized(message.getAddress())) {
+            if (!server.checkIfAuthorized(message.getAddress())) {
                 message.getSocket().close();
                 throw new IllegalArgumentException("This address is not authorized");
             }
