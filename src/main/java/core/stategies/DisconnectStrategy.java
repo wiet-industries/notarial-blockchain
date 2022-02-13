@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DisconnectStrategy implements ServerStrategy{
     @Override
-    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList) {
+    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList, Server server) {
         MessageContent messageContent = message.getMessageContent();
         int ID = messageContent.getID();
 

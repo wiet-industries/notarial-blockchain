@@ -34,12 +34,14 @@ public class Node implements EventListener {
     private Socket tcpSocket;
     private DatagramSocket udpSocket;
     private int ID;
+    private boolean isAuthorized;
 
     public Node(int tcpPort, int udpPort, InetAddress serverAddress, DB database) {
         this.tcpPort = tcpPort;
         this.udpPort = udpPort;
         this.serverAddress = serverAddress;
         this.database = database;
+        this.isAuthorized = false;
 
 //        this.blockchain = new Blockchain();
 
@@ -92,8 +94,12 @@ public class Node implements EventListener {
         return this.blockchainProcessingHandler.getCompanyWithID(ID);
     }
 
-    public void registerNode() {
-        serverSessionHandler.registerNode(ID);
+    public boolean registerNode() {
+        if(this.isAuthorized){
+            serverSessionHandler.registerNode(ID);
+            return true;
+        }
+        return false;
     }
 
     public void requestBroadcast() {
@@ -121,11 +127,9 @@ public class Node implements EventListener {
         }
         switch (message.getType()) {
             case ID:
-                //TODO add validation
                 this.ID = message.getID();
-//                this.registerNode();
+                this.isAuthorized = true;
                 break;
-            //TODO add validation everywhere
             case NODE_LIST:
                 this.peerConnectionHandler.broadcastDataToPeers(message.parsePeerList(), this.ID, this.blockchainProcessingHandler.getBlockchain().getBlockchainAsJsonElement());
                 break;

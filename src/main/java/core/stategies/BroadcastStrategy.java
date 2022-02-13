@@ -13,7 +13,7 @@ import java.util.List;
 
 public class BroadcastStrategy implements ServerStrategy {
     @Override
-    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList) {
+    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList, Server server) {
         MessageContent messageContent = message.getMessageContent();
         int ID = messageContent.getID();
 

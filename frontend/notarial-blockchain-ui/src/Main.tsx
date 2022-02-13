@@ -63,14 +63,14 @@ const Main = () => {
           setUserData({ ID: response.data.ID });
         } else {
           setMessage((prevState) => [
-            "Error while registering",
+            `Error while registering ${response.data.message}`,
             ...prevState.slice(0, 6),
           ]);
         }
       })
-      .catch(() =>
+      .catch((response) =>
         setMessage((prevState) => [
-          "Error while registering",
+          `Error while registering ${response.data.message}`,
           ...prevState.slice(0, 6),
         ])
       )
