@@ -30,9 +30,13 @@ public class NodeController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerHandler() {
-        this.node.registerNode();
         JsonObject response = new JsonObject();
-        response.addProperty("message", "OK");
+        if(this.node.registerNode()){
+            response.addProperty("message", "OK");
+        }
+        else{
+            response.addProperty("message", "NOT_AUTHORIZED");
+        }
         response.addProperty("ID", this.node.getID());
         return response.toString();
     }

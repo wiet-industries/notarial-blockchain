@@ -10,7 +10,7 @@ import java.util.List;
 public class RegisterStrategy implements ServerStrategy {
 
     @Override
-    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList) {
+    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList, Server server) {
         MessageContent payloadMessage = message.getMessageContent();
         // TODO change to GSON
         int ID = payloadMessage.getID();

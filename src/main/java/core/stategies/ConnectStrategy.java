@@ -14,9 +14,13 @@ import java.util.List;
 
 public class ConnectStrategy implements ServerStrategy {
     @Override
-    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList) {
+    public ClientHandler processAuthor(Message message, List<ClientHandler> clientList, Server server) {
         System.out.println("Client connected. IP: " + message.getAddress().toString() + ", PORT_TCP: " + message.getPort());
         try {
+            if (!server.checkIfAuthorized(message.getAddress())) {
+                message.getSocket().close();
+                throw new IllegalArgumentException("This address is not authorized");
+            }
             ClientHandler client = new ClientHandler(message.getSocket(), this.findNextID(clientList), clientList);
             client.start();
             return client;
