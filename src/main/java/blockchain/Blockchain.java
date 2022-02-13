@@ -11,10 +11,8 @@ import node.Model.Event;
 import node.Model.Message;
 import node.Model.MessageType;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Blockchain extends BlockchainEventManager {
@@ -67,6 +65,7 @@ public class Blockchain extends BlockchainEventManager {
             }
         }
         this.blockchain.add(block);
+        this.writeBlockchainToFile();
         // TODO Make Node send data to other nodes                                     v kinda uselles but we have to send something
         Message blockchainMessage = new Message(MessageType.REQUEST_BROADCAST, null, -1);
         Event event = new Event(blockchainMessage.getData());
@@ -91,5 +90,35 @@ public class Blockchain extends BlockchainEventManager {
 
     public String getBlockchainStringJson() {
         return new Gson().toJson(this.blockchain);
+    }
+
+    public void writeBlockchainToFile(){
+        String filename = System.getenv("BLOCKCHAIN_FILE_PATH");
+        try {
+            File blockchainFile = new File(filename);
+            blockchainFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(filename);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this.blockchain);
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error while saving blockchain to file");
+        }
+    }
+
+    public void readBlockchainFromFile(){
+        String filename = System.getenv("BLOCKCHAIN_FILE_PATH");
+        try {
+            FileInputStream fis = new FileInputStream(filename);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Block[] fileBlockchain = (Block[]) ois.readObject();
+            ois.close();
+            blockchain = Arrays.asList(fileBlockchain);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Error while reading blockchain from file");
+        }
+
     }
 }

@@ -51,7 +51,7 @@ public class Node implements EventListener {
 //        this.miner.start();
         DBConnection db = new DBConnection();
         //System.out.println(db.getBlockchainJson());
-        this.handleBlockchainFromOtherNode(new JsonParser().parse(db.getBlockchainJson()));
+        this.blockchainProcessingHandler.createBlockchainFromFile();
     }
 
     public int getTcpPort() {
@@ -162,20 +162,5 @@ public class Node implements EventListener {
 
     private void handleBlockchainFromOtherNode(JsonElement unparsedBlockchain) {
         this.blockchainProcessingHandler.handleBlockchainFromOtherNode(unparsedBlockchain);
-//        if (blockchain.size() < this.blockchain.getBlockchain().size()) {
-//            return;
-//        }
-//        Block current = blockchain.get(blockchain.size() - 1);
-//        for (int i = blockchain.size() - 2; i >= 0; i--) {
-//            Block b = blockchain.get(i);
-//            if (b.getHash().equals(current.getPreviousHash())) {
-//                current = b;
-//            } else {
-//                throw new RuntimeException("Blockchain Invalid");
-//            }
-//        }
-//        this.blockchain.setBlockchain(blockchain);
-//        System.out.println(this.blockchain.getBlockchain());
-//        //sprawdzić poprawność otrzymanego i wybrać dłuższy
     }
 }

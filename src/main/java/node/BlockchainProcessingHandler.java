@@ -9,6 +9,10 @@ import logic.Company;
 import logic.TransactionAdapter;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -69,6 +73,7 @@ public class BlockchainProcessingHandler {
             }
         }
         this.blockchain.setBlockchain(blockchain);
+        this.blockchain.writeBlockchainToFile();
         System.out.println(this.blockchain.getBlockchain());
         //sprawdzić poprawność otrzymanego i wybrać dłuższy
     }
@@ -98,9 +103,11 @@ public class BlockchainProcessingHandler {
         return blockList;
     }
 
+    public void createBlockchainFromFile(){
+        blockchain.readBlockchainFromFile();
+    }
 
-//   public String getCompanyName(String ID) throws IllegalArgumentException {
-//
-//    }
+
+
 
 }
