@@ -11,10 +11,11 @@ import node.Model.Event;
 import node.Model.Message;
 import node.Model.MessageType;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Blockchain extends BlockchainEventManager {
@@ -67,6 +68,7 @@ public class Blockchain extends BlockchainEventManager {
             }
         }
         this.blockchain.add(block);
+        this.writeBlockchainToFile();
         // TODO Make Node send data to other nodes                                     v kinda uselles but we have to send something
         Message blockchainMessage = new Message(MessageType.REQUEST_BROADCAST, null, -1);
         Event event = new Event(blockchainMessage.getData());
@@ -92,4 +94,17 @@ public class Blockchain extends BlockchainEventManager {
     public String getBlockchainStringJson() {
         return new Gson().toJson(this.blockchain);
     }
+
+    public void writeBlockchainToFile(){
+        String filename = System.getenv("BLOCKCHAIN_FILE_PATH");
+        try {
+            PrintWriter writer = new PrintWriter(filename);
+            writer.print(this.getBlockchainStringJson());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error while saving blockchain to file");
+        }
+    }
+
 }
