@@ -14,12 +14,12 @@ public abstract class AbstractTransaction implements Comparable {
     private String verification;
     private int priority;
 
-    public AbstractTransaction(Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String notarialID, int priority, String hash, String verification) {
+    public AbstractTransaction(Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String notaryID, int priority, String hash, String verification) {
         this.transactionDate = transactionDate;
         this.companyID = companyID;
         this.transactionAuthor = transactionAuthor;
         this.transactionType = transactionType;
-        this.notaryID = notarialID;
+        this.notaryID = notaryID;
         this.priority = priority;
         this.hash = hash;
         this.verification = verification;
