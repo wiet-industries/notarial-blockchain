@@ -55,4 +55,10 @@ public class TransactionFactory {
                                                                   TransactionType transactionType, String status, int priority, Voting voting, String hash, String verification) {
         return new VotingResults(transactionDate, companyID, transactionAuthor, transactionType, status, priority, voting, hash, verification);
     }
+
+    public static AbstractTransaction getAddNotaryTransaction(Date transactionDate, int companyID, String transactionAuthor,
+                                                              TransactionType transactionType, String notaryid, int priority, String hash, String verification, String notaryIdToAdd, String publicKey) {
+        return new AddNotary(transactionDate, companyID, transactionAuthor, transactionType, notaryid, priority, hash, verification, notaryIdToAdd, publicKey);
+    }
+
 }
