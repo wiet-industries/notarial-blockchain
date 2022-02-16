@@ -16,9 +16,10 @@ const DeleteNotary = () => {
       transactionDate: new Date(),
       notaryId,
       transactionAuthor: author,
-      transactionType: "CompanyAccountUpdate",
+      transactionType: "DeleteNotary",
       Status: "GIT", // ????
       priority,
+      companyID: 0,
     };
 
     axios

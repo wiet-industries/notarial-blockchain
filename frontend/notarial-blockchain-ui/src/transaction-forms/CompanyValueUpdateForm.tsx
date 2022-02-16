@@ -10,6 +10,7 @@ const CompanyValueUpdateForm = () => {
   const [companyValue, setCompanyValue] = useState<undefined | number>(
     undefined
   );
+  const [notaryID, setNotaryId] = useState<undefined | string>(undefined);
 
   const handleSubmit = () => {
     console.log("submiting...");
@@ -20,9 +21,11 @@ const CompanyValueUpdateForm = () => {
       companyID: companyId,
       transactionAuthor: author,
       transactionType: "CompanyValueUpdate",
-      Status: "GIT", // ????
       priority,
+      notaryID,
     };
+
+    console.log(data);
 
     axios
       .post("http://localhost:8080/node/add/transaction", data)
@@ -50,6 +53,15 @@ const CompanyValueUpdateForm = () => {
           variant="standard"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
+        />
+        <TextField
+          className="my-2"
+          id="notary"
+          name="notary"
+          label="Notary ID"
+          variant="standard"
+          value={notaryID}
+          onChange={(e) => setNotaryId(e.target.value)}
         />
         <TextField
           className="my-2"

@@ -12,6 +12,7 @@ const AddCompanyForm = () => {
   const [companyId, setCompanyId] = useState<undefined | number>(undefined);
   const [priority, setPriority] = useState<undefined | number>(undefined);
   const [companyName, setCompanyName] = useState<undefined | string>(undefined);
+  const [notaryID, setNotaryId] = useState<undefined | string>(undefined);
   const [companyValue, setCompanyValue] = useState<undefined | number>(
     undefined
   );
@@ -52,6 +53,7 @@ const AddCompanyForm = () => {
       transactionType: "AddCompany",
       Status: "GIT",
       priority,
+      notaryID,
     };
 
     axios
@@ -80,6 +82,15 @@ const AddCompanyForm = () => {
           variant="standard"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
+        />
+        <TextField
+          className="my-2"
+          id="notary"
+          name="notary"
+          label="Notary ID"
+          variant="standard"
+          value={notaryID}
+          onChange={(e) => setNotaryId(e.target.value)}
         />
         <TextField
           className="my-2"

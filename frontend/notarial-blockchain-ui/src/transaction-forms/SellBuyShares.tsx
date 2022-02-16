@@ -10,6 +10,7 @@ const SellBuyShares = () => {
   const [shares, setShares] = useState<undefined | number>(undefined);
   const [seller, setSeller] = useState<undefined | string>(undefined);
   const [buyer, setBuyer] = useState<undefined | string>(undefined);
+  const [notaryID, setNotaryId] = useState<undefined | string>(undefined);
 
   const handleSubmit = () => {
     console.log("submiting...");
@@ -24,6 +25,7 @@ const SellBuyShares = () => {
       transactionType: "SharesBuySell",
       Status: "GIT", // ????
       priority,
+      notaryID,
     };
 
     axios
@@ -52,6 +54,15 @@ const SellBuyShares = () => {
           variant="standard"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
+        />
+        <TextField
+          className="my-2"
+          id="notary"
+          name="notary"
+          label="Notary ID"
+          variant="standard"
+          value={notaryID}
+          onChange={(e) => setNotaryId(e.target.value)}
         />
         <TextField
           className="my-2"

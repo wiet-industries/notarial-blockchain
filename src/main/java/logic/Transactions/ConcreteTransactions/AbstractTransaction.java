@@ -93,6 +93,8 @@ public abstract class AbstractTransaction implements Comparable {
                 ", transactionAuthor='" + transactionAuthor + '\'' +
                 ", transactionType=" + transactionType +
                 ", priority=" + priority +
+                ", notary id=" + notaryID +
+
                 '}';
     }
 

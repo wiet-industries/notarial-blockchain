@@ -9,6 +9,7 @@ const NewSharesEmission = () => {
   const [priority, setPriority] = useState<undefined | number>(undefined);
   const [shares, setShares] = useState<undefined | number>(undefined);
   const [owner, setOwner] = useState<undefined | string>(undefined);
+  const [notaryID, setNotaryId] = useState<undefined | string>(undefined);
 
   const handleSubmit = () => {
     console.log("submiting...");
@@ -22,6 +23,7 @@ const NewSharesEmission = () => {
       transactionType: "NewSharesEmission",
       Status: "GIT", // ????
       priority,
+      notaryID,
     };
 
     axios
@@ -48,8 +50,17 @@ const NewSharesEmission = () => {
           name="author"
           label="Author"
           variant="standard"
-          value={author}
+          value={notaryID}
           onChange={(e) => setAuthor(e.target.value)}
+        />
+        <TextField
+          className="my-2"
+          id="notary"
+          name="notary"
+          label="Notary ID"
+          variant="standard"
+          value={author}
+          onChange={(e) => setNotaryId(e.target.value)}
         />
         <TextField
           className="my-2"

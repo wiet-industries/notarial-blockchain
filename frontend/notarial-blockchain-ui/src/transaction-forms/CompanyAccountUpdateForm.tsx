@@ -10,6 +10,7 @@ const CompanyAccountUpdateForm = () => {
   const [companyAccount, setCompanyAccount] = useState<undefined | number>(
     undefined
   );
+  const [notaryID, setNotaryId] = useState<undefined | string>(undefined);
 
   const handleSubmit = () => {
     console.log("submiting...");
@@ -22,6 +23,7 @@ const CompanyAccountUpdateForm = () => {
       transactionType: "CompanyAccountUpdate",
       Status: "GIT", // ????
       priority,
+      notaryID,
     };
 
     axios
@@ -50,6 +52,15 @@ const CompanyAccountUpdateForm = () => {
           variant="standard"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
+        />
+        <TextField
+          className="my-2"
+          id="notary"
+          name="notary"
+          label="Notary ID"
+          variant="standard"
+          value={notaryID}
+          onChange={(e) => setNotaryId(e.target.value)}
         />
         <TextField
           className="my-2"

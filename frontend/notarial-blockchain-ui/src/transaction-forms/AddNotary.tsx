@@ -5,7 +5,7 @@ import React, { useState } from "react";
 const AddNotary = () => {
   const [message, setMessage] = useState<string | undefined>();
   const [author, setAuthor] = useState<undefined | string>(undefined);
-  const [notaryId, setNotaryId] = useState<undefined | number>(undefined);
+  const [notaryId, setNotaryId] = useState<undefined | string>(undefined);
   const [priority, setPriority] = useState<undefined | number>(undefined);
   const [publicKey, setPublicKey] = useState<undefined | string>(undefined);
 
@@ -16,9 +16,10 @@ const AddNotary = () => {
       transactionDate: new Date(),
       notaryId,
       transactionAuthor: author,
-      transactionType: "CompanyAccountUpdate",
+      transactionType: "AddNotary",
       Status: "GIT", // ????
       priority,
+      companyID: 0,
     };
 
     axios
@@ -52,10 +53,9 @@ const AddNotary = () => {
           className="my-2"
           id="id"
           label="Notary Id"
-          type="number"
           variant="standard"
           value={notaryId}
-          onChange={(e) => setNotaryId(parseInt(e.target.value, 10))}
+          onChange={(e) => setNotaryId(e.target.value)}
         />
         <TextField
           className="my-2"
