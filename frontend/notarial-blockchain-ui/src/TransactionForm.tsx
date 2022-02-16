@@ -4,9 +4,13 @@ import React, { useState } from "react";
 // eslint-disable-next-line import/no-unresolved
 import AddCompanyForm from "./transaction-forms/AddCompanyForm";
 // eslint-disable-next-line import/no-unresolved
+import AddNotary from "./transaction-forms/AddNotary";
+// eslint-disable-next-line import/no-unresolved
 import CompanyAccountUpdateForm from "./transaction-forms/CompanyAccountUpdateForm";
 // eslint-disable-next-line import/no-unresolved
 import CompanyValueUpdateForm from "./transaction-forms/CompanyValueUpdateForm";
+// eslint-disable-next-line import/no-unresolved
+import DeleteNotary from "./transaction-forms/DeleteNotary";
 // eslint-disable-next-line import/no-unresolved
 import DividendsPayment from "./transaction-forms/DividendsPayment";
 // eslint-disable-next-line import/no-unresolved
@@ -27,7 +31,9 @@ const TransactionForm = () => {
     | "new-shares-emission"
     | "sell-buy-shares"
     | "shares-liquidation"
-    | "voting-results";
+    | "voting-results"
+    | "add-notary"
+    | "delete-notary";
 
   const transactionType = [
     "add-company",
@@ -38,6 +44,8 @@ const TransactionForm = () => {
     "sell-buy-shares",
     "shares-liquidation",
     "voting-results",
+    "add-notary",
+    "delete-notary",
   ];
 
   const transactionForms = {
@@ -49,6 +57,8 @@ const TransactionForm = () => {
     "sell-buy-shares": <SellBuyShares />,
     "shares-liquidation": <SharesLiquidation />,
     "voting-results": <VotingResults />,
+    "add-notary": <AddNotary />,
+    "delete-notary": <DeleteNotary />,
   };
 
   const [currentTransaction, setCurrentTransaction] = useState(
