@@ -65,18 +65,19 @@ public class BlockchainGenerator {
                     company.getID(),
                     "xsan",
                     TransactionType.AddCompany,
-                    "GIT",
+                    "notaryID",
                     5,
                     company.getName(),
                     company.getCompanyValue(),
                     company.getEarnings(),
                     company.getShareValue(),
                     company.getShares(),
-                    hash
+                    hash,
+                    "siema"
             );
             transactions.add(transaction);
         }
-        
+
 
     }
 

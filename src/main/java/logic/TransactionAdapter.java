@@ -57,6 +57,8 @@ public class TransactionAdapter implements ITransactionAdapter {
                 throw new ClassNotFoundException();
         }
         this.transaction.setHash(SHA256.generateHash(transactionJson));
+        // TODO here I want to encrypt verification with RSA
+//        this.transaction.setVerification();
     }
 
     @Override
