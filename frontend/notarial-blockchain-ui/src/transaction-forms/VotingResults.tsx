@@ -17,6 +17,7 @@ const DividendsPayment = () => {
   const [numberOfAnswers, setNumberOfAnswers] = useState<undefined | number>(
     undefined
   );
+  const [notaryID, setNotaryId] = useState<undefined | string>(undefined);
 
   const handleSubmit = () => {
     console.log("submiting...");
@@ -29,6 +30,7 @@ const DividendsPayment = () => {
       transactionType: "VotingResults",
       Status: "GIT", // ????
       priority,
+      notaryID,
     };
 
     axios
@@ -57,6 +59,15 @@ const DividendsPayment = () => {
           variant="standard"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
+        />
+        <TextField
+          className="my-2"
+          id="notary"
+          name="notary"
+          label="Notary ID"
+          variant="standard"
+          value={notaryID}
+          onChange={(e) => setNotaryId(e.target.value)}
         />
         <TextField
           className="my-2"
