@@ -9,8 +9,8 @@ public class CompanyValueUpdate extends AbstractTransaction {
     private int ValueToAdd;
 
     public CompanyValueUpdate(Date transactionDate, int companyID, String transactionAuthor,
-                              TransactionType transactionType, String status, int priority, int valueToAdd, String hash) {
-        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash);
+                              TransactionType transactionType, String status, int priority, int valueToAdd, String hash, String verification) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash, verification);
         this.ValueToAdd = valueToAdd;
     }
 

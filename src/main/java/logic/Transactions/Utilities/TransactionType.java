@@ -9,5 +9,7 @@ public enum TransactionType {
     VotingResults,
     AddCompany,
     CompanyValueUpdate,
-    Gemini
+    Gemini,
+    AddNotary,
+    DeleteNotary
 }

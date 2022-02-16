@@ -61,11 +61,9 @@ public class Miner extends Thread {
         boolean nonceFound = false;
         String nonceHash = "";
 
-        // There were more properties in Block at https://github.com/in-the-keyhole/khs-blockchain-java-example/blob/master/src/main/java/simple/chain/Block.java
         String message = block.getCreationDate() + block.transactionsToJson()
                 + block.getPreviousHash();
 
-        // ewentualnie sleep(5000) XD33
         while (!nonceFound) {
             nonceHash = SHA256.generateHash(message + nonce);
             nonceFound = nonceHash.startsWith(nonceKey);

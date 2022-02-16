@@ -9,8 +9,8 @@ public class DividendsPayment extends AbstractTransaction {
     private String receiver;
 
     public DividendsPayment(Date transactionDate, int companyID, String transactionAuthor,
-                            TransactionType transactionType, String status, int priority, int numberOfMoneyPayed, String receiver, String hash) {
-        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash);
+                            TransactionType transactionType, String status, int priority, int numberOfMoneyPayed, String receiver, String hash, String verification) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash, verification);
         this.numberOfMoneyPayed = numberOfMoneyPayed;
         this.receiver = receiver;
     }

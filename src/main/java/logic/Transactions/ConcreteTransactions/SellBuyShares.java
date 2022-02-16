@@ -10,8 +10,8 @@ public class SellBuyShares extends AbstractTransaction {
     private int numberOfShares;
 
     public SellBuyShares(Date transactionDate, int companyID, String transactionAuthor,
-                         TransactionType transactionType, String status, int priority, String seller, String buyer, int numberOfShares, String hash) {
-        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash);
+                         TransactionType transactionType, String status, int priority, String seller, String buyer, int numberOfShares, String hash, String verification) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash, verification);
         this.Seller = seller;
         this.Buyer = buyer;
         this.numberOfShares = numberOfShares;

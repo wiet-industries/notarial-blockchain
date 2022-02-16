@@ -14,8 +14,8 @@ public class AddCompany extends AbstractTransaction {
 
     public AddCompany(Date transactionDate, int companyID, String transactionAuthor,
                       TransactionType transactionType, String status, int priority, String companyName,
-                      int companyValue, int companyAccount, int shareValue, Map<String, Integer> distributedShares, String hash) {
-        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash);
+                      int companyValue, int companyAccount, int shareValue, Map<String, Integer> distributedShares, String hash, String verification) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash, verification);
         this.companyName = companyName;
         this.companyValue = companyValue;
         this.companyAccount = companyAccount;

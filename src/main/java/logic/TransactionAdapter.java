@@ -49,6 +49,10 @@ public class TransactionAdapter implements ITransactionAdapter {
             case CompanyValueUpdate:
                 this.transaction = gson.fromJson(transactionJson, CompanyValueUpdate.class);
                 break;
+            case AddNotary:
+                this.transaction = gson.fromJson(transactionJson, AddNotary.class);
+            case DeleteNotary:
+                this.transaction = gson.fromJson(transactionJson, DeleteNotary.class);
             default:
                 throw new ClassNotFoundException();
         }

@@ -9,8 +9,8 @@ public class VotingResults extends AbstractTransaction {
     private Voting voting;
 
     public VotingResults(Date transactionDate, int companyID, String transactionAuthor,
-                         TransactionType transactionType, String status, int priority, Voting voting, String hash) {
-        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash);
+                         TransactionType transactionType, String status, int priority, Voting voting, String hash, String verification) {
+        super(transactionDate, companyID, transactionAuthor, transactionType, status, priority, hash, verification);
         this.voting = voting;
     }
 

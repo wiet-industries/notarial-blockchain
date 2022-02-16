@@ -8,21 +8,29 @@ public abstract class AbstractTransaction implements Comparable {
     public String hash;
     private Date transactionDate;
     private int companyID;
-    // TODO
-    //Consider adding class "Owner" - only company owners can create Transaction in company
     private String transactionAuthor;
     private TransactionType transactionType;
-    private String Status;
+    private String notaryID;
+    private String verification;
     private int priority;
 
-    public AbstractTransaction(Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String status, int priority, String hash) {
+    public AbstractTransaction(Date transactionDate, int companyID, String transactionAuthor, TransactionType transactionType, String notarialID, int priority, String hash, String verification) {
         this.transactionDate = transactionDate;
         this.companyID = companyID;
         this.transactionAuthor = transactionAuthor;
         this.transactionType = transactionType;
-        this.Status = status;
+        this.notaryID = notarialID;
         this.priority = priority;
         this.hash = hash;
+        this.verification = verification;
+    }
+
+    public String getVerification() {
+        return verification;
+    }
+
+    public void setVerification(String verification) {
+        this.verification = verification;
     }
 
     public Date getTransactionDate() {
@@ -65,12 +73,12 @@ public abstract class AbstractTransaction implements Comparable {
         this.priority = priority;
     }
 
-    public String getStatus() {
-        return Status;
+    public String getNotarialID() {
+        return notaryID;
     }
 
-    public void setStatus(String status) {
-        Status = status;
+    public void setNotarialID(String notarialID) {
+        this.notaryID = notarialID;
     }
 
     public void setHash(String hash) {
