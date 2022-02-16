@@ -9,7 +9,12 @@ import com.google.gson.JsonParser;
 import logic.Company;
 import logic.TransactionAdapter;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
+import logic.Transactions.ConcreteTransactions.AddNotary;
+import logic.Transactions.ConcreteTransactions.DeleteNotary;
+import logic.Transactions.Utilities.TransactionType;
+import logic.utils.RSAUtil;
 
+import java.security.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -19,6 +24,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class BlockchainProcessingHandler {
     private final Miner miner;
@@ -64,7 +70,8 @@ public class BlockchainProcessingHandler {
     public void handleBlockchainFromOtherNode(JsonElement unparsedBlockchain) {
         List<Block> blockchain = this.parseJsonElementToBlockList(unparsedBlockchain);
 
-        if (blockchain.size() < this.blockchain.getBlockchain().size()) {
+        if (this.isBlockChainValid(blockchain)) {
+            System.err.println("Received blockChain isn't valid");
             return;
         }
         Block current = blockchain.get(blockchain.size() - 1);
@@ -112,9 +119,60 @@ public class BlockchainProcessingHandler {
         try {
             String blockchainJson = new String(Files.readAllBytes(Paths.get(filename)));
             this.blockchain.setBlockchain(this.parseJsonElementToBlockList(new JsonParser().parse(blockchainJson)));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error while reading blockchain from file");
+        } catch (IOException e) {}
+    }
+
+    private boolean isBlockChainValid(List<Block> blockchain) {
+        return this.isBlockChainLonger(blockchain) &&
+                this.isGeminiMatching(blockchain) &&
+                this.areTransactionsValid(blockchain);
+    }
+
+    private boolean isBlockChainLonger(List<Block> blockchain) {
+        return this.blockchain.getBlockchain().size() > blockchain.size();
+    }
+
+    private boolean isGeminiMatching(List<Block> blockchain) {
+        return blockchain.get(0).equals(this.blockchain.getBlockchain().get(0));
+    }
+
+    private boolean areTransactionsValid(List<Block> blockchain) {
+        Map<String, String> publicKeys = this.blockchain.getPublicKeysFromGemini();
+        Block gemini = blockchain.get(0);
+        String prevHash = gemini.hash;
+
+        for (Block block : blockchain) {
+            if (block.equals(gemini)) {
+                continue;
+            }
+            for(AbstractTransaction transaction : block.getTransactions()) {
+                if (!checkVerificationField(transaction.getVerification(), prevHash, publicKeys.get(transaction.getNotarialID()))) {
+                    return false;
+                }
+                updatePublicKeys(transaction, publicKeys);
+            }
+            prevHash = block.hash;
+        }
+        return true;
+    }
+
+    private boolean checkVerificationField(String hashedValue, String previousHash, String publicKey) {
+        try{
+            return RSAUtil.decrypt(hashedValue, publicKey).equals(previousHash);
+        } catch (Exception e) {
+            System.err.println("Something went wrong with decryption");
+            return false;
+        }
+    }
+
+    private void updatePublicKeys(AbstractTransaction transaction, Map<String, String> publicKeys) {
+        if (transaction.getTransactionType() == TransactionType.AddNotary) {
+            AddNotary addNotary = (AddNotary) transaction;
+            publicKeys.put(addNotary.getNotarialID(), addNotary.getPublicKey());
+        }
+        if (transaction.getTransactionType() == TransactionType.DeleteNotary) {
+            DeleteNotary deleteNotary = (DeleteNotary) transaction;
+            publicKeys.remove(deleteNotary.getNotarialID());
         }
     }
 }
