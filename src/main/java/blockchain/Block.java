@@ -28,6 +28,14 @@ public class Block {
         this.nonce = 0;
     }
 
+    public Block(List<AbstractTransaction> parsedTransactions, String hash, String previousHash, Date creationDate, long nonce) {
+        this.transactions = parsedTransactions;
+        this.hash = hash;
+        this.previousHash = previousHash;
+        this.creationDate = creationDate;
+        this.nonce = nonce;
+    }
+
     public long getNonce() {
         return nonce;
     }

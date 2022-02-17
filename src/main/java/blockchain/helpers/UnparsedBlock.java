@@ -10,6 +10,7 @@ public class UnparsedBlock {
     public String hash;
     public String previousHash;
     public Date creationDate;
+    public long nonce;
 
     @Override
     public String toString() {

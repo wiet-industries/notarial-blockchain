@@ -81,9 +81,11 @@ public class BlockchainProcessingHandler {
             return;
         }
         Block current = blockchain.get(blockchain.size() - 1);
+
+
         for (int i = blockchain.size() - 2; i >= 0; i--) {
             Block b = blockchain.get(i);
-            
+
             String currentHash = SHA256.generateHash(b.getDataToHashWithNonce());
 
             if (currentHash.equals(current.getPreviousHash())) {
@@ -117,7 +119,7 @@ public class BlockchainProcessingHandler {
                 }
                 parsedTransactions.add(adapter.getTransaction());
             });
-            Block blockToAdd = new Block(parsedTransactions, unparsedBlock.hash, unparsedBlock.previousHash, unparsedBlock.creationDate);
+            Block blockToAdd = new Block(parsedTransactions, unparsedBlock.hash, unparsedBlock.previousHash, unparsedBlock.creationDate, unparsedBlock.nonce);
             blockList.add(blockToAdd);
         }
         return blockList;
