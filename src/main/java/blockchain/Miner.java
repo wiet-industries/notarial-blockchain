@@ -55,18 +55,18 @@ public class Miner extends Thread {
         this.blockchain.addAndValidateBlock(block);
     }
 
-    private String proofOfWork(Block block) {
+    public String proofOfWork(Block block) {
         String nonceKey = BLOCKNONCE;
-        long nonce = 0;
+        long nonce = -1;
         boolean nonceFound = false;
         String nonceHash = "";
 
         String message = block.getDataToHash();
 
         while (!nonceFound) {
+            nonce++;
             nonceHash = SHA256.generateHash(message + nonce);
             nonceFound = nonceHash.startsWith(nonceKey);
-            nonce++;
         }
         block.setNonce(nonce);
         return nonceHash;

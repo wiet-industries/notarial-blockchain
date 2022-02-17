@@ -81,11 +81,11 @@ public class Block {
     }
 
     public String getDataToHash() {
-        return this.transactionsToJson() + this.creationDate + this.previousHash;
+        return this.transactionsToJson() + this.previousHash;
     }
 
     public String getDataToHashWithNonce() {
-        return this.transactionsToJson() + this.creationDate + this.previousHash + this.nonce;
+        return this.getDataToHash() + this.nonce;
     }
 
     @Override

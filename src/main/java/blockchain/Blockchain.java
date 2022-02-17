@@ -23,7 +23,7 @@ public class Blockchain extends BlockchainEventManager {
     public List<Block> blockchain = new ArrayList<>();
 
     public Blockchain() {
-        createFirstBlock();
+//        createFirstBlock();
     }
 
     public List<Block> getBlockchain() {
