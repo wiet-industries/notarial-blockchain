@@ -1,6 +1,9 @@
 package logic.utils;
 
-import java.security.*;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
@@ -9,14 +12,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class RSAUtil {
     public static String sign(String plainText, String privateKeyString) {
-        try{
+        try {
             PrivateKey privateKey = getPrivateKey(privateKeyString);
             Signature privateSignature = Signature.getInstance("SHA256withRSA");
             privateSignature.initSign(privateKey);
             privateSignature.update(plainText.getBytes(UTF_8));
 
             byte[] signature = privateSignature.sign();
-
+            
             return Base64.getEncoder().encodeToString(signature);
         } catch (Exception e) {
             System.err.println("Something went wrong with signing the verification field");
@@ -26,7 +29,7 @@ public class RSAUtil {
     }
 
     public static boolean verify(String plainText, String signature, String publicKeyString) {
-        try{
+        try {
             PublicKey publicKey = getPublicKey(publicKeyString);
             Signature publicSignature = Signature.getInstance("SHA256withRSA");
             publicSignature.initVerify(publicKey);
@@ -41,15 +44,14 @@ public class RSAUtil {
         }
     }
 
-    private static PublicKey getPublicKey(String key){
-        try{
+    private static PublicKey getPublicKey(String key) {
+        try {
             byte[] byteKey = Base64.getDecoder().decode(key.getBytes());
             X509EncodedKeySpec X509publicKey = new X509EncodedKeySpec(byteKey);
             KeyFactory kf = KeyFactory.getInstance("RSA");
 
             return kf.generatePublic(X509publicKey);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.err.println("Something went wrong with creating public Key");
         }
 
@@ -58,7 +60,7 @@ public class RSAUtil {
 
     private static PrivateKey getPrivateKey(String key) {
         try {
-            byte [] pkcs8EncodedBytes = Base64.getDecoder().decode(key);
+            byte[] pkcs8EncodedBytes = Base64.getDecoder().decode(key);
 
             // extract the private key
 

@@ -2,6 +2,7 @@ package blockchain;
 
 import blockchain.helpers.BlockchainEventManager;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
@@ -146,10 +147,11 @@ public class Blockchain extends BlockchainEventManager {
     }
 
     public String getBlockchainStringJson() {
-        return new Gson().toJson(this.blockchain);
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        return gson.toJson(this.blockchain);
     }
 
-    public void writeBlockchainToFile(){
+    public void writeBlockchainToFile() {
         String filename = System.getenv("BLOCKCHAIN_FILE_PATH");
         try {
             PrintWriter writer = new PrintWriter(filename);
@@ -169,7 +171,7 @@ public class Blockchain extends BlockchainEventManager {
         Block gemini = this.getGemini();
         Map<String, String> publicKeys = new HashMap<>();
 
-        for(AbstractTransaction transaction : gemini.getTransactions()) {
+        for (AbstractTransaction transaction : gemini.getTransactions()) {
             AddNotary addNotary = (AddNotary) transaction;
             publicKeys.put(addNotary.getNotaryIdToAdd(), addNotary.getPublicKey());
         }

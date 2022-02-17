@@ -17,7 +17,7 @@ public class UdpEventManager extends EventManager {
     @Override
     public void run() {
         while (true) {
-            try{
+            try {
                 this.listenForUdpPackets();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -25,8 +25,8 @@ public class UdpEventManager extends EventManager {
         }
     }
 
-    private void listenForUdpPackets () throws IOException {
-        DatagramPacket receivedDatagram = new DatagramPacket(new byte[1024], 1024);
+    private void listenForUdpPackets() throws IOException {
+        DatagramPacket receivedDatagram = new DatagramPacket(new byte[32768], 32768);
         datagramSocket.receive(receivedDatagram);
         System.out.println("Received upd packet from: " + receivedDatagram.getAddress() + ":" + receivedDatagram.getPort() + " with data: \n" + new String(receivedDatagram.getData()));
         Message message = this.createPayload(receivedDatagram);
