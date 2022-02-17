@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import logic.Transactions.ConcreteTransactions.AbstractTransaction;
+import logic.Transactions.ConcreteTransactions.AddNotary;
 import logic.Transactions.TransactionFactory;
 import logic.Transactions.Utilities.TransactionType;
 import node.Model.Event;
@@ -13,10 +14,7 @@ import node.Model.MessageType;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Blockchain extends BlockchainEventManager {
@@ -151,7 +149,7 @@ public class Blockchain extends BlockchainEventManager {
         return new Gson().toJson(this.blockchain);
     }
 
-    public void writeBlockchainToFile() {
+    public void writeBlockchainToFile(){
         String filename = System.getenv("BLOCKCHAIN_FILE_PATH");
         try {
             PrintWriter writer = new PrintWriter(filename);
@@ -163,4 +161,18 @@ public class Blockchain extends BlockchainEventManager {
         }
     }
 
+    private Block getGemini() {
+        return this.blockchain.get(0);
+    }
+
+    public Map<String, String> getPublicKeysFromGemini() {
+        Block gemini = this.getGemini();
+        Map<String, String> publicKeys = new HashMap<>();
+
+        for(AbstractTransaction transaction : gemini.getTransactions()) {
+            AddNotary addNotary = (AddNotary) transaction;
+            publicKeys.put(addNotary.getNotaryIdToAdd(), addNotary.getPublicKey());
+        }
+        return publicKeys;
+    }
 }

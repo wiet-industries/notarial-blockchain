@@ -40,7 +40,7 @@ public class PeerConnectionHandler {
             try {
                 //TODO
                 for (int i = 0; i < 500; i++) {
-                    udpSocket.send(datagramPacket);
+                        udpSocket.send(datagramPacket);
                 }
             } catch (IOException e) {
                 System.out.println("Error sending datagram\n" +
