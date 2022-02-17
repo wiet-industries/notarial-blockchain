@@ -81,7 +81,7 @@ public class Block {
     }
 
     public String getDataToHash() {
-        return this.transactionsToJson() + this.previousHash;
+        return this.transactionsToJson() + this.creationDate + this.previousHash;
     }
 
     public String getDataToHashWithNonce() {
