@@ -6,6 +6,7 @@ import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Block {
     // TODO this should not be public but is due to Gson casting
@@ -69,5 +70,18 @@ public class Block {
                 ", previousHash='" + previousHash + '\'' +
                 ", creationDate=" + creationDate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Block block = (Block) o;
+        return Objects.equals(transactions, block.transactions) && Objects.equals(hash, block.hash) && Objects.equals(previousHash, block.previousHash) && Objects.equals(creationDate, block.creationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(transactions, hash, previousHash, creationDate);
     }
 }

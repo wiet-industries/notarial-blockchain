@@ -12,6 +12,7 @@ import logic.Transactions.ConcreteTransactions.AbstractTransaction;
 import logic.Transactions.ConcreteTransactions.AddNotary;
 import logic.Transactions.ConcreteTransactions.DeleteNotary;
 import logic.Transactions.Utilities.TransactionType;
+import logic.utils.EnvConfig;
 import logic.utils.RSAUtil;
 
 import java.security.*;
@@ -54,6 +55,7 @@ public class BlockchainProcessingHandler {
     }
 
     public void addTransactionToMemPool(AbstractTransaction transaction) {
+        encryptTransactionBasedOnLastBlock(transaction, this.blockchain.getLastBlockHash());
         // VALIDATION HERE
         if (BlockchainValidator.validate(blockchain, memPool, transaction)) {
             System.out.println("VALIDATE RIGHT");
@@ -63,8 +65,16 @@ public class BlockchainProcessingHandler {
                 this.miner.notify();
             }
         }
+    }
 
-
+    private void encryptTransactionBasedOnLastBlock(AbstractTransaction transaction, String hash) {
+        try{
+            String encrypted = RSAUtil.encrypt(hash, EnvConfig.getPrivateKey());
+            transaction.setVerification(encrypted);
+        } catch (Exception e) {
+            System.err.println("Something went wrong with encrypting transaction verification field");
+            e.printStackTrace();
+        }
     }
 
     public void handleBlockchainFromOtherNode(JsonElement unparsedBlockchain) {

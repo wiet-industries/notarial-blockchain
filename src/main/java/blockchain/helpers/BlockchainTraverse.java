@@ -42,6 +42,10 @@ public class BlockchainTraverse {
                 return new VotingResultsProcess();
             case CompanyAccountUpdate:
                 return new CompanyAccountUpdateProcess();
+            case AddNotary:
+                return new AddNotaryTransactionProcess();
+            case DeleteNotary:
+                return new DeleteNotaryTransactionProcess();
             default:
                 throw new IllegalArgumentException("Non supported transaction type");
         }

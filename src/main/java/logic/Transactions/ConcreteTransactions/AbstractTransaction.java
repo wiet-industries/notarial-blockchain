@@ -3,6 +3,7 @@ package logic.Transactions.ConcreteTransactions;
 import logic.Transactions.Utilities.TransactionType;
 
 import java.util.Date;
+import java.util.Objects;
 
 public abstract class AbstractTransaction implements Comparable {
     public String hash;
@@ -83,6 +84,19 @@ public abstract class AbstractTransaction implements Comparable {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractTransaction that = (AbstractTransaction) o;
+        return companyID == that.companyID && priority == that.priority && Objects.equals(hash, that.hash) && Objects.equals(transactionDate, that.transactionDate) && Objects.equals(transactionAuthor, that.transactionAuthor) && transactionType == that.transactionType && Objects.equals(notaryID, that.notaryID) && Objects.equals(verification, that.verification);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(hash, transactionDate, companyID, transactionAuthor, transactionType, notaryID, verification, priority);
     }
 
     @Override
