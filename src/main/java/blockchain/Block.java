@@ -14,6 +14,7 @@ public class Block {
     public String hash;
     public String previousHash;
     public Date creationDate;
+    public long nonce;
 
     public Block() {
         this.transactions = new LinkedList<>();
@@ -24,6 +25,15 @@ public class Block {
         this.hash = hash;
         this.previousHash = previousHash;
         this.creationDate = creationDate;
+        this.nonce = 0;
+    }
+
+    public long getNonce() {
+        return nonce;
+    }
+
+    public void setNonce(long nonce) {
+        this.nonce = nonce;
     }
 
     public String getPreviousHash() {
@@ -60,6 +70,14 @@ public class Block {
 
     public String transactionsToJson() {
         return new Gson().toJson(this.transactions);
+    }
+
+    public String getDataToHash() {
+        return this.transactionsToJson() + this.creationDate + this.previousHash;
+    }
+
+    public String getDataToHashWithNonce() {
+        return this.transactionsToJson() + this.creationDate + this.previousHash + this.nonce;
     }
 
     @Override

@@ -2,6 +2,7 @@ package node;
 
 import blockchain.*;
 import blockchain.helpers.BlockchainTraverse;
+import blockchain.helpers.SHA256;
 import blockchain.helpers.UnparsedBlock;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -15,14 +16,9 @@ import logic.Transactions.Utilities.TransactionType;
 import logic.utils.EnvConfig;
 import logic.utils.RSAUtil;
 
-import java.security.*;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +64,7 @@ public class BlockchainProcessingHandler {
     }
 
     private void encryptTransactionBasedOnLastBlock(AbstractTransaction transaction, String hash) {
-        try{
+        try {
             String encrypted = RSAUtil.sign(hash, EnvConfig.getPrivateKey());
             transaction.setVerification(encrypted);
         } catch (Exception e) {
@@ -87,7 +83,10 @@ public class BlockchainProcessingHandler {
         Block current = blockchain.get(blockchain.size() - 1);
         for (int i = blockchain.size() - 2; i >= 0; i--) {
             Block b = blockchain.get(i);
-            if (b.getHash().equals(current.getPreviousHash())) {
+            
+            String currentHash = SHA256.generateHash(b.getDataToHashWithNonce());
+
+            if (currentHash.equals(current.getPreviousHash())) {
                 current = b;
             } else {
                 throw new RuntimeException("Blockchain Invalid");
@@ -124,12 +123,13 @@ public class BlockchainProcessingHandler {
         return blockList;
     }
 
-    public void createBlockchainFromFile(){
+    public void createBlockchainFromFile() {
         String filename = System.getenv("BLOCKCHAIN_FILE_PATH");
         try {
             String blockchainJson = new String(Files.readAllBytes(Paths.get(filename)));
             this.blockchain.setBlockchain(this.parseJsonElementToBlockList(new JsonParser().parse(blockchainJson)));
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
     }
 
     private boolean isBlockChainValid(List<Block> blockchain) {
@@ -155,7 +155,7 @@ public class BlockchainProcessingHandler {
             if (block.equals(gemini)) {
                 continue;
             }
-            for(AbstractTransaction transaction : block.getTransactions()) {
+            for (AbstractTransaction transaction : block.getTransactions()) {
                 if (!RSAUtil.verify(transaction.getVerification(), prevHash, publicKeys.get(transaction.getNotarialID()))) {
                     return false;
                 }

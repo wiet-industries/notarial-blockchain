@@ -61,14 +61,14 @@ public class Miner extends Thread {
         boolean nonceFound = false;
         String nonceHash = "";
 
-        String message = block.getCreationDate() + block.transactionsToJson()
-                + block.getPreviousHash();
+        String message = block.getDataToHash();
 
         while (!nonceFound) {
             nonceHash = SHA256.generateHash(message + nonce);
             nonceFound = nonceHash.startsWith(nonceKey);
             nonce++;
         }
+        block.setNonce(nonce);
         return nonceHash;
     }
 
