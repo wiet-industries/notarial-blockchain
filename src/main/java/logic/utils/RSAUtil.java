@@ -1,61 +1,76 @@
 package logic.utils;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import java.security.*;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class RSAUtil {
-    public static String encrypt(String data, String publicKey) throws BadPaddingException, IllegalBlockSizeException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, getPublicKey(publicKey));
-        return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes()));
-    }
-
-    public static String decrypt(String data, String base64PrivateKey) throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
-        return decrypt(Base64.getDecoder().decode(data.getBytes()), getPrivateKey(base64PrivateKey));
-    }
-
-    private static PublicKey getPublicKey(String base64PublicKey){
-        PublicKey publicKey = null;
+    public static String sign(String plainText, String privateKeyString) {
         try{
-            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(base64PublicKey.getBytes()));
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            publicKey = keyFactory.generatePublic(keySpec);
-            return publicKey;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
+            PrivateKey privateKey = getPrivateKey(privateKeyString);
+            Signature privateSignature = Signature.getInstance("SHA256withRSA");
+            privateSignature.initSign(privateKey);
+            privateSignature.update(plainText.getBytes(UTF_8));
+
+            byte[] signature = privateSignature.sign();
+
+            return Base64.getEncoder().encodeToString(signature);
+        } catch (Exception e) {
+            System.err.println("Something went wrong with signing the verification field");
         }
-        return publicKey;
+
+        return null;
     }
 
-    private static PrivateKey getPrivateKey(String base64PrivateKey){
-        PrivateKey privateKey = null;
-        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(base64PrivateKey.getBytes()));
-        KeyFactory keyFactory = null;
-        try {
-            keyFactory = KeyFactory.getInstance("RSA");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+    public static boolean verify(String plainText, String signature, String publicKeyString) {
+        try{
+            PublicKey publicKey = getPublicKey(publicKeyString);
+            Signature publicSignature = Signature.getInstance("SHA256withRSA");
+            publicSignature.initVerify(publicKey);
+            publicSignature.update(plainText.getBytes(UTF_8));
+
+            byte[] signatureBytes = Base64.getDecoder().decode(signature);
+
+            return publicSignature.verify(signatureBytes);
+        } catch (Exception e) {
+            System.err.println("Something went wrong with verifing the verification field");
+            return false;
         }
-        try {
-            privateKey = keyFactory.generatePrivate(keySpec);
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
-        return privateKey;
     }
 
-    private static String decrypt(byte[] data, PrivateKey privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        return new String(cipher.doFinal(data));
+    private static PublicKey getPublicKey(String key){
+        try{
+            byte[] byteKey = Base64.getDecoder().decode(key.getBytes());
+            X509EncodedKeySpec X509publicKey = new X509EncodedKeySpec(byteKey);
+            KeyFactory kf = KeyFactory.getInstance("RSA");
+
+            return kf.generatePublic(X509publicKey);
+        }
+        catch(Exception e){
+            System.err.println("Something went wrong with creating public Key");
+        }
+
+        return null;
+    }
+
+    private static PrivateKey getPrivateKey(String key) {
+        try {
+            byte [] pkcs8EncodedBytes = Base64.getDecoder().decode(key);
+
+            // extract the private key
+
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(pkcs8EncodedBytes);
+            KeyFactory kf = KeyFactory.getInstance("RSA");
+            PrivateKey privKey = kf.generatePrivate(keySpec);
+
+            return privKey;
+        } catch (Exception e) {
+            System.err.println("Something went wrong with creating private Key");
+        }
+
+        return null;
     }
 }

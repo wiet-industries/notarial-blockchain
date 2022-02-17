@@ -69,7 +69,7 @@ public class BlockchainProcessingHandler {
 
     private void encryptTransactionBasedOnLastBlock(AbstractTransaction transaction, String hash) {
         try{
-            String encrypted = RSAUtil.encrypt(hash, EnvConfig.getPrivateKey());
+            String encrypted = RSAUtil.sign(hash, EnvConfig.getPrivateKey());
             transaction.setVerification(encrypted);
         } catch (Exception e) {
             System.err.println("Something went wrong with encrypting transaction verification field");
@@ -156,7 +156,7 @@ public class BlockchainProcessingHandler {
                 continue;
             }
             for(AbstractTransaction transaction : block.getTransactions()) {
-                if (!checkVerificationField(transaction.getVerification(), prevHash, publicKeys.get(transaction.getNotarialID()))) {
+                if (!RSAUtil.verify(transaction.getVerification(), prevHash, publicKeys.get(transaction.getNotarialID()))) {
                     return false;
                 }
                 updatePublicKeys(transaction, publicKeys);
@@ -164,15 +164,6 @@ public class BlockchainProcessingHandler {
             prevHash = block.hash;
         }
         return true;
-    }
-
-    private boolean checkVerificationField(String hashedValue, String previousHash, String publicKey) {
-        try{
-            return RSAUtil.decrypt(hashedValue, publicKey).equals(previousHash);
-        } catch (Exception e) {
-            System.err.println("Something went wrong with decryption");
-            return false;
-        }
     }
 
     private void updatePublicKeys(AbstractTransaction transaction, Map<String, String> publicKeys) {
