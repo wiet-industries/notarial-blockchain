@@ -86,6 +86,10 @@ public abstract class AbstractTransaction implements Comparable {
         this.hash = hash;
     }
 
+    public String getHashData() {
+        return this.getCompanyID() + this.getTransactionAuthor() + this.getPriority() + this.getNotarialID() + this.getTransactionType() + this.getTransactionDate();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

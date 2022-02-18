@@ -58,7 +58,7 @@ public class TransactionAdapter implements ITransactionAdapter {
             default:
                 throw new ClassNotFoundException();
         }
-        this.transaction.setHash(SHA256.generateHash(transactionJson));
+        this.transaction.setHash(SHA256.generateHash(this.transaction.getHashData()));
 
     }
 
