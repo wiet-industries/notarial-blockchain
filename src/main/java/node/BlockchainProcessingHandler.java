@@ -45,7 +45,6 @@ public class BlockchainProcessingHandler {
         this.miner.start();
     }
 
-
     public Blockchain getBlockchain() {
         return blockchain;
     }
@@ -76,7 +75,8 @@ public class BlockchainProcessingHandler {
     public void handleBlockchainFromOtherNode(JsonElement unparsedBlockchain) {
         List<Block> blockchain = this.parseJsonElementToBlockList(unparsedBlockchain);
 
-        if (blockchain.size() < this.blockchain.getBlockchain().size()) {
+        if (!this.isBlockChainValid(blockchain)) {
+            System.err.println("Received blockChain isn't valid");
             return;
         }
         for (int i = blockchain.size() - 1; i >= 1; i--) {
@@ -136,7 +136,7 @@ public class BlockchainProcessingHandler {
     }
 
     private boolean isBlockChainLonger(List<Block> blockchain) {
-        return this.blockchain.getBlockchain().size() > blockchain.size();
+        return this.blockchain.getBlockchain().size() < blockchain.size();
     }
 
     private boolean isGeminiMatching(List<Block> blockchain) {
@@ -153,7 +153,7 @@ public class BlockchainProcessingHandler {
                 continue;
             }
             for (AbstractTransaction transaction : block.getTransactions()) {
-                if (!RSAUtil.verify(transaction.getVerification(), prevHash, publicKeys.get(transaction.getNotarialID()))) {
+                if (!RSAUtil.verify(prevHash, transaction.getVerification(), publicKeys.get(transaction.getNotarialID()))) {
                     return false;
                 }
                 updatePublicKeys(transaction, publicKeys);
