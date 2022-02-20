@@ -76,28 +76,23 @@ public class BlockchainProcessingHandler {
     public void handleBlockchainFromOtherNode(JsonElement unparsedBlockchain) {
         List<Block> blockchain = this.parseJsonElementToBlockList(unparsedBlockchain);
 
-        if (this.isBlockChainValid(blockchain)) {
-            System.err.println("Received blockChain isn't valid");
+        if (blockchain.size() < this.blockchain.getBlockchain().size()) {
             return;
         }
-        Block current = blockchain.get(blockchain.size() - 1);
-
-
-        for (int i = blockchain.size() - 2; i >= 0; i--) {
+        for (int i = blockchain.size() - 1; i >= 1; i--) {
             Block b = blockchain.get(i);
-
-            String currentHash = SHA256.generateHash(b.getDataToHashWithNonce());
-
-            if (currentHash.equals(current.getPreviousHash())) {
-                current = b;
-            } else {
+            Block c = blockchain.get(i - 1);
+//            System.out.println("Siema" + c);
+            String currentHash = SHA256.generateHash(c.getDataToHashWithNonce());
+//            System.out.println(c.getDataToHashWithNonce());
+//            System.out.println(c.nonce + "     " + currentHash + "     " + c.getHash() + "         " + b.getPreviousHash());
+            if (!currentHash.equals(b.getPreviousHash())) {
                 throw new RuntimeException("Blockchain Invalid");
             }
         }
         this.blockchain.setBlockchain(blockchain);
         this.blockchain.writeBlockchainToFile();
         System.out.println(this.blockchain.getBlockchain());
-        //sprawdzić poprawność otrzymanego i wybrać dłuższy
     }
 
     public Company getCompanyWithID(int ID) {

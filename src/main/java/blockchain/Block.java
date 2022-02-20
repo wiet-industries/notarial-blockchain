@@ -81,7 +81,8 @@ public class Block {
     }
 
     public String getDataToHash() {
-        return this.transactionsToJson() + this.creationDate + this.previousHash;
+//        return "DUPA" + this.previousHash;
+        return this.transactionsToJson() + this.previousHash;
     }
 
     public String getDataToHashWithNonce() {
