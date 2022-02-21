@@ -136,7 +136,7 @@ public class BlockchainProcessingHandler {
     }
 
     private boolean isBlockChainLonger(List<Block> blockchain) {
-        return this.blockchain.getBlockchain().size() < blockchain.size();
+        return this.blockchain.getBlockchain().size() <= blockchain.size();
     }
 
     private boolean isGeminiMatching(List<Block> blockchain) {
