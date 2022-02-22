@@ -11,4 +11,8 @@ public class DeleteNotary extends AbstractTransaction {
         super(transactionDate, companyID, transactionAuthor, transactionType, notarialID, priority, hash, verification);
         this.notaryIdToDelete = notaryIdToDelete;
     }
+
+    public String getNotaryIdToDelete() {
+        return notaryIdToDelete;
+    }
 }

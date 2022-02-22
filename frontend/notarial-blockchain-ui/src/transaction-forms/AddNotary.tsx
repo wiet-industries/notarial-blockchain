@@ -18,6 +18,7 @@ const AddNotary = () => {
       notaryID,
       transactionAuthor: author,
       transactionType: "AddNotary",
+      publicKey,
       notaryIdToAdd,
       priority,
       companyID: 0,

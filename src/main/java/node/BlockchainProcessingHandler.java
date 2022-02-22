@@ -29,11 +29,9 @@ public class BlockchainProcessingHandler {
     private final Blockchain blockchain;
 
     public BlockchainProcessingHandler() {
-        //TODO this should work with DATABASE
         this.blockchain = new Blockchain();
         this.memPool = new MemPool();
 
-        //TODO MOVE THIS SOMEWHERE ELSE
         this.miner = new Miner(this.memPool, this.blockchain);
         this.miner.start();
     }
@@ -55,7 +53,6 @@ public class BlockchainProcessingHandler {
         if (BlockchainValidator.validate(blockchain, memPool, transaction)) {
             System.out.println("VALIDATE RIGHT");
             this.memPool.addTransaction(transaction);
-            // TODO does it work?
             synchronized (this.miner) {
                 this.miner.notify();
             }
@@ -166,11 +163,11 @@ public class BlockchainProcessingHandler {
     private void updatePublicKeys(AbstractTransaction transaction, Map<String, String> publicKeys) {
         if (transaction.getTransactionType() == TransactionType.AddNotary) {
             AddNotary addNotary = (AddNotary) transaction;
-            publicKeys.put(addNotary.getNotarialID(), addNotary.getPublicKey());
+            publicKeys.put(addNotary.getNotaryIdToAdd(), addNotary.getPublicKey());
         }
         if (transaction.getTransactionType() == TransactionType.DeleteNotary) {
             DeleteNotary deleteNotary = (DeleteNotary) transaction;
-            publicKeys.remove(deleteNotary.getNotarialID());
+            publicKeys.remove(deleteNotary.getNotaryIdToDelete());
         }
     }
 }

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 const DeleteNotary = () => {
   const [message, setMessage] = useState<string | undefined>();
   const [author, setAuthor] = useState<undefined | string>(undefined);
-  const [notaryId, setNotaryId] = useState<undefined | string>(undefined);
+  const [notaryID, setNotaryId] = useState<undefined | string>(undefined);
   const [priority, setPriority] = useState<undefined | number>(undefined);
   const [publicKey, setPublicKey] = useState<undefined | string>(undefined);
   const [notaryIdToDelete, setNotaryIDToDelete] = useState<undefined | string>(
@@ -15,7 +15,7 @@ const DeleteNotary = () => {
   const handleSubmit = () => {
     const data = {
       transactionDate: new Date(),
-      notaryId,
+      notaryID,
       transactionAuthor: author,
       transactionType: "DeleteNotary",
       notaryIdToDelete,
@@ -54,9 +54,8 @@ const DeleteNotary = () => {
           className="my-2"
           id="id"
           label="Notary Id"
-          type="number"
           variant="standard"
-          value={notaryId}
+          value={notaryID}
           onChange={(e) => setNotaryId(e.target.value)}
         />
         <TextField
@@ -66,15 +65,6 @@ const DeleteNotary = () => {
           variant="standard"
           value={notaryIdToDelete}
           onChange={(e) => setNotaryIDToDelete(e.target.value)}
-        />
-        <TextField
-          className="my-2"
-          id="key"
-          name="key"
-          label="Notary Public Key"
-          variant="standard"
-          value={publicKey}
-          onChange={(e) => setPublicKey(e.target.value)}
         />
 
         <TextField
