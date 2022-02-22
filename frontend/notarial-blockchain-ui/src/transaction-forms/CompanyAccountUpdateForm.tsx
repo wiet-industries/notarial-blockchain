@@ -21,7 +21,6 @@ const CompanyAccountUpdateForm = () => {
       companyID: companyId,
       transactionAuthor: author,
       transactionType: "CompanyAccountUpdate",
-      Status: "GIT", // ????
       priority,
       notaryID,
     };

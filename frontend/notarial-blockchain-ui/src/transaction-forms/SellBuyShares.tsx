@@ -23,7 +23,6 @@ const SellBuyShares = () => {
       companyID: companyId,
       transactionAuthor: author,
       transactionType: "SharesBuySell",
-      Status: "GIT", // ????
       priority,
       notaryID,
     };

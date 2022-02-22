@@ -21,7 +21,6 @@ const NewSharesEmission = () => {
       companyID: companyId,
       transactionAuthor: author,
       transactionType: "NewSharesEmission",
-      Status: "GIT", // ????
       priority,
       notaryID,
     };

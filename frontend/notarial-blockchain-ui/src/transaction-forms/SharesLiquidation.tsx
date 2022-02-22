@@ -21,7 +21,6 @@ const SharesLiquidation = () => {
       companyID: companyId,
       transactionAuthor: author,
       transactionType: "SharesLiquidation",
-      Status: "GIT", // ????
       priority,
       notaryID,
     };

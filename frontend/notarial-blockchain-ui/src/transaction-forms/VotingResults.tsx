@@ -28,7 +28,6 @@ const DividendsPayment = () => {
       companyID: companyId,
       transactionAuthor: author,
       transactionType: "VotingResults",
-      Status: "GIT", // ????
       priority,
       notaryID,
     };

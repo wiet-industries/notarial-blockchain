@@ -21,7 +21,6 @@ const DividendsPayment = () => {
       companyID: companyId,
       transactionAuthor: author,
       transactionType: "DividendsPayment",
-      Status: "GIT", // ????
       priority,
       notaryID,
     };
