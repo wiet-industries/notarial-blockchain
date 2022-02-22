@@ -6,7 +6,7 @@ const AddNotary = () => {
   const [message, setMessage] = useState<string | undefined>();
   const [author, setAuthor] = useState<undefined | string>(undefined);
   const [notaryID, setNotaryID] = useState<undefined | string>(undefined);
-  const [notaryIDToAdd, setNotaryIDToAdd] = useState<undefined | string>(
+  const [notaryIdToAdd, setNotaryIDToAdd] = useState<undefined | string>(
     undefined
   );
   const [priority, setPriority] = useState<undefined | number>(undefined);
@@ -18,7 +18,7 @@ const AddNotary = () => {
       notaryID,
       transactionAuthor: author,
       transactionType: "AddNotary",
-      notaryIDToAdd,
+      notaryIdToAdd,
       priority,
       companyID: 0,
     };
@@ -65,7 +65,7 @@ const AddNotary = () => {
           id="id"
           label="Notary ID to Add"
           variant="standard"
-          value={notaryIDToAdd}
+          value={notaryIdToAdd}
           onChange={(e) => setNotaryIDToAdd(e.target.value)}
         />
         <TextField

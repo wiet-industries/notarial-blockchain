@@ -8,7 +8,7 @@ const DeleteNotary = () => {
   const [notaryId, setNotaryId] = useState<undefined | string>(undefined);
   const [priority, setPriority] = useState<undefined | number>(undefined);
   const [publicKey, setPublicKey] = useState<undefined | string>(undefined);
-  const [notaryIDToDelete, setNotaryIDToDelete] = useState<undefined | string>(
+  const [notaryIdToDelete, setNotaryIDToDelete] = useState<undefined | string>(
     undefined
   );
 
@@ -18,7 +18,7 @@ const DeleteNotary = () => {
       notaryId,
       transactionAuthor: author,
       transactionType: "DeleteNotary",
-      notaryIDToDelete,
+      notaryIdToDelete,
       priority,
       companyID: 0,
     };
@@ -64,7 +64,7 @@ const DeleteNotary = () => {
           id="id"
           label="Notary Id to Delete"
           variant="standard"
-          value={notaryIDToDelete}
+          value={notaryIdToDelete}
           onChange={(e) => setNotaryIDToDelete(e.target.value)}
         />
         <TextField
