@@ -24,6 +24,7 @@ public class TransactionAdapter implements ITransactionAdapter {
                 .fromJson(transactionJson, JsonElement.class)
                 .getAsJsonObject();
         TransactionType transactionType = this.getTransactionType(jsonObject);
+
         switch (transactionType) {
             case AddCompany:
                 this.transaction = gson.fromJson(transactionJson, AddCompany.class);
@@ -59,7 +60,6 @@ public class TransactionAdapter implements ITransactionAdapter {
                 throw new ClassNotFoundException();
         }
         this.transaction.setHash(SHA256.generateHash(this.transaction.getHashData()));
-
     }
 
     @Override
@@ -67,7 +67,7 @@ public class TransactionAdapter implements ITransactionAdapter {
         return this.transaction;
     }
 
-    public TransactionType getTransactionType(JsonObject transactionJson) {
+    public TransactionType getTransactionType(JsonObject transactionJson) throws NullPointerException {
         return valueOf(transactionJson.get("transactionType").getAsString());
     }
 }

@@ -31,10 +31,9 @@ public class NodeController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerHandler() {
         JsonObject response = new JsonObject();
-        if(this.node.registerNode()){
+        if (this.node.registerNode()) {
             response.addProperty("message", "OK");
-        }
-        else{
+        } else {
             response.addProperty("message", "NOT_AUTHORIZED");
         }
         response.addProperty("ID", this.node.getID());
@@ -61,16 +60,18 @@ public class NodeController {
     public String addTransaction(@RequestBody String transactionJson) {
         //TODO add body validation
         //System.out.println(transactionJson);
+        JsonObject response = new JsonObject();
         try {
             adapter.createTransactionFromJson(transactionJson);
-        } catch (ClassNotFoundException e) {
+            this.node.addTransactionToMemPool(adapter.getTransaction());
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Bad /add/transaction data");
+            response.addProperty("message", "Bad Request");
+            return response.toString();
         }
         //System.out.println(transactionJson);
-        this.node.addTransactionToMemPool(adapter.getTransaction());
         //System.out.println("dodana transakcja B) \n");
-        JsonObject response = new JsonObject();
         response.addProperty("message", "OK");
         return response.toString();
     }

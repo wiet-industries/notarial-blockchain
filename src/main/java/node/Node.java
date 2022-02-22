@@ -2,7 +2,6 @@ package node;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.mongodb.DB;
 import database.DBConnection;
@@ -95,7 +94,7 @@ public class Node implements EventListener {
     }
 
     public boolean registerNode() {
-        if(this.isAuthorized){
+        if (this.isAuthorized) {
             serverSessionHandler.registerNode(ID);
             return true;
         }
@@ -155,13 +154,10 @@ public class Node implements EventListener {
     }
 
     public void addTransactionToMemPool(AbstractTransaction transaction) {
-        System.out.println("to MemPool: " + transaction.toString());
-        this.blockchainProcessingHandler.addTransactionToMemPool(transaction);
-//        this.memPool.addTransaction(transaction);
-//        // TODO does it work?
-//        synchronized (this.miner) {
-//            this.miner.notify();
-//        }
+        if (transaction != null) {
+            System.out.println("to MemPool: " + transaction);
+            this.blockchainProcessingHandler.addTransactionToMemPool(transaction);
+        }
     }
 
     private void handleBlockchainFromOtherNode(JsonElement unparsedBlockchain) {
