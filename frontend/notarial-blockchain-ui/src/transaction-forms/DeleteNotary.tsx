@@ -5,19 +5,20 @@ import React, { useState } from "react";
 const DeleteNotary = () => {
   const [message, setMessage] = useState<string | undefined>();
   const [author, setAuthor] = useState<undefined | string>(undefined);
-  const [notaryId, setNotaryId] = useState<undefined | number>(undefined);
+  const [notaryId, setNotaryId] = useState<undefined | string>(undefined);
   const [priority, setPriority] = useState<undefined | number>(undefined);
   const [publicKey, setPublicKey] = useState<undefined | string>(undefined);
+  const [notaryIDToDelete, setNotaryIDToDelete] = useState<undefined | string>(
+    undefined
+  );
 
   const handleSubmit = () => {
-    console.log("submiting...");
-    // TODO validation
     const data = {
       transactionDate: new Date(),
       notaryId,
       transactionAuthor: author,
       transactionType: "DeleteNotary",
-      Status: "GIT", // ????
+      notaryIDToDelete,
       priority,
       companyID: 0,
     };
@@ -56,7 +57,15 @@ const DeleteNotary = () => {
           type="number"
           variant="standard"
           value={notaryId}
-          onChange={(e) => setNotaryId(parseInt(e.target.value, 10))}
+          onChange={(e) => setNotaryId(e.target.value)}
+        />
+        <TextField
+          className="my-2"
+          id="id"
+          label="Notary Id to Delete"
+          variant="standard"
+          value={notaryIDToDelete}
+          onChange={(e) => setNotaryIDToDelete(e.target.value)}
         />
         <TextField
           className="my-2"

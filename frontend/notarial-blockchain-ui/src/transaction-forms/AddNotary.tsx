@@ -5,22 +5,25 @@ import React, { useState } from "react";
 const AddNotary = () => {
   const [message, setMessage] = useState<string | undefined>();
   const [author, setAuthor] = useState<undefined | string>(undefined);
-  const [notaryId, setNotaryId] = useState<undefined | string>(undefined);
+  const [notaryID, setNotaryID] = useState<undefined | string>(undefined);
+  const [notaryIDToAdd, setNotaryIDToAdd] = useState<undefined | string>(
+    undefined
+  );
   const [priority, setPriority] = useState<undefined | number>(undefined);
   const [publicKey, setPublicKey] = useState<undefined | string>(undefined);
 
   const handleSubmit = () => {
-    console.log("submiting...");
-    // TODO validation
     const data = {
       transactionDate: new Date(),
-      notaryId,
+      notaryID,
       transactionAuthor: author,
       transactionType: "AddNotary",
-      Status: "GIT", // ????
+      notaryIDToAdd,
       priority,
       companyID: 0,
     };
+
+    console.log(data);
 
     axios
       .post("http://localhost:8080/node/add/transaction", data)
@@ -54,8 +57,16 @@ const AddNotary = () => {
           id="id"
           label="Notary Id"
           variant="standard"
-          value={notaryId}
-          onChange={(e) => setNotaryId(e.target.value)}
+          value={notaryID}
+          onChange={(e) => setNotaryID(e.target.value)}
+        />
+        <TextField
+          className="my-2"
+          id="id"
+          label="Notary ID to Add"
+          variant="standard"
+          value={notaryIDToAdd}
+          onChange={(e) => setNotaryIDToAdd(e.target.value)}
         />
         <TextField
           className="my-2"

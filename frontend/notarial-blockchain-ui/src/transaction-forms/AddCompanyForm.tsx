@@ -39,8 +39,6 @@ const AddCompanyForm = () => {
         obj[x.name] = x.shares;
       }
     }
-    console.log("submiting...");
-    // TODO validation
     const data = {
       companyName,
       companyValue,
@@ -51,7 +49,6 @@ const AddCompanyForm = () => {
       companyID: companyId,
       transactionAuthor: author,
       transactionType: "AddCompany",
-      Status: "GIT",
       priority,
       notaryID,
     };
