@@ -24,8 +24,3 @@ Application infrastructure is based on web of `Nodes`. Each Node shares data wit
 - React (with TS)
 - DB (TODO: Mongo or WatermelonDB)
 
-## Frontend
-
-View so far - things are devoloped
-![image](https://user-images.githubusercontent.com/30171233/145889620-1eea8a77-bf64-4f1e-9842-e51a871f386c.png)
-
