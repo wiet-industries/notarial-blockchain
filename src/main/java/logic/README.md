@@ -87,8 +87,8 @@ Account(earnings) not from Company Value
     -ValueToAdd
 
 <h3> Implementation </h3>
-<h4>Design pattern used: <b>Factory</b></h4>  
-Since every transaction extends AbstractTransaction, our Factory always return AbstractTransaction object. 
+<h4>Design pattern used: <b>Adapter</b></h4>  
+Adapter is used to convert from json interface to object represesntations of each transaction.
 <br><br>
 
 UML Diagram
