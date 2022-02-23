@@ -22,5 +22,4 @@ Application infrastructure is based on web of `Nodes`. Each Node shares data wit
 ## Stack
 - Java (Spring, Maven)
 - React (with TS)
-- DB (TODO: Mongo or WatermelonDB)
 
