@@ -49,7 +49,7 @@ const NewSharesEmission = () => {
           name="author"
           label="Author"
           variant="standard"
-          value={notaryID}
+          value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
         <TextField
@@ -58,7 +58,7 @@ const NewSharesEmission = () => {
           name="notary"
           label="Notary ID"
           variant="standard"
-          value={author}
+          value={notaryID}
           onChange={(e) => setNotaryId(e.target.value)}
         />
         <TextField
