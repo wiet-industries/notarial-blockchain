@@ -1,4 +1,4 @@
-# notarial-blockchain
+# Notarial Blockchain
 Infrastructure to store notarial data based on blockchain, detailed documentation of each package or module:
 - [Node](https://github.com/wiet-industries/notarial-blockchain/tree/master/src/main/java/node)
 - [Core](https://github.com/wiet-industries/notarial-blockchain/tree/master/src/main/java/core)
